@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mysql:8.0
+    volumes:
+      -  db-data:/var/lib/mysql
+    hostname: "db-gestao-estoque"
+    container_name: db-gestao-estoque
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    networks:
+      - gestao-estoque-network
+
+networks:
+  gestao-estoque-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  db-log:
+    driver: local
