@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import SidebarComponent from '@/components/Sidebar/Sidebar'
 
 export const metadata: Metadata = {
   title: 'Gestão Estoque',
@@ -12,7 +14,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body>{children}</body>
+      <body>
+        <SidebarProvider>
+          <SidebarComponent />
+          <main>
+            <SidebarTrigger className="ml-4 mt-4" />
+            {children}
+          </main>
+        </SidebarProvider>
+      </body>
     </html>
   )
 }
