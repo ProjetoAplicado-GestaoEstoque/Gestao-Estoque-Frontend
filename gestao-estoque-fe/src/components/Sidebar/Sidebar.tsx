@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Sidebar,
   SidebarContent,
@@ -43,6 +43,23 @@ const items = [
 ]
 
 function SidebarComponent() {
+  const [username, setUsername] = useState<string | undefined>()
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const response = await fetch(
+        '/api/getOneUser?id=370bfe38-b2ee-4739-be40-e9ad84a67be6',
+        {
+          method: 'GET',
+        },
+      )
+      const data = await response.json()
+      setUsername(data.message)
+    }
+
+    fetchUsername()
+  }, [])
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -70,7 +87,7 @@ function SidebarComponent() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> Salvador
+                  <User2 /> {username}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
