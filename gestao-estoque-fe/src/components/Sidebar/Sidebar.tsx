@@ -18,6 +18,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '../ui/dropdown-menu'
+import { axiosInstance } from '@/axios/api'
 
 const items = [
   {
@@ -43,23 +44,19 @@ const items = [
 ]
 
 function SidebarComponent() {
-  const [username, setUsername] = useState<string | undefined>()
+
+  const [username, setUsername] = useState<string>()
 
   useEffect(() => {
-    const fetchUsername = async () => {
-      const response = await fetch(
-        '/api/getOneUser?id=370bfe38-b2ee-4739-be40-e9ad84a67be6',
-        {
-          method: 'GET',
-        },
-      )
-      const data = await response.json()
-      setUsername(data.message)
+    function fetchData() {
+      axiosInstance
+        .get('/api/user/370bfe38-b2ee-4739-be40-e9ad84a67be6')
+        .then((res) => {
+          setUsername(res.data?.message)
+        }).catch(err => console.log(err))
     }
-
-    fetchUsername()
+    fetchData()
   }, [])
-
   return (
     <Sidebar>
       <SidebarContent>
@@ -87,7 +84,7 @@ function SidebarComponent() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> {username}
+                  <User2 />{username} {/* Adicionar username do usuário */}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

@@ -35,7 +35,7 @@ model User {
   enrollment String @unique
   createdAt  DateTime @default(now()) 
   deletedAt  DateTime? 
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime? @updatedAt
 
   projectManager Projects[] @relation("ProjectManager")
   techResponsible Projects[] @relation("TechResponsible")
