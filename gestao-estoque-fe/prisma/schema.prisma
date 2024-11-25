@@ -23,8 +23,6 @@ model Projects {
   project_manager  User     @relation("ProjectManager", fields: [project_manager_id], references: [enrollment]) 
   tech_responsible User     @relation("TechResponsible", fields: [tech_responsible_id], references: [enrollment]) 
   customer         Customer @relation(fields: [customer_id], references: [id])
-  
-  sales            Sales[]  @relation("ProjectSales")
 }
 
 
@@ -49,27 +47,9 @@ model Customer {
   createdAt  DateTime @default(now()) 
   deletedAt  DateTime? 
   updatedAt  DateTime @updatedAt
-
-  projects   Projects[] 
+  projects   Projects[]
 }
 
-
-model Sales { 
-  id                String @id @default(uuid())
-  item_id           String 
-  supplier_id       String
-  eletronic_invoice String 
-  quantity          Int
-  is_received       Boolean
-  createdAt         DateTime @default(now()) 
-  deletedAt         DateTime? 
-  updatedAt         DateTime @updatedAt
-  items             Item     @relation(fields: [item_id], references: [id])
-  supplier          Supplier @relation(fields: [supplier_id], references: [id])
-
-
-  projects          Projects[] @relation("ProjectSales")
-}
 
 model Item {
   id                String @id @default(uuid())
@@ -80,8 +60,6 @@ model Item {
   createdAt         DateTime @default(now()) 
   deletedAt         DateTime? 
   updatedAt         DateTime @updatedAt
-
-  Sales             Sales[]
 }
 
 model Supplier {
@@ -94,6 +72,4 @@ model Supplier {
   createdAt         DateTime @default(now()) 
   deletedAt         DateTime? 
   updatedAt         DateTime @updatedAt
-
-  Sales             Sales[]
 }

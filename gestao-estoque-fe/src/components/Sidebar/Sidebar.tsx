@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '../ui/sidebar'
-import { Home, Inbox, User, TicketPlus, ChevronUp, User2 } from 'lucide-react'
+import {Home, Inbox, User, TicketPlus, ChevronUp, User2, TruckIcon, WarehouseIcon} from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -23,28 +23,37 @@ import { axiosInstance } from '@/axios/api'
 const items = [
   {
     title: 'Dashboard',
-    url: '#',
+    url: '/dashboard',
     icon: Home,
   },
   {
     title: 'Projetos',
-    url: '#',
+    url: '/projetos',
     icon: Inbox,
   },
   {
     title: 'Clientes',
-    url: '#',
+    url: '/clientes',
     icon: User,
   },
   {
     title: 'Produtos',
-    url: '#',
+    url: '/produtos',
     icon: TicketPlus,
+  },
+  {
+    title: 'Fornecedores',
+    url: '/fornecedor',
+    icon: TruckIcon,
+  },
+  {
+    title: 'Movimentações de Estoque',
+    url: '/estoque',
+    icon: WarehouseIcon,
   },
 ]
 
 function SidebarComponent() {
-
   const [username, setUsername] = useState<string>()
 
   useEffect(() => {
@@ -53,7 +62,8 @@ function SidebarComponent() {
         .get('/api/user/370bfe38-b2ee-4739-be40-e9ad84a67be6')
         .then((res) => {
           setUsername(res.data?.message)
-        }).catch(err => console.log(err))
+        })
+        .catch((err) => console.log(err))
     }
     fetchData()
   }, [])
@@ -84,7 +94,8 @@ function SidebarComponent() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 />{username} {/* Adicionar username do usuário */}
+                  <User2 />
+                  {username} {/* Adicionar username do usuário */}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
