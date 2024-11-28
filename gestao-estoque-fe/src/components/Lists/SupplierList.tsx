@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -17,28 +18,39 @@ import {
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
 
-const suppliers = [
-  {
-    id: 1,
-    corporateName: 'Supplier A Inc.',
-    cnpj: '12345678000190',
-    phone: '1234567890',
-  },
-  {
-    id: 2,
-    corporateName: 'Supplier B Ltd.',
-    cnpj: '98765432000121',
-    phone: '9876543210',
-  },
-  {
-    id: 3,
-    corporateName: 'Supplier C Co.',
-    cnpj: '45678912000134',
-    phone: '5678901234',
-  },
-]
-
 export function SupplierList() {
+  const [suppliers, setSuppliers] = useState<
+    {
+      id: string
+      corporate_name: string
+      cnpj: string
+      phone: string
+      email: string
+      address: string
+    }[]
+  >([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    const fetchSupplier = async () => {
+      try {
+        const response = await fetch('/api/supplier')
+        if (response.ok) {
+          const data = await response.json()
+          setSuppliers(data.supplier)
+        } else {
+          console.error('Erro ao buscar clientes:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Erro ao buscar clientes:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSupplier()
+  }, [])
+
   return (
     <Card>
       <CardHeader>
@@ -50,19 +62,23 @@ export function SupplierList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Corporate Name</TableHead>
+              <TableHead>Nome Corporativo</TableHead>
               <TableHead>CNPJ</TableHead>
-              <TableHead>Phone</TableHead>
+              <TableHead>Telefone</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Endereço</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {suppliers.map((supplier) => (
               <TableRow key={supplier.id}>
                 <TableCell className="font-medium">
-                  {supplier.corporateName}
+                  {supplier.corporate_name}
                 </TableCell>
                 <TableCell>{supplier.cnpj}</TableCell>
                 <TableCell>{supplier.phone}</TableCell>
+                <TableCell>{supplier.email}</TableCell>
+                <TableCell>{supplier.address}</TableCell>
               </TableRow>
             ))}
           </TableBody>

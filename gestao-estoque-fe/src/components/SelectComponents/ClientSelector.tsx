@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useEffect } from 'react'
 
 export function ClientSelector() {
   const [clients, setClients] = React.useState<{ id: string; cnpj: string }[]>(
@@ -15,7 +16,7 @@ export function ClientSelector() {
   )
   const [loading, setLoading] = React.useState<boolean>(true)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchClients = async () => {
       try {
         const response = await fetch('/api/customer')

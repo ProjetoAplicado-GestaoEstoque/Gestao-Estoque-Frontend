@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <div>
       <Card>
-        <SupplierList></SupplierList>
+        <SupplierList />
       </Card>
     </div>
   )
