@@ -18,14 +18,14 @@ import { Textarea } from '@/components/ui/textarea'
 
 const itemSchema = z.object({
   name: z.string().min(2, {
-    message: 'Item name must be at least 2 characters.',
+    message: 'O nome do produto deve ter no mínimo 2 caracteres.',
   }),
   storage: z.string().min(1, {
-    message: 'Storage location is required.',
+    message: 'Local de armazenamento é obrigatório.',
   }),
   description: z.string().optional(),
   quantity: z.number().int().positive({
-    message: 'Quantity must be a positive integer.',
+    message: 'Quantidade deve ser um número  positivo.',
   }),
 })
 
@@ -53,9 +53,9 @@ export function ItemForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Item Name</FormLabel>
+              <FormLabel>Nome do Item</FormLabel>
               <FormControl>
-                <Input placeholder="Enter item name" {...field} />
+                <Input placeholder="Digite o nome do item" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -66,9 +66,9 @@ export function ItemForm() {
           name="storage"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Storage Location</FormLabel>
+              <FormLabel>Local de Armazenamento</FormLabel>
               <FormControl>
-                <Input placeholder="Enter storage location" {...field} />
+                <Input placeholder="Digite o local de armazenamento" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,10 +79,10 @@ export function ItemForm() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Descrição</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Enter item description (optional)"
+                  placeholder="Digite uma descrição (opcional)"
                   {...field}
                 />
               </FormControl>
@@ -95,11 +95,11 @@ export function ItemForm() {
           name="quantity"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Quantity</FormLabel>
+              <FormLabel>Quantidade</FormLabel>
               <FormControl>
                 <Input
                   type="number"
-                  placeholder="Enter quantity"
+                  placeholder="Digite a quantidade"
                   {...field}
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
                 />
@@ -108,7 +108,7 @@ export function ItemForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit Item</Button>
+        <Button type="submit">Salvar</Button>
       </form>
     </Form>
   )

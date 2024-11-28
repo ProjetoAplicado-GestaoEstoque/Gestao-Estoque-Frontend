@@ -14,6 +14,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
+import { RedirectType } from 'next/navigation'
 
 // This is sample data. In a real application, you would fetch this from an API or database.
 const items = [
@@ -26,8 +28,9 @@ export function ProductList() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Items</CardTitle>
-        <CardDescription>A list of all items in the system.</CardDescription>
+        <CardTitle>Produtos</CardTitle>
+        <CardDescription>Lista dos produtos.</CardDescription>
+        <NewEntityButton path={'/produtos/form'} type={RedirectType.push} />
       </CardHeader>
       <CardContent>
         <Table>

@@ -60,6 +60,8 @@ model Item {
   createdAt         DateTime @default(now()) 
   deletedAt         DateTime? 
   updatedAt         DateTime @updatedAt
+
+  StockChanges StockChanges[]
 }
 
 model Supplier {
@@ -69,7 +71,19 @@ model Supplier {
   phone String @db.VarChar(14)
   email String @unique
   address String
-  createdAt         DateTime @default(now()) 
-  deletedAt         DateTime? 
+  createdAt         DateTime @default(now())
+  deletedAt         DateTime?
+  updatedAt         DateTime @updatedAt
+}
+
+model StockChanges {
+  id  String @id @default(uuid())
+  corporate_name String
+  quantity          Int
+  item              Item @relation(fields: [item_id], references: [id])
+  item_id           String
+  type              String
+  createdAt         DateTime @default(now())
+  deletedAt         DateTime?
   updatedAt         DateTime @updatedAt
 }

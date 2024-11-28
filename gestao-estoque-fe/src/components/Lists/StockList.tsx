@@ -14,9 +14,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {StockForm} from "@/components/Forms/StockForm";
+import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
+import { RedirectType } from 'next/navigation'
 
-// This is sample data. In a real application, you would fetch this from an API or database.
 const projects = [
   {
     id: 1,
@@ -37,8 +37,9 @@ export function StockList() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Projects</CardTitle>
-        <CardDescription>A list of all projects in the system.</CardDescription>
+        <CardTitle>Estoque</CardTitle>
+        <CardDescription>Lista de Estoque</CardDescription>
+        <NewEntityButton path={'/estoque/form'} type={RedirectType.push} />
       </CardHeader>
       <CardContent>
         <Table>

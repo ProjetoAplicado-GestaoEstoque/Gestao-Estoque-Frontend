@@ -14,8 +14,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
+import { RedirectType } from 'next/navigation'
 
-// This is sample data. In a real application, you would fetch this from an API or database.
 const customers = [
   { id: 1, cnpj: '12345678000190', email: 'customer1@example.com' },
   { id: 2, cnpj: '98765432000121', email: 'customer2@example.com' },
@@ -26,10 +27,9 @@ export function ClientList() {
   return (
     <Card className="w-100">
       <CardHeader>
-        <CardTitle>Customers</CardTitle>
-        <CardDescription>
-          A list of all customers in the system.
-        </CardDescription>
+        <CardTitle>Clientes</CardTitle>
+        <CardDescription>Lista dos clientes</CardDescription>
+        <NewEntityButton path={'/clientes/form'} type={RedirectType.push} />
       </CardHeader>
       <CardContent>
         <Table>

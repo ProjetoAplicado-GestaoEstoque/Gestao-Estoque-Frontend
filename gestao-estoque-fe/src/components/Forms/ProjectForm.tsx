@@ -14,13 +14,14 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { ClientSelector } from '@/components/SelectComponents/ClientSelector'
 
 const projectSchema = z.object({
   name: z.string().min(2, {
-    message: 'Project name must be at least 2 characters.',
+    message: 'O nome do projeto deve ter no mínimo 2 caracteres.',
   }),
   instituition: z.string().min(2, {
-    message: 'Institution name must be at least 2 characters.',
+    message: 'Instituição deve ter no mínimo 2 caracteres.',
   }),
   project_manager_id: z.string().uuid({
     message: 'Invalid project manager ID.',
@@ -71,7 +72,7 @@ export function ProjectsForm() {
           name="instituition"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Institution</FormLabel>
+              <FormLabel>Instituição</FormLabel>
               <FormControl>
                 <Input placeholder="Enter institution name" {...field} />
               </FormControl>
@@ -84,7 +85,7 @@ export function ProjectsForm() {
           name="project_manager_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Project Manager ID</FormLabel>
+              <FormLabel>Gerente do projeto</FormLabel>
               <FormControl>
                 <Input placeholder="Enter project manager ID" {...field} />
               </FormControl>
@@ -97,7 +98,7 @@ export function ProjectsForm() {
           name="tech_responsible_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tech Responsible ID</FormLabel>
+              <FormLabel>Responsável pelo Projeto </FormLabel>
               <FormControl>
                 <Input placeholder="Enter tech responsible ID" {...field} />
               </FormControl>
@@ -108,11 +109,11 @@ export function ProjectsForm() {
         <FormField
           control={form.control}
           name="customer_id"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
-              <FormLabel>Customer ID</FormLabel>
+              <FormLabel>Cliente</FormLabel>
               <FormControl>
-                <Input placeholder="Enter customer ID" {...field} />
+                <ClientSelector />
               </FormControl>
               <FormMessage />
             </FormItem>

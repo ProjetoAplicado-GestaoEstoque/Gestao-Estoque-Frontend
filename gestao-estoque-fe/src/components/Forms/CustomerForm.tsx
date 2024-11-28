@@ -17,10 +17,10 @@ import { Input } from '@/components/ui/input'
 
 const customerSchema = z.object({
   cnpj: z.string().length(14, {
-    message: 'CNPJ must be exactly 14 characters.',
+    message: 'CNPJ deve conter no mínimo 14 caracteres.',
   }),
   email: z.string().email({
-    message: 'Please enter a valid email address.',
+    message: 'Por favor, insira um endereço de e-mail válido.',
   }),
 })
 
@@ -48,7 +48,7 @@ export function CustomerForm() {
             <FormItem>
               <FormLabel>CNPJ</FormLabel>
               <FormControl>
-                <Input placeholder="Enter CNPJ" {...field} />
+                <Input placeholder="Digite o CNPJ" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -61,13 +61,13 @@ export function CustomerForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Enter email" {...field} />
+                <Input type="email" placeholder="Digite o email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit Customer</Button>
+        <Button type="submit">Salvar</Button>
       </form>
     </Form>
   )
