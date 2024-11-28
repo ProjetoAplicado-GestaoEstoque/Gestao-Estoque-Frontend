@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -17,24 +18,40 @@ import {
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
 
-// This is sample data. In a real application, you would fetch this from an API or database.
-const projects = [
-  {
-    id: 1,
-    name: 'Project Alpha',
-    institution: 'Acme Corp',
-    manager: 'John Doe',
-  },
-  { id: 2, name: 'Project Beta', institution: 'TechCo', manager: 'Jane Smith' },
-  {
-    id: 3,
-    name: 'Project Gamma',
-    institution: 'Innovate Inc',
-    manager: 'Bob Johnson',
-  },
-]
-
 export function ProjectsList() {
+  const [projects, setProjects] = useState<
+    {
+      id: string
+      name: string
+      instituition: string
+      project_manager: { full_name: string }
+      tech_responsible: { full_name: string }
+      customer: { cnpj: string }
+      description: string
+    }[]
+  >([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('/api/project')
+        if (response.ok) {
+          const data = await response.json()
+          setProjects(data.projects)
+        } else {
+          console.error('Erro ao buscar projetos:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Erro ao buscar projetos:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProjects()
+  }, [])
+
   return (
     <Card>
       <CardHeader>
@@ -46,17 +63,21 @@ export function ProjectsList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Institution</TableHead>
-              <TableHead>Manager</TableHead>
+              <TableHead>Nome</TableHead>
+              <TableHead>Instituição</TableHead>
+              <TableHead>Gerente do Projeto</TableHead>
+              <TableHead>Responsável Técnico</TableHead>
+              <TableHead>Cliente</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {projects.map((project) => (
               <TableRow key={project.id}>
                 <TableCell className="font-medium">{project.name}</TableCell>
-                <TableCell>{project.institution}</TableCell>
-                <TableCell>{project.manager}</TableCell>
+                <TableCell>{project.instituition}</TableCell>
+                <TableCell>{project.project_manager.full_name}</TableCell>
+                <TableCell>{project.tech_responsible.full_name}</TableCell>
+                <TableCell>{project.customer.cnpj}</TableCell>
               </TableRow>
             ))}
           </TableBody>

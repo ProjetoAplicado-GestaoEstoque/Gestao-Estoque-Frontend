@@ -1,11 +1,11 @@
 import { Card } from '@/components/ui/card'
-import { ProductList } from '@/components/Lists/ProductList'
+import { ItemsList } from '@/components/Lists/ItemsList'
 
 export default function Page() {
   return (
     <div>
       <Card>
-        <ProductList></ProductList>
+        <ItemsList />
       </Card>
     </div>
   )

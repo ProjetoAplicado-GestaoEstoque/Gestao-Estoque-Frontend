@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -17,13 +18,32 @@ import {
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
 
-const customers = [
-  { id: 1, cnpj: '12345678000190', email: 'customer1@example.com' },
-  { id: 2, cnpj: '98765432000121', email: 'customer2@example.com' },
-  { id: 3, cnpj: '45678912000134', email: 'customer3@example.com' },
-]
-
 export function ClientList() {
+  const [customers, setCustomers] = useState<
+    { id: string; cnpj: string; email: string }[]
+  >([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    const fetchcustomers = async () => {
+      try {
+        const response = await fetch('/api/customer')
+        if (response.ok) {
+          const data = await response.json()
+          setCustomers(data.customers)
+        } else {
+          console.error('Erro ao buscar clientes:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Erro ao buscar clientes:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchcustomers()
+  }, [])
+
   return (
     <Card className="w-100">
       <CardHeader>
@@ -40,10 +60,10 @@ export function ClientList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customers.map((customer) => (
+            {customers?.map((customer) => (
               <TableRow key={customer.id}>
                 <TableCell className="font-medium">{customer.cnpj}</TableCell>
-                <TableCell>{customer.email}</TableCell>
+                <TableCell>{customer?.email}</TableCell>
               </TableRow>
             ))}
           </TableBody>

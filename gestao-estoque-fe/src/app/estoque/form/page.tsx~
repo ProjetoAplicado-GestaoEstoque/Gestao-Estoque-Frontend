@@ -1,9 +1,0 @@
-import { StockChangesForm } from "@/components/Forms/StockChangesForm";
-
-export default function Page() {
-  return (
-    <div>
-      <StockChangesForm></StockChangesForm>
-    </div>
-  )
-}

@@ -18,26 +18,19 @@ import {
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
 
-export function SupplierList() {
-  const [suppliers, setSuppliers] = useState<
-    {
-      id: string
-      corporate_name: string
-      cnpj: string
-      phone: string
-      email: string
-      address: string
-    }[]
+export function ClientList() {
+  const [customers, setcustomers] = useState<
+    { id: string; cnpj: string; email: string }[]
   >([])
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    const fetchSupplier = async () => {
+    const fetchcustomers = async () => {
       try {
-        const response = await fetch('/api/supplier')
+        const response = await fetch('/api/customer')
         if (response.ok) {
           const data = await response.json()
-          setSuppliers(data.supplier)
+          setcustomers(data.customers)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
@@ -48,37 +41,29 @@ export function SupplierList() {
       }
     }
 
-    fetchSupplier()
+    fetchcustomers()
   }, [])
 
   return (
-    <Card>
+    <Card className="w-100">
       <CardHeader>
-        <CardTitle>Fornecedor</CardTitle>
-        <CardDescription>Lista de Fornecedores.</CardDescription>
-        <NewEntityButton path={'/fornecedor/form'} type={RedirectType.push} />
+        <CardTitle>Clientes</CardTitle>
+        <CardDescription>Lista dos clientes</CardDescription>
+        <NewEntityButton path={'/clientes/form'} type={RedirectType.push} />
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Nome Corporativo</TableHead>
               <TableHead>CNPJ</TableHead>
-              <TableHead>Telefone</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Endereço</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {suppliers.map((supplier) => (
-              <TableRow key={supplier.id}>
-                <TableCell className="font-medium">
-                  {supplier.corporate_name}
-                </TableCell>
-                <TableCell>{supplier.cnpj}</TableCell>
-                <TableCell>{supplier.phone}</TableCell>
-                <TableCell>{supplier.email}</TableCell>
-                <TableCell>{supplier.address}</TableCell>
+            {customers?.map((customer) => (
+              <TableRow key={customer.id}>
+                <TableCell className="font-medium">{customer.cnpj}</TableCell>
+                <TableCell>{customer?.email}</TableCell>
               </TableRow>
             ))}
           </TableBody>
