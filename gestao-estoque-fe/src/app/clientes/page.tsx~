@@ -2,7 +2,7 @@ import { ClientList } from '@/components/Lists/ClientList'
 
 export default function Page() {
   return (
-    <div className="p-24">
+    <div>
       <h1>Clientes</h1>
       <ClientList></ClientList>
     </div>

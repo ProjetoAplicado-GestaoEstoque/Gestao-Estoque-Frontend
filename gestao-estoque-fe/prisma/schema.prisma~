@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model Projects { 
+  id                  String @id @default(uuid())
+  project_manager_id  String 
+  tech_responsible_id String
+  customer_id         String
+  name                String
+  instituition        String
+  createdAt           DateTime @default(now()) 
+  deletedAt           DateTime? 
+  updatedAt           DateTime? @updatedAt
+
+  project_manager  User     @relation("ProjectManager", fields: [project_manager_id], references: [enrollment]) 
+  tech_responsible User     @relation("TechResponsible", fields: [tech_responsible_id], references: [enrollment]) 
+  customer         Customer @relation(fields: [customer_id], references: [id])
+}
+
+
+model User { 
+  id         String @id @default(uuid())
+  full_name  String 
+  email      String @unique
+  enrollment String @unique
+  createdAt  DateTime @default(now()) 
+  deletedAt  DateTime? 
+  updatedAt  DateTime? @updatedAt
+
+  projectManager Projects[] @relation("ProjectManager")
+  techResponsible Projects[] @relation("TechResponsible")
+}
+
+
+model Customer {
+  id         String @id @default(uuid())
+  cnpj       String @unique @db.VarChar(20)
+  email      String @unique
+  createdAt  DateTime @default(now()) 
+  deletedAt  DateTime? 
+  updatedAt  DateTime @updatedAt
+  projects   Projects[]
+}
+
+
+model Item {
+  id                String @id @default(uuid())
+  name              String @db.VarChar(255)
+  storage           String
+  description       String?
+  quantity          Int
+  createdAt         DateTime @default(now()) 
+  deletedAt         DateTime? 
+  updatedAt         DateTime @updatedAt
+}
+
+model Supplier {
+  id  String @id @default(uuid())
+  corporate_name String
+  cnpj  String @db.VarChar(20) @unique
+  phone String @db.VarChar(14)
+  email String @unique
+  address String
+  createdAt         DateTime @default(now())
+  deletedAt         DateTime?
+  updatedAt         DateTime @updatedAt
+}
+
+model StockChanges {
+  id  String @id @default(uuid())
+  corporate_name String
+  quantity          Int
+  customer_id       String
+  customer         Customer @relation(fields: [customer_id], references: [id])
+  createdAt         DateTime @default(now())
+  deletedAt         DateTime?
+  updatedAt         DateTime @updatedAt
+}
