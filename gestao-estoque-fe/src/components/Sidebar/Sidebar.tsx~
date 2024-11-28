@@ -48,7 +48,7 @@ const items = [
   },
   {
     title: 'Movimentações de Estoque',
-    url: '/estoque',
+    url: '/movimentacoes-estoque',
     icon: WarehouseIcon,
   },
 ]

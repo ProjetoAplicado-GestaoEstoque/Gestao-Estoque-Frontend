@@ -60,8 +60,6 @@ model Item {
   createdAt         DateTime @default(now()) 
   deletedAt         DateTime? 
   updatedAt         DateTime @updatedAt
-
-  StockChanges StockChanges[]
 }
 
 model Supplier {
@@ -80,9 +78,8 @@ model StockChanges {
   id  String @id @default(uuid())
   corporate_name String
   quantity          Int
-  item              Item @relation(fields: [item_id], references: [id])
-  item_id           String
-  type              String
+  customer_id       String
+  customer         Customer @relation(fields: [customer_id], references: [id])
   createdAt         DateTime @default(now())
   deletedAt         DateTime?
   updatedAt         DateTime @updatedAt

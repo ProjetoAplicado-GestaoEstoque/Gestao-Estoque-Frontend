@@ -17,9 +17,9 @@ export default function RootLayout({
       <body>
         <SidebarProvider>
           <SidebarComponent />
-          <main>
+          <main className="w-full">
             <SidebarTrigger className="ml-4 mt-4" />
-            {children}
+            <div className="p-12 py-6">{children}</div>
           </main>
         </SidebarProvider>
       </body>
