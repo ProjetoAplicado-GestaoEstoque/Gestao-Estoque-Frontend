@@ -11,7 +11,16 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '../ui/sidebar'
-import {Home, Inbox, User, TicketPlus, ChevronUp, User2, TruckIcon, WarehouseIcon} from 'lucide-react'
+import {
+  Home,
+  Inbox,
+  User,
+  TicketPlus,
+  ChevronUp,
+  User2,
+  TruckIcon,
+  WarehouseIcon,
+} from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -59,7 +68,7 @@ function SidebarComponent() {
   useEffect(() => {
     function fetchData() {
       axiosInstance
-        .get('/api/user/370bfe38-b2ee-4739-be40-e9ad84a67be6')
+        .get('/api/user/901ca5f2-06c4-4c4f-a703-0843574444f6')
         .then((res) => {
           setUsername(res.data?.message)
         })
@@ -67,6 +76,7 @@ function SidebarComponent() {
     }
     fetchData()
   }, [])
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -95,7 +105,7 @@ function SidebarComponent() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
                   <User2 />
-                  {username} {/* Adicionar username do usuário */}
+                  {username || 'Usuário não encontrado'}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
