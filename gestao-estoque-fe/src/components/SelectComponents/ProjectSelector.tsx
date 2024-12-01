@@ -11,7 +11,13 @@ import {
 } from '@/components/ui/select'
 import { useEffect, useState } from 'react'
 
-export function ProjectSelector() {
+export function ProjectSelector({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
   const [projects, setProjects] = useState<{ id: string; name: string; instituition: string }[]>(
     [],
   )
@@ -25,10 +31,10 @@ export function ProjectSelector() {
           const data = await response.json()
           setProjects(data.projects)
         } else {
-          console.error('Erro ao buscar clientes:', response.statusText)
+          console.error('Erro ao buscar projetos:', response.statusText)
         }
       } catch (error) {
-        console.error('Erro ao buscar clientes:', error)
+        console.error('Erro ao buscar projetos:', error)
       } finally {
         setLoading(false)
       }
@@ -38,15 +44,15 @@ export function ProjectSelector() {
   }, [])
 
   return (
-    <Select>
+    <Select value={value} onValueChange={onChange}>
       <SelectTrigger >
         <SelectValue
-          placeholder={loading ? 'Carregando...' : 'Selecione um Cliente'}
+          placeholder={loading ? 'Carregando...' : 'Selecione um Projeto'}
         />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Clientes</SelectLabel>
+          <SelectLabel>Projetos</SelectLabel>
           {projects.map((project) => (
             <SelectItem key={project.id} value={project.id}>
               <b>Nome: </b>{project.name} <b>- Instituição: </b>{project.instituition}

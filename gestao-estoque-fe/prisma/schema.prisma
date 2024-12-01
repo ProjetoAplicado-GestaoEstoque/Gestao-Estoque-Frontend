@@ -23,6 +23,7 @@ model Projects {
   project_manager  User     @relation("ProjectManager", fields: [project_manager_id], references: [enrollment]) 
   tech_responsible User     @relation("TechResponsible", fields: [tech_responsible_id], references: [enrollment]) 
   customer         Customer @relation(fields: [customer_id], references: [id])
+  items            Item[]
 }
 
 
@@ -56,10 +57,14 @@ model Item {
   name              String @db.VarChar(255)
   storage           String
   description       String?
+  project_id        String
+  supplier_id       String
   quantity          Int
   createdAt         DateTime @default(now()) 
   deletedAt         DateTime? 
   updatedAt         DateTime @updatedAt
+  project           Projects @relation(fields: [project_id], references: [id])
+  supplier          Supplier @relation(fields: [supplier_id], references: [id])
 
   StockChanges StockChanges[]
 }
@@ -74,6 +79,7 @@ model Supplier {
   createdAt         DateTime @default(now())
   deletedAt         DateTime?
   updatedAt         DateTime @updatedAt
+  items             Item[]
 }
 
 model StockChanges {
