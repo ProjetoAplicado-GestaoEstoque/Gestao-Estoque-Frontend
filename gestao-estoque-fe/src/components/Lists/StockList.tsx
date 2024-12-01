@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/table'
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
+import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
 
 export function StockList() {
   const [stockChanges, setStockChanges] = useState<
@@ -79,6 +80,9 @@ export function StockList() {
                     </TableCell>
                     <TableCell>{stockChange.type}</TableCell>
                     <TableCell>{stockChange.description}</TableCell>
+                    <TableCell>
+                      <EditAndDeleButton id={stockChange.id} path="/estoque/form" />
+                    </TableCell>
                   </TableRow>
                 ))}
           </TableBody>

@@ -17,7 +17,8 @@ import { Input } from "@/components/ui/input";
 import { CancelFormButton } from "../CustomComponents/CancelFormButton";
 import { ItemSelector } from "../SelectComponents/ItemSelector";
 import { StockChangeSelector } from "../SelectComponents/StockChangeSelector";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams  } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const stockSchema = z.object({
   quantity: z.number().int().positive({
@@ -30,6 +31,8 @@ const stockSchema = z.object({
 
 export function StockForm() {
   const router = useRouter();
+  const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof stockSchema>>({
     resolver: zodResolver(stockSchema),
@@ -41,10 +44,36 @@ export function StockForm() {
     },
   })
 
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch(`/api/estoque/${id}`);
+          if (!response.ok) throw new Error("Erro ao buscar Estoque.");
+          const itemData = await response.json();
+          form.setValue("item_id", itemData.item_id);
+          form.setValue("quantity", itemData.quantity);
+          form.setValue("type", itemData.type);
+          form.setValue("description", itemData.description);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [id, form]);
+
+
   async function onSubmit(values: z.infer<typeof stockSchema>) {
+    setIsLoading(true);
     try {
-      const response = await fetch("/api/estoque", {
-        method: "POST",
+      const response = await fetch(
+        id ? `/api/items/${id}` : "/api/estoque",
+        {
+        method: id ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -93,6 +122,7 @@ export function StockForm() {
                   placeholder="Digite a quantidade"
                   {...field}
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
@@ -122,7 +152,7 @@ export function StockForm() {
             <FormItem>
               <FormLabel>Descrição</FormLabel>
               <FormControl>
-                <Input placeholder="Digite a descrição" {...field} />
+                  <Input placeholder="Digite a descrição" {...field} disabled={isLoading} />
               </FormControl>
               <FormMessage />
             </FormItem>
