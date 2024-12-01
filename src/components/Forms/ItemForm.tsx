@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,38 +12,66 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { CancelFormButton } from "../CustomComponents/CancelFormButton";
+import { useRouter } from "next/navigation";
+import { SupplierSelector } from "../SelectComponents/SupplierSelector";
+import { ProjectSelector } from "../SelectComponents/ProjectSelector";
 
 const itemSchema = z.object({
   name: z.string().min(2, {
-    message: 'O nome do produto deve ter no mínimo 2 caracteres.',
+    message: "O nome do produto deve ter no mínimo 2 caracteres.",
   }),
   storage: z.string().min(1, {
-    message: 'Local de armazenamento é obrigatório.',
+    message: "Local de armazenamento é obrigatório.",
   }),
   description: z.string().optional(),
+  supplier_id: z.string().uuid({ message: "Fornecedor Inválido." }),
+  project_id: z.string().uuid({ message: "Porjeto Inválido." }),
   quantity: z.number().int().positive({
-    message: 'Quantidade deve ser um número  positivo.',
+    message: "Quantidade deve ser um número  positivo.",
   }),
-})
+});
 
 export function ItemForm() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof itemSchema>>({
     resolver: zodResolver(itemSchema),
     defaultValues: {
-      name: '',
-      storage: '',
-      description: '',
+      name: "",
+      storage: "",
+      description: "",
       quantity: 0,
+      supplier_id: "",
+      project_id: "",
     },
-  })
+  });
 
-  function onSubmit(values: z.infer<typeof itemSchema>) {
-    console.log(values)
-    // Here you would typically send the form data to your server
+  async function onSubmit(values: z.infer<typeof itemSchema>) {
+    try {
+      const response = await fetch("/api/items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          "Erro ao criar produto. Verifique os dados e tente novamente."
+        );
+      }
+      console.log("Dados enviados com sucesso!");
+      router.back();
+    } catch (error) {
+      console.error("Erro ao criar produto:", error);
+    } finally {
+      console.log("Processo finalizado.");
+    }
   }
 
   return (
@@ -69,7 +97,10 @@ export function ItemForm() {
             <FormItem>
               <FormLabel>Local de Armazenamento</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o local de armazenamento" {...field} />
+                <Input
+                  placeholder="Digite o local de armazenamento"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -109,9 +140,41 @@ export function ItemForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="supplier_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Fornecedor</FormLabel>
+              <FormControl>
+                <SupplierSelector
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="project_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Projeto</FormLabel>
+              <FormControl>
+                <ProjectSelector
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <CancelFormButton />
         <Button type="submit">Salvar</Button>
       </form>
     </Form>
-  )
+  );
 }

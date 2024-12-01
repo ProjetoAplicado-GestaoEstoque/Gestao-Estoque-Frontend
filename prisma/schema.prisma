@@ -21,8 +21,12 @@ model Projects {
   updatedAt           DateTime? @updatedAt
 
   customer         Customer @relation(fields: [customer_id], references: [id])
+<<<<<<< HEAD:prisma/schema.prisma
 
   User User[]
+=======
+  items            Item[]
+>>>>>>> 3ed7c86b (Ajustando formulários para criar as entidades corretamente, ajustando migrations.):gestao-estoque-fe/prisma/schema.prisma
 }
 
 
@@ -62,10 +66,14 @@ model Item {
   name              String @db.VarChar(255)
   storage           String
   description       String?
+  project_id        String
+  supplier_id       String
   quantity          Int
   createdAt         DateTime @default(now()) 
   deletedAt         DateTime? 
   updatedAt         DateTime @updatedAt
+  project           Projects @relation(fields: [project_id], references: [id])
+  supplier          Supplier @relation(fields: [supplier_id], references: [id])
 
   StockChanges StockChanges[]
 }
@@ -80,6 +88,7 @@ model Supplier {
   createdAt         DateTime @default(now())
   deletedAt         DateTime?
   updatedAt         DateTime @updatedAt
+  items             Item[]
 }
 
 model StockChanges {

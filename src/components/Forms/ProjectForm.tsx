@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { CustomerSelector } from "@/components/SelectComponents/CustomerSelector";
 import { UserSelector } from "../SelectComponents/UserSelector";
 import { CancelFormButton } from "../CustomComponents/CancelFormButton";
+import { useRouter } from 'next/navigation'
 
 const projectSchema = z.object({
   name: z.string().min(2, {
@@ -25,38 +26,47 @@ const projectSchema = z.object({
   instituition: z.string().min(2, {
     message: "Instituição deve ter no mínimo 2 caracteres.",
   }),
-  project_manager_id: z.object({
-    uuid: z.string().uuid({ message: "Gerente de Projeto Inválido" }),
-  }),
-  tech_responsible_id: z.object({
-    uuid: z.string().uuid({ message: "Gerente de Projeto Inválido." }),
-  }),
-  customer_id: z.object({
-    uuid: z.string().uuid({ message: "Gerente de Projeto Inválido." }),
-  }),
+  project_manager_id: z.string().uuid({ message: "Gerente de Projeto Inválido" }),
+  tech_responsible_id: z.string().uuid({ message: "Gerente de Projeto Inválido." }),
+  customer_id: z.string().uuid({ message: "Gerente de Projeto Inválido." }),
 });
 
 export function ProjectsForm() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
       name: "",
       instituition: "",
-      project_manager_id: {
-        uuid: "",
-      },
-      tech_responsible_id: {
-        uuid: "",
-      },
-      customer_id: {
-        uuid: "",
-      },
-    },
+      project_manager_id:"",
+      tech_responsible_id: "",
+      customer_id: ""
+    }
   });
 
-  function onSubmit(values: z.infer<typeof projectSchema>) {
-    console.log(values);
-    // Here you would typically send the form data to your server
+  async function onSubmit(values: z.infer<typeof projectSchema>) {
+    try {
+      const response = await fetch("/api/project", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          "Erro ao criar produto. Verifique os dados e tente novamente."
+        );
+      }
+      console.log("Dados enviados com sucesso!");
+      router.back();
+    } catch (error) {
+      console.error("Erro ao criar produto:", error);
+    } finally {
+      console.log("Processo finalizado.");
+    }
   }
 
   return (
@@ -90,7 +100,7 @@ export function ProjectsForm() {
         />
         <FormField
           control={form.control}
-          name="project_manager_id.uuid"
+          name="project_manager_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Gerente do projeto</FormLabel>
@@ -107,7 +117,7 @@ export function ProjectsForm() {
         />
         <FormField
           control={form.control}
-          name="tech_responsible_id.uuid"
+          name="tech_responsible_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Responsável pelo Projeto </FormLabel>
@@ -124,7 +134,7 @@ export function ProjectsForm() {
         />
         <FormField
           control={form.control}
-          name="customer_id.uuid"
+          name="customer_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Cliente</FormLabel>

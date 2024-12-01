@@ -17,34 +17,52 @@ import { Input } from "@/components/ui/input";
 import { CancelFormButton } from "../CustomComponents/CancelFormButton";
 import { ItemSelector } from "../SelectComponents/ItemSelector";
 import { StockChangeSelector } from "../SelectComponents/StockChangeSelector";
+import { useRouter } from "next/navigation";
 
-const userSchema = z.object({
+const stockSchema = z.object({
   quantity: z.number().int().positive({
     message: 'Quantidade deve ser um número  positivo.',
   }),
-  item_id: z.object({
-    uuid: z.string().uuid({ message: "Item inválido." }),
-  }),
+  item_id: z.string().uuid({ message: "Item inválido." }),
   type: z.string(),
   description: z.string(),
 });
 
 export function StockForm() {
-  const form = useForm<z.infer<typeof userSchema>>({
-    resolver: zodResolver(userSchema),
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof stockSchema>>({
+    resolver: zodResolver(stockSchema),
     defaultValues: {
-      item_id: {
-        uuid: "",
-      },
+      item_id:"",
       quantity: 0,
       type: "",
       description: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof userSchema>) {
-    console.log(values);
-    // Here you would typically send the form data to your server
+  async function onSubmit(values: z.infer<typeof stockSchema>) {
+    try {
+      const response = await fetch("/api/estoque", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          "Erro ao criar cliente. Verifique os dados e tente novamente."
+        );
+      }
+      console.log("Dados enviados com sucesso!");
+      router.back();
+    } catch (error) {
+      console.error("Erro ao criar cliente:", error);
+    } finally {
+      console.log("Processo finalizado.");
+    }
   }
 
   return (
@@ -52,7 +70,7 @@ export function StockForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="item_id.uuid"
+          name="item_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Produto</FormLabel>
@@ -74,6 +92,7 @@ export function StockForm() {
                   type="number"
                   placeholder="Digite a quantidade"
                   {...field}
+                  onChange={(e) => field.onChange(parseInt(e.target.value))}
                 />
               </FormControl>
               <FormMessage />
