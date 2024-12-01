@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -21,10 +21,10 @@ import { useRouter } from 'next/navigation'
 
 const projectSchema = z.object({
   name: z.string().min(2, {
-    message: "O nome do projeto deve ter no mínimo 2 caracteres.",
+    message: 'O nome do projeto deve ter no mínimo 2 caracteres.',
   }),
   instituition: z.string().min(2, {
-    message: "Instituição deve ter no mínimo 2 caracteres.",
+    message: 'Instituição deve ter no mínimo 2 caracteres.',
   }),
   project_manager_id: z.string().uuid({ message: "Gerente de Projeto Inválido" }),
   tech_responsible_id: z.string().uuid({ message: "Gerente de Projeto Inválido." }),
@@ -152,5 +152,5 @@ export function ProjectsForm() {
         <Button type="submit">Salvar</Button>
       </form>
     </Form>
-  );
+  )
 }

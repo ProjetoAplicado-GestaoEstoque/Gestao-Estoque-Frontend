@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -26,7 +26,7 @@ const stockSchema = z.object({
   item_id: z.string().uuid({ message: "Item inválido." }),
   type: z.string(),
   description: z.string(),
-});
+})
 
 export function StockForm() {
   const router = useRouter();
@@ -36,10 +36,10 @@ export function StockForm() {
     defaultValues: {
       item_id:"",
       quantity: 0,
-      type: "",
-      description: "",
+      type: '',
+      description: '',
     },
-  });
+  })
 
   async function onSubmit(values: z.infer<typeof stockSchema>) {
     try {
@@ -132,5 +132,5 @@ export function StockForm() {
         <Button type="submit">Salvar</Button>
       </form>
     </Form>
-  );
+  )
 }

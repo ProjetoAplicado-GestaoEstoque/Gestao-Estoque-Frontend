@@ -1,12 +1,12 @@
-'use client'
-import React, { useEffect, useState } from 'react'
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from '@/components/ui/card'
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -14,50 +14,50 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
-import { RedirectType } from 'next/navigation'
+} from "@/components/ui/table";
+import { NewEntityButton } from "@/components/CustomComponents/NewEntityButton";
+import { RedirectType } from "next/navigation";
 
 export function ItemsList() {
   const [items, setItems] = useState<
     {
-      id: string
-      name: string
-      storage: string
-      quantity: string
-      description: string
-      supplier: { corporate_name: string }
-      project: { name: string }
+      id: string;
+      name: string;
+      storage: string;
+      quantity: string;
+      description: string;
+      supplier: { corporate_name: "" };
+      project: { name: "" };
     }[]
-  >([])
-  const [loading, setLoading] = useState<boolean>(true)
+  >([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch('/api/items')
+        const response = await fetch("/api/items");
         if (response.ok) {
-          const data = await response.json()
-          setItems(data.items)
+          const data = await response.json();
+          setItems(data.items);
         } else {
-          console.error('Erro ao buscar clientes:', response.statusText)
+          console.error("Erro ao buscar clientes:", response.statusText);
         }
       } catch (error) {
-        console.error('Erro ao buscar clientes:', error)
+        console.error("Erro ao buscar clientes:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchItems()
-  }, [])
+    fetchItems();
+  }, []);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Produtos</CardTitle>
         <CardDescription>Lista dos produtos.</CardDescription>
-        <NewEntityButton path={'/produtos/form'} type={RedirectType.push} />
+        <NewEntityButton path={"/produtos/form"} type={RedirectType.push} />
       </CardHeader>
       <CardContent>
         <Table>
@@ -72,19 +72,21 @@ export function ItemsList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell>{item.storage}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.project?.name}</TableCell>
-                <TableCell>{item.supplier.corporate_name}</TableCell>
-              </TableRow>
-            ))}
+            {loading
+              ? "Atribuindo dados"
+              : items.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell className="font-medium">{item.name}</TableCell>
+                    <TableCell>{item.storage}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.supplier.corporate_name}</TableCell>
+                    <TableCell>{item.project.name}</TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }
