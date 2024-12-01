@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
 
 const itemSchema = z.object({
   name: z.string().min(2, {
@@ -53,9 +54,9 @@ export function ItemForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome do Item</FormLabel>
+              <FormLabel>Nome do Produto</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o nome do item" {...field} />
+                <Input placeholder="Digite o nome do Produto" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -108,6 +109,7 @@ export function ItemForm() {
             </FormItem>
           )}
         />
+        <CancelFormButton />
         <Button type="submit">Salvar</Button>
       </form>
     </Form>

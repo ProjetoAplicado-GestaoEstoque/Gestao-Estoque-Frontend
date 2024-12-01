@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -14,16 +13,17 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
 
 const userSchema = z.object({
   full_name: z.string().min(2, {
-    message: 'Full name must be at least 2 characters.',
+    message: 'O nome corportaivo deve ter no mínimo 2 caracteres.',
   }),
   email: z.string().email({
-    message: 'Please enter a valid email address.',
+    message: 'Por favor, insira um endereço de e-mail válido.',
   }),
   enrollment: z.string().min(1, {
-    message: 'Enrollment is required.',
+    message: 'Inscrição é obrigatória.',
   }),
 })
 
@@ -52,7 +52,7 @@ export function UserForm() {
             <FormItem>
               <FormLabel>Full Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter full name" {...field} />
+                <Input placeholder="Digite o nome completo" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -65,7 +65,7 @@ export function UserForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Enter email" {...field} />
+                <Input type="email" placeholder="Digite o email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -76,15 +76,16 @@ export function UserForm() {
           name="enrollment"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Enrollment</FormLabel>
+              <FormLabel>Inscrição</FormLabel>
               <FormControl>
-                <Input placeholder="Enter enrollment" {...field} />
+                <Input placeholder="Digite a inscrição" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit User</Button>
+        <CancelFormButton />
+        <Button type="submit">Salvar</Button>
       </form>
     </Form>
   )

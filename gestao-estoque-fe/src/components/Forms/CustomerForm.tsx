@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
 
 const customerSchema = z.object({
   cnpj: z.string().length(14, {
@@ -67,6 +68,7 @@ export function CustomerForm() {
             </FormItem>
           )}
         />
+        <CancelFormButton />
         <Button type="submit">Salvar</Button>
       </form>
     </Form>
