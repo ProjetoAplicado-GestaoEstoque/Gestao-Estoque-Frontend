@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -12,38 +12,38 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { CancelFormButton } from "../CustomComponents/CancelFormButton";
-import { ItemSelector } from "../SelectComponents/ItemSelector";
-import { StockChangeSelector } from "../SelectComponents/StockChangeSelector";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+import { ItemSelector } from '../SelectComponents/ItemSelector'
+import { StockChangeSelector } from '../SelectComponents/StockChangeSelector'
 
 const userSchema = z.object({
   quantity: z.number().int().positive({
     message: 'Quantidade deve ser um número  positivo.',
   }),
   item_id: z.object({
-    uuid: z.string().uuid({ message: "Item inválido." }),
+    uuid: z.string().uuid({ message: 'Item inválido.' }),
   }),
   type: z.string(),
   description: z.string(),
-});
+})
 
 export function StockForm() {
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
       item_id: {
-        uuid: "",
+        uuid: '',
       },
       quantity: 0,
-      type: "",
-      description: "",
+      type: '',
+      description: '',
     },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof userSchema>) {
-    console.log(values);
+    console.log(values)
     // Here you would typically send the form data to your server
   }
 
@@ -113,5 +113,5 @@ export function StockForm() {
         <Button type="submit">Salvar</Button>
       </form>
     </Form>
-  );
+  )
 }

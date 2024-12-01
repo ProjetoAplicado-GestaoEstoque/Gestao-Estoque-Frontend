@@ -43,7 +43,6 @@ export function ItemForm() {
 
   function onSubmit(values: z.infer<typeof itemSchema>) {
     console.log(values)
-    // Here you would typically send the form data to your server
   }
 
   return (
@@ -69,7 +68,10 @@ export function ItemForm() {
             <FormItem>
               <FormLabel>Local de Armazenamento</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o local de armazenamento" {...field} />
+                <Input
+                  placeholder="Digite o local de armazenamento"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

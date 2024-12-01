@@ -12,9 +12,9 @@ import {
 import { useEffect, useState } from 'react'
 
 export function ProjectSelector() {
-  const [projects, setProjects] = useState<{ id: string; name: string; instituition: string }[]>(
-    [],
-  )
+  const [projects, setProjects] = useState<
+    { id: string; name: string; instituition: string }[]
+  >([])
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export function ProjectSelector() {
 
   return (
     <Select>
-      <SelectTrigger >
+      <SelectTrigger>
         <SelectValue
           placeholder={loading ? 'Carregando...' : 'Selecione um Cliente'}
         />
@@ -49,7 +49,9 @@ export function ProjectSelector() {
           <SelectLabel>Clientes</SelectLabel>
           {projects.map((project) => (
             <SelectItem key={project.id} value={project.id}>
-              <b>Nome: </b>{project.name} <b>- Instituição: </b>{project.instituition}
+              <b>Nome: </b>
+              {project.name} <b>- Instituição: </b>
+              {project.instituition}
             </SelectItem>
           ))}
         </SelectGroup>

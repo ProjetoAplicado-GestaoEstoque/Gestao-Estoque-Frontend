@@ -36,7 +36,6 @@ export function CustomerForm() {
 
   function onSubmit(values: z.infer<typeof customerSchema>) {
     console.log(values)
-    // Here you would typically send the form data to your server
   }
 
   return (

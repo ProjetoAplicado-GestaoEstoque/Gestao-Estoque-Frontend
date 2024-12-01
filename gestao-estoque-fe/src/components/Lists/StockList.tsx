@@ -20,35 +20,37 @@ import { RedirectType } from 'next/navigation'
 
 export function StockList() {
   const [stockChanges, setStockChanges] = useState<
-  {
-    id: string
-    quantity: string
-    type: string
-    item: { name: string }
-    description: string
-  }[]
->([])
-const [loading, setLoading] = useState<boolean>(true)
+    {
+      id: string
+      quantity: string
+      type: string
+      item: { name: string }
+      description: string
+    }[]
+  >([])
+  const [loading, setLoading] = useState(true)
 
-useEffect(() => {
-  const fetchSupplier = async () => {
-    try {
-      const response = await fetch('/api/supplier')
-      if (response.ok) {
-        const data = await response.json()
-        setStockChanges(data.supplier)
-      } else {
-        console.error('Erro ao buscar clientes:', response.statusText)
+  useEffect(() => {
+    const fetchSupplier = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch('/api/supplier')
+        if (response.ok) {
+          const data = await response.json()
+          setStockChanges(data.supplier)
+          setLoading(false)
+        } else {
+          console.error('Erro ao buscar clientes:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Erro ao buscar clientes:', error)
+      } finally {
+        setLoading(false)
       }
-    } catch (error) {
-      console.error('Erro ao buscar clientes:', error)
-    } finally {
-      setLoading(false)
     }
-  }
 
-  fetchSupplier()
-}, [])
+    fetchSupplier()
+  }, [])
   return (
     <Card>
       <CardHeader>
@@ -67,14 +69,18 @@ useEffect(() => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {stockChanges.map((stockChange) => (
-              <TableRow key={stockChange.id}>
-                <TableCell>{stockChange.item.name}</TableCell>
-                <TableCell className="font-medium">{stockChange.quantity}</TableCell>
-                <TableCell>{stockChange.type}</TableCell>
-                <TableCell>{stockChange.description}</TableCell>
-              </TableRow>
-            ))}
+            {loading
+              ? 'Atribuindo dados'
+              : stockChanges.map((stockChange) => (
+                  <TableRow key={stockChange.id}>
+                    <TableCell>{stockChange.item.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {stockChange.quantity}
+                    </TableCell>
+                    <TableCell>{stockChange.type}</TableCell>
+                    <TableCell>{stockChange.description}</TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>

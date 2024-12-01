@@ -1,4 +1,4 @@
-import { StockForm } from "@/components/Forms/StockForm";
+import { StockForm } from '@/components/Forms/StockForm'
 
 export default function Page() {
   return (
