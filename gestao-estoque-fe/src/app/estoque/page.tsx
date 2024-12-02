@@ -3,7 +3,7 @@ import { StockList } from '@/components/Lists/StockList'
 
 export default function Page() {
   return (
-    <div>
+    <div className="w-full p-6">
       <Card>
         <StockList />
       </Card>

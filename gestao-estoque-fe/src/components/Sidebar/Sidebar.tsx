@@ -32,7 +32,7 @@ import { axiosInstance } from '@/axios/api'
 const items = [
   {
     title: 'Dashboard',
-    url: '/dashboard',
+    url: '/',
     icon: Home,
   },
   {
