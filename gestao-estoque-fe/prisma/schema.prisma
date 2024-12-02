@@ -20,9 +20,9 @@ model Projects {
   deletedAt           DateTime? 
   updatedAt           DateTime? @updatedAt
 
-  project_manager  User     @relation("ProjectManager", fields: [project_manager_id], references: [enrollment]) 
-  tech_responsible User     @relation("TechResponsible", fields: [tech_responsible_id], references: [enrollment]) 
   customer         Customer @relation(fields: [customer_id], references: [id])
+
+  User User[]
 }
 
 
@@ -30,13 +30,19 @@ model User {
   id         String @id @default(uuid())
   full_name  String 
   email      String @unique
-  enrollment String @unique
+  password   String 
+  enrollment String @unique @default(uuid())
   createdAt  DateTime @default(now()) 
   deletedAt  DateTime? 
   updatedAt  DateTime? @updatedAt
 
-  projectManager Projects[] @relation("ProjectManager")
-  techResponsible Projects[] @relation("TechResponsible")
+  role       role @default(tech_responsible)
+  projects   Projects[]
+}
+
+enum role {
+  tech_responsible
+  project_manager
 }
 
 
