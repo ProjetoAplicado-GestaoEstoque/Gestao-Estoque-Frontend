@@ -68,7 +68,10 @@ useEffect(() => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {stockChanges?.map((stockChange) => (
+            {}
+            {loading
+              ? 'Atribuindo dados'
+              : stockChanges?.map((stockChange) => (
               <TableRow key={stockChange.id}>
                 <TableCell>{stockChange.item.name}</TableCell>
                 <TableCell className="font-medium">{stockChange.quantity}</TableCell>
