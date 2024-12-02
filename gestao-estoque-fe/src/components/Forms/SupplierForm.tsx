@@ -15,8 +15,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
-import { useRouter, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const supplierSchema = z.object({
   corporate_name: z.string().min(2, {
@@ -37,9 +37,9 @@ const supplierSchema = z.object({
 })
 
 export function SupplierForm() {
-  const router = useRouter();
-  const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
+  const { id } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof supplierSchema>>({
     resolver: zodResolver(supplierSchema),
@@ -50,55 +50,56 @@ export function SupplierForm() {
       email: '',
       address: '',
     },
-  });
+  })
 
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
-        setIsLoading(true);
+        setIsLoading(true)
         try {
-          const response = await fetch(`/api/supplier/${id}`);
-          if (!response.ok) throw new Error("Erro ao buscar Fornecedor.");
-          const itemData = await response.json();
-          form.setValue("corporate_name", itemData.corporate_name);
-          form.setValue("cnpj", itemData.cnpj);
-          form.setValue("phone", itemData.phone);
-          form.setValue("email", itemData.email);
-          form.setValue("address", itemData.address);
+          const response = await fetch(`/api/supplier/${id}`)
+          if (!response.ok) throw new Error('Erro ao buscar Fornecedor.')
+          const itemData = await response.json()
+          form.setValue('corporate_name', itemData.corporate_name)
+          form.setValue('cnpj', itemData.cnpj)
+          form.setValue('phone', itemData.phone)
+          form.setValue('email', itemData.email)
+          form.setValue('address', itemData.address)
         } catch (error) {
-          console.error(error);
+          console.error(error)
         } finally {
-          setIsLoading(false);
+          setIsLoading(false)
         }
-      };
-      fetchData();
+      }
+      fetchData()
     }
-  }, [id, form]);
+  }, [id, form])
 
   async function onSubmit(values: z.infer<typeof supplierSchema>) {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       const response = await fetch(
-        id ? `/api/supplier/${id}` : "/api/supplier",
+        id ? `/api/supplier/${id}` : '/api/supplier',
         {
-        method: id ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
+          method: id ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
         },
-        body: JSON.stringify(values),
-      });
+      )
 
       if (!response.ok) {
         throw new Error(
-          "Erro ao criar fornecedor. Verifique os dados e tente novamente."
-        );
+          'Erro ao criar fornecedor. Verifique os dados e tente novamente.',
+        )
       }
-      console.log("Dados enviados com sucesso!");
-      router.back();
+      console.log('Dados enviados com sucesso!')
+      router.back()
     } catch (error) {
-      console.error("Erro ao criar fornecedor:", error);
+      console.error('Erro ao criar fornecedor:', error)
     } finally {
-      console.log("Processo finalizado.");
+      console.log('Processo finalizado.')
     }
   }
 

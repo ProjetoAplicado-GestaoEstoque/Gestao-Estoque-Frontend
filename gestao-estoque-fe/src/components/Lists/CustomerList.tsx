@@ -71,7 +71,10 @@ export function CustomerList() {
                   <TableCell className="font-medium">{customer.cnpj}</TableCell>
                   <TableCell>{customer?.email}</TableCell>
                   <TableCell>
-                    <EditAndDeleButton id={customer.id} path={'/clientes/form'} />
+                    <EditAndDeleButton
+                      id={customer.id}
+                      path={'/clientes/form'}
+                    />
                   </TableCell>
                 </TableRow>
               ))

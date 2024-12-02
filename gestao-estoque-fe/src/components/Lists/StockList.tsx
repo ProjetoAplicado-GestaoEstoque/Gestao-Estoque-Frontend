@@ -81,7 +81,10 @@ export function StockList() {
                     <TableCell>{stockChange.type}</TableCell>
                     <TableCell>{stockChange.description}</TableCell>
                     <TableCell>
-                      <EditAndDeleButton id={stockChange.id} path="/estoque/form" />
+                      <EditAndDeleButton
+                        id={stockChange.id}
+                        path="/estoque/form"
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

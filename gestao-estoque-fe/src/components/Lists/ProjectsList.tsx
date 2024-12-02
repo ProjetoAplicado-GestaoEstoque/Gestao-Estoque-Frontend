@@ -86,7 +86,10 @@ export function ProjectsList() {
                     <TableCell>{project.tech_responsible.full_name}</TableCell>
                     <TableCell>{project.customer.cnpj}</TableCell>
                     <TableCell>
-                      <EditAndDeleButton id={project.id} path="/projetos/form" />
+                      <EditAndDeleButton
+                        id={project.id}
+                        path="/projetos/form"
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
