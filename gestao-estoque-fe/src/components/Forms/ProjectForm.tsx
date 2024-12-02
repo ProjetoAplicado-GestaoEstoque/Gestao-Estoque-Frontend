@@ -17,7 +17,8 @@ import { Input } from "@/components/ui/input";
 import { CustomerSelector } from "@/components/SelectComponents/CustomerSelector";
 import { UserSelector } from "../SelectComponents/UserSelector";
 import { CancelFormButton } from "../CustomComponents/CancelFormButton";
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams  } from 'next/navigation'
+import { useEffect, useState } from "react";
 
 const projectSchema = z.object({
   name: z.string().min(2, {
@@ -33,6 +34,8 @@ const projectSchema = z.object({
 
 export function ProjectsForm() {
   const router = useRouter();
+  const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
@@ -45,10 +48,35 @@ export function ProjectsForm() {
     }
   });
 
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch(`/api/project/${id}`);
+          if (!response.ok) throw new Error("Erro ao buscar cliente.");
+          const projectData = await response.json();
+          form.setValue("name", projectData.name);
+          form.setValue("instituition", projectData.instituition);
+          form.setValue("customer_id", projectData.customer_id);
+          form.setValue("tech_responsible_id", projectData.tech_responsible.id);
+          form.setValue("project_manager_id", projectData.project_manager.id);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [id, form]);
+
   async function onSubmit(values: z.infer<typeof projectSchema>) {
     try {
-      const response = await fetch("/api/project", {
-        method: "POST",
+      const response = await fetch(
+        id ? `/api/projetos/${id}` : "/api/projetos",
+        {
+        method: id ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -79,7 +107,7 @@ export function ProjectsForm() {
             <FormItem>
               <FormLabel>Nome do Projeto</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o Nome do Projeto" {...field} />
+                  <Input placeholder="Digite o Nome do Projeto" {...field} disabled={isLoading} />
               </FormControl>
               <FormMessage />
             </FormItem>

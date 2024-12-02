@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/table'
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
+import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
 
 export function SupplierList() {
   const [suppliers, setSuppliers] = useState<
@@ -83,6 +84,9 @@ export function SupplierList() {
                     <TableCell>{supplier.phone}</TableCell>
                     <TableCell>{supplier.email}</TableCell>
                     <TableCell>{supplier.address}</TableCell>
+                    <TableCell>
+                      <EditAndDeleButton id={supplier.id} path="/fornecedor/form" />
+                    </TableCell>
                   </TableRow>
                 ))}
           </TableBody>

@@ -1,4 +1,4 @@
-import { ClientList } from '@/components/Lists/ClientList'
+import { CustomerList } from '@/components/Lists/CustomerList'
 
 export default function Page() {
   return (
