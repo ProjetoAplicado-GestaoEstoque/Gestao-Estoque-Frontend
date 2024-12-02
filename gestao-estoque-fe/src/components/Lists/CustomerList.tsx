@@ -48,7 +48,7 @@ export function CustomerList() {
   }, [])
 
   return (
-    <Card className="w-100">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Clientes</CardTitle>
         <CardDescription>Lista dos clientes</CardDescription>

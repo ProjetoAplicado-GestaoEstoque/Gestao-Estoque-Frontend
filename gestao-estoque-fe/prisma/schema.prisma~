@@ -19,7 +19,9 @@ model Projects {
   createdAt           DateTime @default(now()) 
   deletedAt           DateTime? 
   updatedAt           DateTime? @updatedAt
+
   customer         Customer @relation(fields: [customer_id], references: [id])
+
   User User[]
   items            Item[]
 }
