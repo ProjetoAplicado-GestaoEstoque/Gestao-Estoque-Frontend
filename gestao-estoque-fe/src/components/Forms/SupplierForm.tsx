@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+import { useRouter } from "next/navigation";
 
 const supplierSchema = z.object({
   corporate_name: z.string().min(2, {
@@ -35,6 +36,8 @@ const supplierSchema = z.object({
 })
 
 export function SupplierForm() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof supplierSchema>>({
     resolver: zodResolver(supplierSchema),
     defaultValues: {
@@ -46,9 +49,28 @@ export function SupplierForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof supplierSchema>) {
-    console.log(values)
-    // Here you would typically send the form data to your server
+  async function onSubmit(values: z.infer<typeof supplierSchema>) {
+    try {
+      const response = await fetch("/api/supplier", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          "Erro ao criar fornecedor. Verifique os dados e tente novamente."
+        );
+      }
+      console.log("Dados enviados com sucesso!");
+      router.back();
+    } catch (error) {
+      console.error("Erro ao criar cliente:", error);
+    } finally {
+      console.log("Processo finalizado.");
+    }
   }
 
   return (

@@ -62,10 +62,14 @@ model Item {
   name              String @db.VarChar(255)
   storage           String
   description       String?
+  project_id        String
+  supplier_id       String
   quantity          Int
   createdAt         DateTime @default(now()) 
   deletedAt         DateTime? 
   updatedAt         DateTime @updatedAt
+  project           Projects @relation(fields: [project_id], references: [id])
+  supplier          Supplier @relation(fields: [supplier_id], references: [id])
 
   StockChanges StockChanges[]
 }
@@ -80,6 +84,7 @@ model Supplier {
   createdAt         DateTime @default(now())
   deletedAt         DateTime?
   updatedAt         DateTime @updatedAt
+  items             Item[]
 }
 
 model StockChanges {

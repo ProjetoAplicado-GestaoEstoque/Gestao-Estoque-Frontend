@@ -33,10 +33,10 @@ const [loading, setLoading] = useState<boolean>(true)
 useEffect(() => {
   const fetchSupplier = async () => {
     try {
-      const response = await fetch('/api/supplier')
+      const response = await fetch('/api/estoque')
       if (response.ok) {
         const data = await response.json()
-        setStockChanges(data.supplier)
+        setStockChanges(data.estoque)
       } else {
         console.error('Erro ao buscar clientes:', response.statusText)
       }
@@ -67,7 +67,7 @@ useEffect(() => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {stockChanges.map((stockChange) => (
+            {stockChanges?.map((stockChange) => (
               <TableRow key={stockChange.id}>
                 <TableCell>{stockChange.item.name}</TableCell>
                 <TableCell className="font-medium">{stockChange.quantity}</TableCell>

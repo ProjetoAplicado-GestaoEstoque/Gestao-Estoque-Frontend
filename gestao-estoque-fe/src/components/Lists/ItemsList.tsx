@@ -26,6 +26,8 @@ export function ItemsList() {
       storage: string
       quantity: string
       description: string
+      supplier: { corporate_name: string }
+      project: { name: string }
     }[]
   >([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -65,6 +67,8 @@ export function ItemsList() {
               <TableHead>Local Armazenado</TableHead>
               <TableHead>Quantidade</TableHead>
               <TableHead>Descrição</TableHead>
+              <TableHead>Projeto</TableHead>
+              <TableHead>Fornecedor</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -74,6 +78,8 @@ export function ItemsList() {
                 <TableCell>{item.storage}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>{item.description}</TableCell>
+                <TableCell>{item.project?.name}</TableCell>
+                <TableCell>{item.supplier.corporate_name}</TableCell>
               </TableRow>
             ))}
           </TableBody>
