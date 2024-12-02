@@ -128,6 +128,10 @@ export function ItemForm() {
                 <Input
                   placeholder="Digite o local de armazenamento"
                   {...field}
+                />
+                <Input
+                  placeholder="Digite o local de armazenamento"
+                  {...field}
                   disabled={isLoading}
                 />
               </FormControl>

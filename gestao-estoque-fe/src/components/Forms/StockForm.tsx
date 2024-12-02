@@ -17,12 +17,22 @@ import { Input } from '@/components/ui/input'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
 import { ItemSelector } from '../SelectComponents/ItemSelector'
 import { StockChangeSelector } from '../SelectComponents/StockChangeSelector'
+
+const userSchema = z.object({
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+import { ItemSelector } from '../SelectComponents/ItemSelector'
+import { StockChangeSelector } from '../SelectComponents/StockChangeSelector'
 import { useRouter, useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const stockSchema = z.object({
   quantity: z.number().int().positive({
     message: 'Quantidade deve ser um número  positivo.',
+  }),
+  item_id: z.object({
+    uuid: z.string().uuid({ message: 'Item inválido.' }),
   }),
   item_id: z.string().uuid({ message: 'Item inválido.' }),
   type: z.string(),
@@ -37,6 +47,9 @@ export function StockForm() {
   const form = useForm<z.infer<typeof stockSchema>>({
     resolver: zodResolver(stockSchema),
     defaultValues: {
+      item_id: {
+        uuid: '',
+      },
       item_id: '',
       quantity: 0,
       type: '',
@@ -44,6 +57,9 @@ export function StockForm() {
     },
   })
 
+  function onSubmit(values: z.infer<typeof userSchema>) {
+    console.log(values)
+    // Here you would typically send the form data to your server
   useEffect(() => {
     if (id) {
       const fetchData = async () => {

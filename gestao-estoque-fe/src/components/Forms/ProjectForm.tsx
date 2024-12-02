@@ -17,6 +17,11 @@ import { Input } from '@/components/ui/input'
 import { CustomerSelector } from '@/components/SelectComponents/CustomerSelector'
 import { UserSelector } from '../SelectComponents/UserSelector'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { CustomerSelector } from '@/components/SelectComponents/CustomerSelector'
+import { UserSelector } from '../SelectComponents/UserSelector'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
 import { useRouter, useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -27,6 +32,16 @@ const projectSchema = z.object({
   instituition: z.string().min(2, {
     message: 'Instituição deve ter no mínimo 2 caracteres.',
   }),
+  project_manager_id: z.object({
+    uuid: z.string().uuid({ message: 'Gerente de Projeto Inválido' }),
+  }),
+  tech_responsible_id: z.object({
+    uuid: z.string().uuid({ message: 'Gerente de Projeto Inválido.' }),
+  }),
+  customer_id: z.object({
+    uuid: z.string().uuid({ message: 'Gerente de Projeto Inválido.' }),
+  }),
+})
   project_manager_id: z
     .string()
     .uuid({ message: 'Gerente de Projeto Inválido' }),
@@ -44,6 +59,23 @@ export function ProjectsForm() {
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
+      name: '',
+      instituition: '',
+      project_manager_id: {
+        uuid: '',
+      },
+      tech_responsible_id: {
+        uuid: '',
+      },
+      customer_id: {
+        uuid: '',
+      },
+    },
+  })
+
+  function onSubmit(values: z.infer<typeof projectSchema>) {
+    console.log(values)
+    // Here you would typically send the form data to your server
       name: '',
       instituition: '',
       project_manager_id: '',
