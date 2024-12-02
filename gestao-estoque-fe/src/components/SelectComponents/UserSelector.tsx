@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 import {
   Select,
   SelectContent,
@@ -7,48 +7,46 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useEffect, useState } from "react";
+} from '@/components/ui/select'
+import { useEffect, useState } from 'react'
 
 export function UserSelector({
   titulo,
   value,
   onChange,
 }: {
-  titulo: string;
-  value: string;
-  onChange: (value: string) => void;
+  titulo: string
+  value: string
+  onChange: (value: string) => void
 }) {
-  const [users, setUsers] = useState<{ id: string; full_name: string }[]>(
-    []
-  );
-  const [loading, setLoading] = useState<boolean>(true);
+  const [users, setUsers] = useState<{ id: string; full_name: string }[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("/api/user/findAll");
+        const response = await fetch('/api/user/findAll')
         if (response.ok) {
-          const data = await response.json();
-          setUsers(data.users);
+          const data = await response.json()
+          setUsers(data.users)
         } else {
-          console.error("Erro ao buscar usuários:", response.statusText);
+          console.error('Erro ao buscar usuários:', response.statusText)
         }
       } catch (error) {
-        console.error("Erro ao buscar usuários:", error);
+        console.error('Erro ao buscar usuários:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [])
 
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger>
         <SelectValue
-          placeholder={loading ? "Carregando..." : `Selecione um ${titulo}`}
+          placeholder={loading ? 'Carregando...' : `Selecione um ${titulo}`}
         />
       </SelectTrigger>
       <SelectContent>
@@ -63,5 +61,5 @@ export function UserSelector({
         </SelectGroup>
       </SelectContent>
     </Select>
-  );
+  )
 }

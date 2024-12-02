@@ -20,15 +20,15 @@ import { RedirectType } from 'next/navigation'
 
 export function StockList() {
   const [stockChanges, setStockChanges] = useState<
-  {
-    id: string
-    quantity: string
-    type: string
-    item: { name: string }
-    description: string
-  }[]
->([])
-const [loading, setLoading] = useState<boolean>(true)
+    {
+      id: string
+      quantity: string
+      type: string
+      item: { name: string }
+      description: string
+    }[]
+  >([])
+  const [loading, setLoading] = useState(true)
 
 useEffect(() => {
   const fetchSupplier = async () => {
@@ -47,8 +47,8 @@ useEffect(() => {
     }
   }
 
-  fetchSupplier()
-}, [])
+    fetchSupplier()
+  }, [])
   return (
     <Card>
       <CardHeader>

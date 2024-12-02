@@ -30,15 +30,17 @@ export function ProjectsList() {
       description: string
     }[]
   >([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchProjects = async () => {
+      setLoading(true)
       try {
         const response = await fetch('/api/project')
         if (response.ok) {
           const data = await response.json()
           setProjects(data.projects)
+          setLoading(false)
         } else {
           console.error('Erro ao buscar projetos:', response.statusText)
         }
@@ -71,15 +73,19 @@ export function ProjectsList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {projects.map((project) => (
-              <TableRow key={project.id}>
-                <TableCell className="font-medium">{project.name}</TableCell>
-                <TableCell>{project.instituition}</TableCell>
-                <TableCell>{project.project_manager.full_name}</TableCell>
-                <TableCell>{project.tech_responsible.full_name}</TableCell>
-                <TableCell>{project.customer.cnpj}</TableCell>
-              </TableRow>
-            ))}
+            {loading
+              ? 'Carregando dados...'
+              : projects.map((project) => (
+                  <TableRow key={project.id}>
+                    <TableCell className="font-medium">
+                      {project.name}
+                    </TableCell>
+                    <TableCell>{project.instituition}</TableCell>
+                    <TableCell>{project.project_manager.full_name}</TableCell>
+                    <TableCell>{project.tech_responsible.full_name}</TableCell>
+                    <TableCell>{project.customer.cnpj}</TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>

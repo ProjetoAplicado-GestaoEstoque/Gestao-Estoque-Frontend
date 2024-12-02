@@ -30,15 +30,17 @@ export function ItemsList() {
       project: { name: string }
     }[]
   >([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchItems = async () => {
+      setLoading(true)
       try {
         const response = await fetch('/api/items')
         if (response.ok) {
           const data = await response.json()
           setItems(data.items)
+          setLoading(false)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
