@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -22,18 +21,19 @@ import { ProjectSelector } from '../SelectComponents/ProjectSelector'
 import { useEffect, useState } from 'react'
 
 const itemSchema = z.object({
-  name: z.string().min(2, {
-    message: 'O nome do produto deve ter no mínimo 2 caracteres.',
-  }),
-  storage: z.string().min(1, {
-    message: 'Local de armazenamento é obrigatório.',
-  }),
+  name: z
+    .string()
+    .min(2, { message: 'O nome do produto deve ter no mínimo 2 caracteres.' }),
+  storage: z
+    .string()
+    .min(1, { message: 'Local de armazenamento é obrigatório.' }),
   description: z.string().optional(),
   supplier_id: z.string().uuid({ message: 'Fornecedor Inválido.' }),
-  project_id: z.string().uuid({ message: 'Porjeto Inválido.' }),
-  quantity: z.number().int().positive({
-    message: 'Quantidade deve ser um número  positivo.',
-  }),
+  project_id: z.string().uuid({ message: 'Projeto Inválido.' }),
+  quantity: z
+    .number()
+    .int()
+    .positive({ message: 'Quantidade deve ser um número positivo.' }),
 })
 
 export function ItemForm() {
@@ -59,16 +59,11 @@ export function ItemForm() {
         setIsLoading(true)
         try {
           const response = await fetch(`/api/items/${id}`)
-          if (!response.ok) throw new Error('Erro ao buscar cliente.')
+          if (!response.ok) throw new Error('Erro ao buscar item.')
           const itemData = await response.json()
-          form.setValue('name', itemData.name)
-          form.setValue('storage', itemData.storage)
-          form.setValue('description', itemData.description)
-          form.setValue('quantity', itemData.quantity)
-          form.setValue('supplier_id', itemData.supplier_id)
-          form.setValue('project_id', itemData.project_id)
+          form.reset(itemData)
         } catch (error) {
-          console.error(error)
+          console.error('Erro ao carregar os dados do item:', error)
         } finally {
           setIsLoading(false)
         }
@@ -82,23 +77,20 @@ export function ItemForm() {
     try {
       const response = await fetch(id ? `/api/items/${id}` : '/api/items', {
         method: id ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       })
 
       if (!response.ok) {
-        throw new Error(
-          'Erro ao criar produto. Verifique os dados e tente novamente.',
-        )
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Erro ao salvar os dados.')
       }
       console.log('Dados enviados com sucesso!')
       router.back()
     } catch (error) {
-      console.error('Erro ao criar produto:', error)
+      console.error('Erro ao salvar o item:', error)
     } finally {
-      console.log('Processo finalizado.')
+      setIsLoading(false)
     }
   }
 
@@ -112,7 +104,11 @@ export function ItemForm() {
             <FormItem>
               <FormLabel>Nome do Produto</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o nome do Produto" {...field} />
+                <Input
+                  placeholder="Digite o nome do produto"
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,10 +121,6 @@ export function ItemForm() {
             <FormItem>
               <FormLabel>Local de Armazenamento</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Digite o local de armazenamento"
-                  {...field}
-                />
                 <Input
                   placeholder="Digite o local de armazenamento"
                   {...field}
@@ -167,7 +159,8 @@ export function ItemForm() {
                   type="number"
                   placeholder="Digite a quantidade"
                   {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  onChange={(e) => field.onChange(Number(e.target.value) || 0)}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
@@ -206,10 +199,12 @@ export function ItemForm() {
             </FormItem>
           )}
         />
-        <CancelFormButton />
-        <Button type="submit">
-          {isLoading ? 'Processando...' : id ? 'Atualizar' : 'Criar'}
-        </Button>
+        <div className="flex justify-between">
+          <CancelFormButton />
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? 'Processando...' : id ? 'Atualizar' : 'Criar'}
+          </Button>
+        </div>
       </form>
     </Form>
   )

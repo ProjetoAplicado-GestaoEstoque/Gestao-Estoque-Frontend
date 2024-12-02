@@ -18,19 +18,10 @@ import {
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
 import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
+import { Project } from '@/types/types'
 
 export function ProjectsList() {
-  const [projects, setProjects] = useState<
-    {
-      id: string
-      name: string
-      instituition: string
-      project_manager: { full_name: string }
-      tech_responsible: { full_name: string }
-      customer: { cnpj: string }
-      description: string
-    }[]
-  >([])
+  const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -86,7 +77,11 @@ export function ProjectsList() {
                     <TableCell>{project.tech_responsible.full_name}</TableCell>
                     <TableCell>{project.customer.cnpj}</TableCell>
                     <TableCell>
-                      <EditAndDeleButton id={project.id} path="/projetos/form" />
+                      <EditAndDeleButton
+                        id={project.id}
+                        deletPath={'/project'}
+                        editPath={'/projetos/form'}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

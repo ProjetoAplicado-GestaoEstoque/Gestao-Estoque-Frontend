@@ -15,12 +15,12 @@ export function ProjectSelector({
   value,
   onChange,
 }: {
-  value: string;
-  onChange: (value: string) => void;
+  value: string
+  onChange: (value: string) => void
 }) {
-  const [projects, setProjects] = useState<{ id: string; name: string; instituition: string }[]>(
-    [],
-  )
+  const [projects, setProjects] = useState<
+    { id: string; name: string; instituition: string }[]
+  >([])
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export function ProjectSelector({
 
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger >
+      <SelectTrigger>
         <SelectValue
           placeholder={loading ? 'Carregando...' : 'Selecione um Projeto'}
         />

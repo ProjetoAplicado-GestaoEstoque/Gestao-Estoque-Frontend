@@ -18,12 +18,6 @@ import { CancelFormButton } from '../CustomComponents/CancelFormButton'
 import { ItemSelector } from '../SelectComponents/ItemSelector'
 import { StockChangeSelector } from '../SelectComponents/StockChangeSelector'
 
-const userSchema = z.object({
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { CancelFormButton } from '../CustomComponents/CancelFormButton'
-import { ItemSelector } from '../SelectComponents/ItemSelector'
-import { StockChangeSelector } from '../SelectComponents/StockChangeSelector'
 import { useRouter, useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -31,12 +25,8 @@ const stockSchema = z.object({
   quantity: z.number().int().positive({
     message: 'Quantidade deve ser um número  positivo.',
   }),
-  item_id: z.object({
-    uuid: z.string().uuid({ message: 'Item inválido.' }),
-  }),
   item_id: z.string().uuid({ message: 'Item inválido.' }),
   type: z.string(),
-  description: z.string(),
 })
 
 export function StockForm() {
@@ -47,19 +37,12 @@ export function StockForm() {
   const form = useForm<z.infer<typeof stockSchema>>({
     resolver: zodResolver(stockSchema),
     defaultValues: {
-      item_id: {
-        uuid: '',
-      },
       item_id: '',
       quantity: 0,
       type: '',
-      description: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof userSchema>) {
-    console.log(values)
-    // Here you would typically send the form data to your server
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
@@ -71,7 +54,6 @@ export function StockForm() {
           form.setValue('item_id', itemData.item_id)
           form.setValue('quantity', itemData.quantity)
           form.setValue('type', itemData.type)
-          form.setValue('description', itemData.description)
         } catch (error) {
           console.error(error)
         } finally {
@@ -152,23 +134,6 @@ export function StockForm() {
                 <StockChangeSelector
                   value={field.value}
                   onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Descrição</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Digite a descrição"
-                  {...field}
-                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />

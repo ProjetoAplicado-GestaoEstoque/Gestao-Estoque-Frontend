@@ -34,6 +34,8 @@ function SignIn({ onClick }: SignInProps) {
       .post('/api/user/auth/signin', data)
       .then((res) => {
         if (res.status === 200) {
+          localStorage.setItem('token', res.data.token)
+          localStorage.setItem('user', JSON.stringify(res.data.user))
           onClick()
           router.push('/')
         }

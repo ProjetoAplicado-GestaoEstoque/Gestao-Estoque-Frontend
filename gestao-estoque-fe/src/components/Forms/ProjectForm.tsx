@@ -17,13 +17,11 @@ import { Input } from '@/components/ui/input'
 import { CustomerSelector } from '@/components/SelectComponents/CustomerSelector'
 import { UserSelector } from '../SelectComponents/UserSelector'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { CustomerSelector } from '@/components/SelectComponents/CustomerSelector'
-import { UserSelector } from '../SelectComponents/UserSelector'
-import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+
 import { useRouter, useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { axiosInstance } from '@/axios/api'
+import { User } from '@/types/types'
 
 const projectSchema = z.object({
   name: z.string().min(2, {
@@ -32,16 +30,6 @@ const projectSchema = z.object({
   instituition: z.string().min(2, {
     message: 'Instituição deve ter no mínimo 2 caracteres.',
   }),
-  project_manager_id: z.object({
-    uuid: z.string().uuid({ message: 'Gerente de Projeto Inválido' }),
-  }),
-  tech_responsible_id: z.object({
-    uuid: z.string().uuid({ message: 'Gerente de Projeto Inválido.' }),
-  }),
-  customer_id: z.object({
-    uuid: z.string().uuid({ message: 'Gerente de Projeto Inválido.' }),
-  }),
-})
   project_manager_id: z
     .string()
     .uuid({ message: 'Gerente de Projeto Inválido' }),
@@ -55,27 +43,16 @@ export function ProjectsForm() {
   const router = useRouter()
   const { id } = useParams()
   const [isLoading, setIsLoading] = useState(false)
+  const [userPm, setUserPm] = useState<User[]>([])
+  const [userRt, setUserRt] = useState<User[]>([])
+
+  const fetchedUserPmRef = useRef(false)
+  const fetchedUserRtRef = useRef(false)
+  const fetchedCustomerRef = useRef(false)
 
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
-      name: '',
-      instituition: '',
-      project_manager_id: {
-        uuid: '',
-      },
-      tech_responsible_id: {
-        uuid: '',
-      },
-      customer_id: {
-        uuid: '',
-      },
-    },
-  })
-
-  function onSubmit(values: z.infer<typeof projectSchema>) {
-    console.log(values)
-    // Here you would typically send the form data to your server
       name: '',
       instituition: '',
       project_manager_id: '',
@@ -85,13 +62,14 @@ export function ProjectsForm() {
   })
 
   useEffect(() => {
-    if (id) {
+    if (id && !fetchedCustomerRef.current) {
       const fetchData = async () => {
         setIsLoading(true)
         try {
-          const response = await fetch(`/api/project/${id}`)
-          if (!response.ok) throw new Error('Erro ao buscar cliente.')
-          const projectData = await response.json()
+          const projectResponse = await fetch(`/api/project/${id}`)
+          if (!projectResponse.ok) throw new Error('Erro ao buscar cliente.')
+          const projectData = await projectResponse.json()
+
           form.setValue('name', projectData.name)
           form.setValue('instituition', projectData.instituition)
           form.setValue('customer_id', projectData.customer_id)
@@ -104,21 +82,55 @@ export function ProjectsForm() {
         }
       }
       fetchData()
+      fetchedCustomerRef.current = true
     }
-  }, [id, form])
+  }, [form, id])
+
+  useEffect(() => {
+    if (!fetchedUserPmRef.current) {
+      const fetchUsersPM = async () => {
+        setIsLoading(true)
+        try {
+          const response = await axiosInstance.get('/api/user/role/pm')
+          setUserPm(response.data.users || [])
+        } catch (error) {
+          console.error('Erro ao buscar usuários PM:', error)
+        } finally {
+          setIsLoading(false)
+        }
+      }
+      fetchUsersPM()
+      fetchedUserPmRef.current = true
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!fetchedUserRtRef.current) {
+      const fetchUsersRT = async () => {
+        setIsLoading(true)
+        try {
+          const response = await axiosInstance.get('/api/user/role/rt')
+          setUserRt(response.data.users || [])
+        } catch (error) {
+          console.error('Erro ao buscar usuários RT:', error)
+        } finally {
+          setIsLoading(false)
+        }
+      }
+      fetchUsersRT()
+      fetchedUserRtRef.current = true
+    }
+  }, [])
 
   async function onSubmit(values: z.infer<typeof projectSchema>) {
     try {
-      const response = await fetch(
-        id ? `/api/projetos/${id}` : '/api/projetos',
-        {
-          method: id ? 'PUT' : 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(values),
+      const response = await fetch(id ? `/api/project/${id}` : '/api/project', {
+        method: id ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify(values),
+      })
 
       if (!response.ok) {
         throw new Error(
@@ -136,7 +148,7 @@ export function ProjectsForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-6">
         <FormField
           control={form.control}
           name="name"
@@ -144,11 +156,7 @@ export function ProjectsForm() {
             <FormItem>
               <FormLabel>Nome do Projeto</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Digite o Nome do Projeto"
-                  {...field}
-                  disabled={isLoading}
-                />
+                <Input placeholder="Digite o Nome do Projeto" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -175,6 +183,7 @@ export function ProjectsForm() {
               <FormLabel>Gerente do projeto</FormLabel>
               <FormControl>
                 <UserSelector
+                  users={userPm || []}
                   titulo="Gerente de Projeto"
                   value={field.value}
                   onChange={field.onChange}
@@ -192,6 +201,7 @@ export function ProjectsForm() {
               <FormLabel>Responsável pelo Projeto </FormLabel>
               <FormControl>
                 <UserSelector
+                  users={userRt || []}
                   titulo="Responsável Tecnico"
                   value={field.value}
                   onChange={field.onChange}

@@ -18,10 +18,12 @@ CREATE TABLE `User` (
     `id` VARCHAR(191) NOT NULL,
     `full_name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
     `enrollment` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `deletedAt` DATETIME(3) NULL,
     `updatedAt` DATETIME(3) NULL,
+    `role` ENUM('tech_responsible', 'project_manager') NOT NULL DEFAULT 'tech_responsible',
 
     UNIQUE INDEX `User_email_key`(`email`),
     UNIQUE INDEX `User_enrollment_key`(`enrollment`),
@@ -48,8 +50,6 @@ CREATE TABLE `Item` (
     `name` VARCHAR(255) NOT NULL,
     `storage` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
-    `project_id` VARCHAR(191) NOT NULL,
-    `supplier_id` VARCHAR(191) NOT NULL,
     `quantity` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `deletedAt` DATETIME(3) NULL,
@@ -78,14 +78,10 @@ CREATE TABLE `Supplier` (
 -- CreateTable
 CREATE TABLE `StockChanges` (
     `id` VARCHAR(191) NOT NULL,
-<<<<<<<< HEAD:gestao-estoque-fe/prisma/migrations/20241201182050_init/migration.sql
-    `description` VARCHAR(191) NULL,
-========
-    `description` VARCHAR(191) NOT NULL,
->>>>>>>> 7fcc061 (fix: conflicts):gestao-estoque-fe/prisma/migrations/20241201053455_init/migration.sql
+    `corporate_name` VARCHAR(191) NOT NULL,
     `quantity` INTEGER NOT NULL,
     `item_id` VARCHAR(191) NOT NULL,
-    `type` INTEGER NOT NULL,
+    `type` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `deletedAt` DATETIME(3) NULL,
     `updatedAt` DATETIME(3) NOT NULL,
@@ -101,12 +97,6 @@ ALTER TABLE `Projects` ADD CONSTRAINT `Projects_tech_responsible_id_fkey` FOREIG
 
 -- AddForeignKey
 ALTER TABLE `Projects` ADD CONSTRAINT `Projects_customer_id_fkey` FOREIGN KEY (`customer_id`) REFERENCES `Customer`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Item` ADD CONSTRAINT `Item_project_id_fkey` FOREIGN KEY (`project_id`) REFERENCES `Projects`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Item` ADD CONSTRAINT `Item_supplier_id_fkey` FOREIGN KEY (`supplier_id`) REFERENCES `Supplier`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `StockChanges` ADD CONSTRAINT `StockChanges_item_id_fkey` FOREIGN KEY (`item_id`) REFERENCES `Item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

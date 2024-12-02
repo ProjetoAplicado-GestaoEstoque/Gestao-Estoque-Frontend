@@ -5,7 +5,11 @@ const db = new PrismaClient()
 
 export async function GET() {
   try {
-    const users = await db.user.findMany()
+    const users = await db.user.findMany({
+      where: {
+        role: 'project_manager',
+      },
+    })
 
     return NextResponse.json({ users })
   } catch (error) {

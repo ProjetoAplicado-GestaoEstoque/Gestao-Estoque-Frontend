@@ -8,56 +8,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useEffect, useState } from 'react'
 
 export function UserSelector({
   titulo,
   value,
   onChange,
+  users,
 }: {
   titulo: string
   value: string
   onChange: (value: string) => void
+  users?: { id: string; full_name: string; role: string }[]
 }) {
-  const [users, setUsers] = useState<{ id: string; full_name: string }[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('/api/user/findAll')
-        if (response.ok) {
-          const data = await response.json()
-          setUsers(data.users)
-        } else {
-          console.error('Erro ao buscar usuários:', response.statusText)
-        }
-      } catch (error) {
-        console.error('Erro ao buscar usuários:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchUsers()
-  }, [])
-
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger>
-        <SelectValue
-          placeholder={loading ? 'Carregando...' : `Selecione um ${titulo}`}
-        />
+        <SelectValue placeholder={`Selecione um ${titulo}`} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>{titulo}</SelectLabel>
-          {users.map((user) => (
-            <SelectItem key={user.id} value={user.id}>
-              <b>Nome: </b>
-              {user.full_name}
-            </SelectItem>
-          ))}
+          {users && users.length > 0 ? (
+            users.map((user) => (
+              <SelectItem key={user.id} value={user.id}>
+                <b>Nome: </b>
+                {user.full_name}
+              </SelectItem>
+            ))
+          ) : (
+            <p className="p-2 text-[12px]">
+              {users
+                ? 'Nem um registro encontrado com esse titulo'
+                : 'Carregando...'}
+            </p>
+          )}
         </SelectGroup>
       </SelectContent>
     </Select>

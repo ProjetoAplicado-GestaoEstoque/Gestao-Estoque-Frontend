@@ -17,7 +17,6 @@ import {
 } from '@/components/ui/table'
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
-import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
 
 export function StockList() {
   const [stockChanges, setStockChanges] = useState<
@@ -26,27 +25,26 @@ export function StockList() {
       quantity: string
       type: string
       item: { name: string }
-      description: string
     }[]
   >([])
   const [loading, setLoading] = useState(true)
 
-useEffect(() => {
-  const fetchSupplier = async () => {
-    try {
-      const response = await fetch('/api/estoque')
-      if (response.ok) {
-        const data = await response.json()
-        setStockChanges(data.estoque)
-      } else {
-        console.error('Erro ao buscar clientes:', response.statusText)
+  useEffect(() => {
+    const fetchSupplier = async () => {
+      try {
+        const response = await fetch('/api/estoque')
+        if (response.ok) {
+          const data = await response.json()
+          setStockChanges(data.estoque)
+        } else {
+          console.error('Erro ao buscar clientes:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Erro ao buscar clientes:', error)
+      } finally {
+        setLoading(false)
       }
-    } catch (error) {
-      console.error('Erro ao buscar clientes:', error)
-    } finally {
-      setLoading(false)
     }
-  }
 
     fetchSupplier()
   }, [])
@@ -64,7 +62,6 @@ useEffect(() => {
               <TableHead>Produto</TableHead>
               <TableHead>Quantidade</TableHead>
               <TableHead>Tipo de Movimentação</TableHead>
-              <TableHead>Descrição</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -72,13 +69,14 @@ useEffect(() => {
             {loading
               ? 'Atribuindo dados'
               : stockChanges?.map((stockChange) => (
-              <TableRow key={stockChange.id}>
-                <TableCell>{stockChange.item.name}</TableCell>
-                <TableCell className="font-medium">{stockChange.quantity}</TableCell>
-                <TableCell>{stockChange.type}</TableCell>
-                <TableCell>{stockChange.description}</TableCell>
-              </TableRow>
-            ))}
+                  <TableRow key={stockChange.id}>
+                    <TableCell>{stockChange.item.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {stockChange.quantity}
+                    </TableCell>
+                    <TableCell>{stockChange.type}</TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>

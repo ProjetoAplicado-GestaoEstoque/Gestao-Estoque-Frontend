@@ -85,7 +85,11 @@ export function SupplierList() {
                     <TableCell>{supplier.email}</TableCell>
                     <TableCell>{supplier.address}</TableCell>
                     <TableCell>
-                      <EditAndDeleButton id={supplier.id} path="/fornecedor/form" />
+                      <EditAndDeleButton
+                        id={supplier.id}
+                        deletPath="/supplier/"
+                        editPath={'/fornecedor/form'}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
