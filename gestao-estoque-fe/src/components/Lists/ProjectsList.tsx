@@ -17,28 +17,22 @@ import {
 } from '@/components/ui/table'
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
+import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
+import { Project } from '@/types/types'
 
 export function ProjectsList() {
-  const [projects, setProjects] = useState<
-    {
-      id: string
-      name: string
-      instituition: string
-      project_manager: { full_name: string }
-      tech_responsible: { full_name: string }
-      customer: { cnpj: string }
-      description: string
-    }[]
-  >([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchProjects = async () => {
+      setLoading(true)
       try {
         const response = await fetch('/api/project')
         if (response.ok) {
           const data = await response.json()
           setProjects(data.projects)
+          setLoading(false)
         } else {
           console.error('Erro ao buscar projetos:', response.statusText)
         }
@@ -71,15 +65,26 @@ export function ProjectsList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {projects.map((project) => (
-              <TableRow key={project.id}>
-                <TableCell className="font-medium">{project.name}</TableCell>
-                <TableCell>{project.instituition}</TableCell>
-                <TableCell>{project.project_manager.full_name}</TableCell>
-                <TableCell>{project.tech_responsible.full_name}</TableCell>
-                <TableCell>{project.customer.cnpj}</TableCell>
-              </TableRow>
-            ))}
+            {loading
+              ? 'Carregando dados...'
+              : projects.map((project) => (
+                  <TableRow key={project.id}>
+                    <TableCell className="font-medium">
+                      {project.name}
+                    </TableCell>
+                    <TableCell>{project.instituition}</TableCell>
+                    <TableCell>{project.project_manager.full_name}</TableCell>
+                    <TableCell>{project.tech_responsible.full_name}</TableCell>
+                    <TableCell>{project.customer.cnpj}</TableCell>
+                    <TableCell>
+                      <EditAndDeleButton
+                        id={project.id}
+                        deletPath={'/project'}
+                        editPath={'/projetos/form'}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>

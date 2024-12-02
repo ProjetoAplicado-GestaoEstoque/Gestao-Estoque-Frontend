@@ -14,32 +14,79 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+import { ItemSelector } from '../SelectComponents/ItemSelector'
+import { StockChangeSelector } from '../SelectComponents/StockChangeSelector'
 
-const userSchema = z.object({
-  full_name: z.string().min(2, {
-    message: 'Full name must be at least 2 characters.',
+import { useRouter, useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+const stockSchema = z.object({
+  quantity: z.number().int().positive({
+    message: 'Quantidade deve ser um número  positivo.',
   }),
-  email: z.string().email({
-    message: 'Please enter a valid email address.',
-  }),
-  enrollment: z.string().min(1, {
-    message: 'Enrollment is required.',
-  }),
+  item_id: z.string().uuid({ message: 'Item inválido.' }),
+  type: z.string(),
 })
 
 export function StockForm() {
-  const form = useForm<z.infer<typeof userSchema>>({
-    resolver: zodResolver(userSchema),
+  const router = useRouter()
+  const { id } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const form = useForm<z.infer<typeof stockSchema>>({
+    resolver: zodResolver(stockSchema),
     defaultValues: {
-      full_name: '',
-      email: '',
-      enrollment: '',
+      item_id: '',
+      quantity: 0,
+      type: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof userSchema>) {
-    console.log(values)
-    // Here you would typically send the form data to your server
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        setIsLoading(true)
+        try {
+          const response = await fetch(`/api/estoque/${id}`)
+          if (!response.ok) throw new Error('Erro ao buscar Estoque.')
+          const itemData = await response.json()
+          form.setValue('item_id', itemData.item_id)
+          form.setValue('quantity', itemData.quantity)
+          form.setValue('type', itemData.type)
+        } catch (error) {
+          console.error(error)
+        } finally {
+          setIsLoading(false)
+        }
+      }
+      fetchData()
+    }
+  }, [id, form])
+
+  async function onSubmit(values: z.infer<typeof stockSchema>) {
+    setIsLoading(true)
+    try {
+      const response = await fetch(id ? `/api/items/${id}` : '/api/estoque', {
+        method: id ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+
+      if (!response.ok) {
+        throw new Error(
+          'Erro ao criar cliente. Verifique os dados e tente novamente.',
+        )
+      }
+      console.log('Dados enviados com sucesso!')
+      router.back()
+    } catch (error) {
+      console.error('Erro ao criar cliente:', error)
+    } finally {
+      console.log('Processo finalizado.')
+    }
   }
 
   return (
@@ -47,12 +94,12 @@ export function StockForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="full_name"
+          name="item_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>Produto</FormLabel>
               <FormControl>
-                <Input placeholder="Enter full name" {...field} />
+                <ItemSelector value={field.value} onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,12 +107,18 @@ export function StockForm() {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="quantity"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Quantidade</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Enter email" {...field} />
+                <Input
+                  type="number"
+                  placeholder="Digite a quantidade"
+                  {...field}
+                  onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,18 +126,22 @@ export function StockForm() {
         />
         <FormField
           control={form.control}
-          name="enrollment"
+          name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Enrollment</FormLabel>
+              <FormLabel>Tipo de Movimentação</FormLabel>
               <FormControl>
-                <Input placeholder="Enter enrollment" {...field} />
+                <StockChangeSelector
+                  value={field.value}
+                  onChange={field.onChange}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit User</Button>
+        <CancelFormButton />
+        <Button type="submit">Salvar</Button>
       </form>
     </Form>
   )

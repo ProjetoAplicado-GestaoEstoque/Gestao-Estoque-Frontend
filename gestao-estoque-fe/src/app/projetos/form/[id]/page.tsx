@@ -2,8 +2,8 @@ import { ProjectsForm } from '@/components/Forms/ProjectForm'
 
 export default function Page() {
   return (
-    <div>
-      <ProjectsForm></ProjectsForm>
+    <div className="p-6 m-6">
+      <ProjectsForm />
     </div>
   )
 }

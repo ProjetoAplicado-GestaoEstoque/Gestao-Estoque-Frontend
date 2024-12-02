@@ -93,5 +93,8 @@
   border: 1px solid;
   border-color: red;
   outline: 2px transparent;
+}
 
+.project-form {
+  padding: 20px;
 }

@@ -1,4 +1,3 @@
-import { useToken } from '@/hooks/use-token'
 import jwt from 'jsonwebtoken'
 import { ISignIn } from '../types/types'
 
@@ -10,7 +9,6 @@ export function createToken(user: ISignIn) {
       expiresIn: '2 days',
     },
   )
-  useToken.setState({ token })
 
   return token
 }

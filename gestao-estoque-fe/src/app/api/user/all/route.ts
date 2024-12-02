@@ -3,27 +3,27 @@ import { NextResponse } from 'next/server'
 
 const db = new PrismaClient()
 
-/* Get all customers */
 export async function GET() {
   try {
-    const customers = await db.customer.findMany({
+    const users = await db.user.findMany({
       include: {
-        projects: true,
+        projectManager: true,
+        techResponsible: true,
       },
     })
 
-    return NextResponse.json({ customers })
+    return NextResponse.json({ users })
   } catch (error) {
     if (error instanceof Error) {
-      console.error('Erro ao buscar clientes:', error)
+      console.error('Erro ao buscar usuários:', error)
       return NextResponse.json(
-        { message: 'Erro ao buscar clientes', error: error.message },
+        { message: 'Erro ao buscar usuários', error: error.message },
         { status: 500 },
       )
     } else {
-      console.error('Erro ao buscar clientes:', error)
+      console.error('Erro ao buscar usuários:', error)
       return NextResponse.json(
-        { message: 'Erro ao buscar clientes', error: 'Unknown error' },
+        { message: 'Erro ao buscar usuários', error: 'Unknown error' },
         { status: 500 },
       )
     }

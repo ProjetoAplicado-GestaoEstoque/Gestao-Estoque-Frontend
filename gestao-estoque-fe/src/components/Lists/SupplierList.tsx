@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/table'
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
+import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
 
 export function SupplierList() {
   const [suppliers, setSuppliers] = useState<
@@ -29,15 +30,17 @@ export function SupplierList() {
       address: string
     }[]
   >([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchSupplier = async () => {
       try {
         const response = await fetch('/api/supplier')
+        setLoading(true)
         if (response.ok) {
           const data = await response.json()
           setSuppliers(data.supplier)
+          setLoading(false)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
@@ -70,17 +73,26 @@ export function SupplierList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {suppliers.map((supplier) => (
-              <TableRow key={supplier.id}>
-                <TableCell className="font-medium">
-                  {supplier.corporate_name}
-                </TableCell>
-                <TableCell>{supplier.cnpj}</TableCell>
-                <TableCell>{supplier.phone}</TableCell>
-                <TableCell>{supplier.email}</TableCell>
-                <TableCell>{supplier.address}</TableCell>
-              </TableRow>
-            ))}
+            {loading
+              ? 'Carregando...'
+              : suppliers.map((supplier) => (
+                  <TableRow key={supplier.id}>
+                    <TableCell className="font-medium">
+                      {supplier.corporate_name}
+                    </TableCell>
+                    <TableCell>{supplier.cnpj}</TableCell>
+                    <TableCell>{supplier.phone}</TableCell>
+                    <TableCell>{supplier.email}</TableCell>
+                    <TableCell>{supplier.address}</TableCell>
+                    <TableCell>
+                      <EditAndDeleButton
+                        id={supplier.id}
+                        deletPath="/supplier/"
+                        editPath={'/fornecedor/form'}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>

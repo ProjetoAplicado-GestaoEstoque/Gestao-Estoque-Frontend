@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -17,47 +18,65 @@ import {
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
 
-const projects = [
-  {
-    id: 1,
-    name: 'Project Alpha',
-    institution: 'Acme Corp',
-    manager: 'John Doe',
-  },
-  { id: 2, name: 'Project Beta', institution: 'TechCo', manager: 'Jane Smith' },
-  {
-    id: 3,
-    name: 'Project Gamma',
-    institution: 'Innovate Inc',
-    manager: 'Bob Johnson',
-  },
-]
-
 export function StockList() {
+  const [stockChanges, setStockChanges] = useState<
+    {
+      id: string
+      quantity: string
+      type: string
+      item: { name: string }
+    }[]
+  >([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchSupplier = async () => {
+      try {
+        const response = await fetch('/api/estoque')
+        if (response.ok) {
+          const data = await response.json()
+          setStockChanges(data.estoque)
+        } else {
+          console.error('Erro ao buscar clientes:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Erro ao buscar clientes:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSupplier()
+  }, [])
   return (
     <Card>
       <CardHeader>
         <CardTitle>Estoque</CardTitle>
-        <CardDescription>Lista de Estoque</CardDescription>
+        <CardDescription>Lista de Movimentações de Estoque</CardDescription>
         <NewEntityButton path={'/estoque/form'} type={RedirectType.push} />
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Institution</TableHead>
-              <TableHead>Manager</TableHead>
+              <TableHead>Produto</TableHead>
+              <TableHead>Quantidade</TableHead>
+              <TableHead>Tipo de Movimentação</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {projects.map((project) => (
-              <TableRow key={project.id}>
-                <TableCell className="font-medium">{project.name}</TableCell>
-                <TableCell>{project.institution}</TableCell>
-                <TableCell>{project.manager}</TableCell>
-              </TableRow>
-            ))}
+            {}
+            {loading
+              ? 'Atribuindo dados'
+              : stockChanges?.map((stockChange) => (
+                  <TableRow key={stockChange.id}>
+                    <TableCell>{stockChange.item.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {stockChange.quantity}
+                    </TableCell>
+                    <TableCell>{stockChange.type}</TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>

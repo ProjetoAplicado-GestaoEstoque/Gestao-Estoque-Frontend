@@ -64,18 +64,19 @@ const items = [
 
 function SidebarComponent() {
   const [username, setUsername] = useState<string>()
+  const userData = localStorage.getItem('user')
 
   useEffect(() => {
     function fetchData() {
       axiosInstance
-        .get('/api/user/901ca5f2-06c4-4c4f-a703-0843574444f6')
+        .get(`/api/user/${JSON.parse(userData || '{}').id}`)
         .then((res) => {
           setUsername(res.data?.message)
         })
         .catch((err) => console.log(err))
     }
     fetchData()
-  }, [])
+  }, [userData])
 
   return (
     <Sidebar>
@@ -116,7 +117,12 @@ function SidebarComponent() {
                 <DropdownMenuItem>
                   <span>Perfil</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    localStorage.removeItem('user')
+                    window.location.assign('/auth')
+                  }}
+                >
                   <span>Logout</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

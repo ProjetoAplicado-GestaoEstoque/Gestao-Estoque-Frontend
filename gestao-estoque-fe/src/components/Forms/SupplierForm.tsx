@@ -14,26 +14,33 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+import { useRouter, useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const supplierSchema = z.object({
   corporate_name: z.string().min(2, {
-    message: 'Corporate name must be at least 2 characters.',
+    message: 'O nome corportaivo deve ter no mínimo 2 caracteres.',
   }),
   cnpj: z.string().length(14, {
-    message: 'CNPJ must be exactly 14 characters.',
+    message: 'CNPJ deve conter no mínimo 14 caracteres.',
   }),
   phone: z.string().min(10, {
-    message: 'Phone number must be at least 10 characters.',
+    message: 'O telefone deve ter no mínimo 10 caracteres.',
   }),
   email: z.string().email({
-    message: 'Please enter a valid email address.',
+    message: 'Por favor, insira um endereço de e-mail válido.',
   }),
   address: z.string().min(5, {
-    message: 'Address must be at least 5 characters.',
+    message: 'O Endereço deve ter no mínimo 5 caracteres.',
   }),
 })
 
 export function SupplierForm() {
+  const router = useRouter()
+  const { id } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<z.infer<typeof supplierSchema>>({
     resolver: zodResolver(supplierSchema),
     defaultValues: {
@@ -45,9 +52,55 @@ export function SupplierForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof supplierSchema>) {
-    console.log(values)
-    // Here you would typically send the form data to your server
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        setIsLoading(true)
+        try {
+          const response = await fetch(`/api/supplier/${id}`)
+          if (!response.ok) throw new Error('Erro ao buscar Fornecedor.')
+          const itemData = await response.json()
+          form.setValue('corporate_name', itemData.corporate_name)
+          form.setValue('cnpj', itemData.cnpj)
+          form.setValue('phone', itemData.phone)
+          form.setValue('email', itemData.email)
+          form.setValue('address', itemData.address)
+        } catch (error) {
+          console.error(error)
+        } finally {
+          setIsLoading(false)
+        }
+      }
+      fetchData()
+    }
+  }, [id, form])
+
+  async function onSubmit(values: z.infer<typeof supplierSchema>) {
+    setIsLoading(true)
+    try {
+      const response = await fetch(
+        id ? `/api/supplier/${id}` : '/api/supplier',
+        {
+          method: id ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        },
+      )
+
+      if (!response.ok) {
+        throw new Error(
+          'Erro ao criar fornecedor. Verifique os dados e tente novamente.',
+        )
+      }
+      console.log('Dados enviados com sucesso!')
+      router.back()
+    } catch (error) {
+      console.error('Erro ao criar fornecedor:', error)
+    } finally {
+      console.log('Processo finalizado.')
+    }
   }
 
   return (
@@ -58,9 +111,9 @@ export function SupplierForm() {
           name="corporate_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Corporate Name</FormLabel>
+              <FormLabel>Nome corportaivo</FormLabel>
               <FormControl>
-                <Input placeholder="Enter corporate name" {...field} />
+                <Input placeholder="Digite o nome corporativo" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,7 +126,7 @@ export function SupplierForm() {
             <FormItem>
               <FormLabel>CNPJ</FormLabel>
               <FormControl>
-                <Input placeholder="Enter CNPJ" {...field} />
+                <Input placeholder="Digite o CNPJ" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -86,7 +139,7 @@ export function SupplierForm() {
             <FormItem>
               <FormLabel>Phone</FormLabel>
               <FormControl>
-                <Input placeholder="Enter phone number" {...field} />
+                <Input placeholder="Digite o telefone" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,7 +152,7 @@ export function SupplierForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Enter email" {...field} />
+                <Input type="email" placeholder="Digite o email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,14 +165,15 @@ export function SupplierForm() {
             <FormItem>
               <FormLabel>Address</FormLabel>
               <FormControl>
-                <Input placeholder="Enter address" {...field} />
+                <Input placeholder="Digite o Endereco" {...field} />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit Supplier</Button>
+        <CancelFormButton />
+        <Button type="submit">Salvar</Button>
       </form>
     </Form>
   )

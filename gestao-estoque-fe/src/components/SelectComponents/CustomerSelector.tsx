@@ -8,13 +8,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-export function ClientSelector() {
-  const [clients, setClients] = React.useState<{ id: string; cnpj: string }[]>(
-    [],
-  )
-  const [loading, setLoading] = React.useState<boolean>(true)
+export function CustomerSelector({
+  value,
+  onChange,
+}: {
+  value: string
+  onChange: (value: string) => void
+}) {
+  const [clients, setClients] = useState<{ id: string; cnpj: string }[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -37,8 +41,8 @@ export function ClientSelector() {
   }, [])
 
   return (
-    <Select>
-      <SelectTrigger className="w-[180px]">
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger>
         <SelectValue
           placeholder={loading ? 'Carregando...' : 'Selecione um cliente'}
         />
@@ -48,7 +52,7 @@ export function ClientSelector() {
           <SelectLabel>Clientes</SelectLabel>
           {clients.map((client) => (
             <SelectItem key={client.id} value={client.id}>
-              {client.cnpj}
+              <b>CNPJ:</b> {client.cnpj} <b>Email:</b> {client.cnpj}
             </SelectItem>
           ))}
         </SelectGroup>

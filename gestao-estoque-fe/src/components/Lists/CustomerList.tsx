@@ -17,20 +17,23 @@ import {
 } from '@/components/ui/table'
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
+import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
 
-export function ClientList() {
+export function CustomerList() {
   const [customers, setCustomers] = useState<
     { id: string; cnpj: string; email: string }[]
   >([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchcustomers = async () => {
+      setLoading(true)
       try {
         const response = await fetch('/api/customer')
         if (response.ok) {
           const data = await response.json()
           setCustomers(data.customers)
+          setLoading(false)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
@@ -60,12 +63,23 @@ export function ClientList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customers?.map((customer) => (
-              <TableRow key={customer.id}>
-                <TableCell className="font-medium">{customer.cnpj}</TableCell>
-                <TableCell>{customer?.email}</TableCell>
-              </TableRow>
-            ))}
+            {loading ? (
+              <TableCell>Carregando Dados...</TableCell>
+            ) : (
+              customers?.map((customer) => (
+                <TableRow key={customer.id}>
+                  <TableCell className="font-medium">{customer.cnpj}</TableCell>
+                  <TableCell>{customer?.email}</TableCell>
+                  <TableCell>
+                    <EditAndDeleButton
+                      id={customer.id}
+                      deletPath={'/clientes/form'}
+                      editPath={'/clientes/form'}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </CardContent>

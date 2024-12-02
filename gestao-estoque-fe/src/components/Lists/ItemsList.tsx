@@ -15,28 +15,23 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
+import { NewEntityButton } from '../CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
+import { Item } from '@/types/types'
 
 export function ItemsList() {
-  const [items, setItems] = useState<
-    {
-      id: string
-      name: string
-      storage: string
-      quantity: string
-      description: string
-    }[]
-  >([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [items, setItems] = useState<Item[]>([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchItems = async () => {
+      setLoading(true)
       try {
         const response = await fetch('/api/items')
         if (response.ok) {
           const data = await response.json()
           setItems(data.items)
+          setLoading(false)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
@@ -65,17 +60,33 @@ export function ItemsList() {
               <TableHead>Local Armazenado</TableHead>
               <TableHead>Quantidade</TableHead>
               <TableHead>Descrição</TableHead>
+              <TableHead>Projeto</TableHead>
+              <TableHead>Fornecedor</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell>{item.storage}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>{item.description}</TableCell>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center">
+                  Carregando...
+                </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              items.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.name}</TableCell>
+                  <TableCell>{item.storage}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{item.description}</TableCell>
+                  <TableCell>
+                    {item.Projects?.map((project) => project.name)}
+                  </TableCell>
+                  <TableCell>
+                    {item.Supplier.map((supplier) => supplier.corporate_name)}
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </CardContent>

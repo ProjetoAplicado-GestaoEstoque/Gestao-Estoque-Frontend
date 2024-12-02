@@ -20,9 +20,10 @@ model Projects {
   deletedAt           DateTime? 
   updatedAt           DateTime? @updatedAt
 
+  project_manager  User     @relation("ProjectManager", fields: [project_manager_id], references: [enrollment]) 
+  tech_responsible User     @relation("TechResponsible", fields: [tech_responsible_id], references: [enrollment]) 
   customer         Customer @relation(fields: [customer_id], references: [id])
-
-  User User[]
+  Item             Item[]
 }
 
 
@@ -37,7 +38,8 @@ model User {
   updatedAt  DateTime? @updatedAt
 
   role       role @default(tech_responsible)
-  projects   Projects[]
+  projectManager Projects[] @relation("ProjectManager")
+  techResponsible Projects[] @relation("TechResponsible")
 }
 
 enum role {
@@ -67,7 +69,9 @@ model Item {
   deletedAt         DateTime? 
   updatedAt         DateTime @updatedAt
 
-  StockChanges StockChanges[]
+  Projects          Projects[]
+  StockChanges      StockChanges[]
+  Supplier          Supplier[]
 }
 
 model Supplier {
@@ -80,16 +84,19 @@ model Supplier {
   createdAt         DateTime @default(now())
   deletedAt         DateTime?
   updatedAt         DateTime @updatedAt
+
+  Item Item[]
 }
 
 model StockChanges {
   id  String @id @default(uuid())
   corporate_name String
   quantity          Int
-  item              Item @relation(fields: [item_id], references: [id])
   item_id           String
   type              String
   createdAt         DateTime @default(now())
   deletedAt         DateTime?
   updatedAt         DateTime @updatedAt
+
+  item              Item @relation(fields: [item_id], references: [id])
 }
