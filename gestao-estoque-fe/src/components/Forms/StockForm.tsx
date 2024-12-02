@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,33 +12,38 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { CancelFormButton } from "../CustomComponents/CancelFormButton";
+import { ItemSelector } from "../SelectComponents/ItemSelector";
+import { StockChangeSelector } from "../SelectComponents/StockChangeSelector";
 
 const userSchema = z.object({
-  full_name: z.string().min(2, {
-    message: 'Full name must be at least 2 characters.',
+  quantity: z.number().int().positive({
+    message: 'Quantidade deve ser um número  positivo.',
   }),
-  email: z.string().email({
-    message: 'Please enter a valid email address.',
+  item_id: z.object({
+    uuid: z.string().uuid({ message: "Item inválido." }),
   }),
-  enrollment: z.string().min(1, {
-    message: 'Enrollment is required.',
-  }),
-})
+  type: z.string(),
+  description: z.string(),
+});
 
 export function StockForm() {
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      full_name: '',
-      email: '',
-      enrollment: '',
+      item_id: {
+        uuid: "",
+      },
+      quantity: 0,
+      type: "",
+      description: "",
     },
-  })
+  });
 
   function onSubmit(values: z.infer<typeof userSchema>) {
-    console.log(values)
+    console.log(values);
     // Here you would typically send the form data to your server
   }
 
@@ -47,12 +52,12 @@ export function StockForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="full_name"
+          name="item_id.uuid"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>Produto</FormLabel>
               <FormControl>
-                <Input placeholder="Enter full name" {...field} />
+                <ItemSelector value={field.value} onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,12 +65,16 @@ export function StockForm() {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="quantity"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Quantidade</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Enter email" {...field} />
+                <Input
+                  type="number"
+                  placeholder="Digite a quantidade"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,19 +82,36 @@ export function StockForm() {
         />
         <FormField
           control={form.control}
-          name="enrollment"
+          name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Enrollment</FormLabel>
+              <FormLabel>Tipo de Movimentação</FormLabel>
               <FormControl>
-                <Input placeholder="Enter enrollment" {...field} />
+                <StockChangeSelector
+                  value={field.value}
+                  onChange={field.onChange}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit User</Button>
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Descrição</FormLabel>
+              <FormControl>
+                <Input placeholder="Digite a descrição" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <CancelFormButton />
+        <Button type="submit">Salvar</Button>
       </form>
     </Form>
-  )
+  );
 }

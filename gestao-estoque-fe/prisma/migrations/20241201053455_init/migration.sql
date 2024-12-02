@@ -76,10 +76,10 @@ CREATE TABLE `Supplier` (
 -- CreateTable
 CREATE TABLE `StockChanges` (
     `id` VARCHAR(191) NOT NULL,
-    `corporate_name` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NOT NULL,
     `quantity` INTEGER NOT NULL,
     `item_id` VARCHAR(191) NOT NULL,
-    `type` VARCHAR(191) NOT NULL,
+    `type` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `deletedAt` DATETIME(3) NULL,
     `updatedAt` DATETIME(3) NOT NULL,

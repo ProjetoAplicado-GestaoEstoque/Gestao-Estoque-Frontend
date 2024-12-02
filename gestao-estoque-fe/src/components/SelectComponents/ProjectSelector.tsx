@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react'
 import {
   Select,
@@ -8,21 +9,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-export function ClientSelector() {
-  const [clients, setClients] = React.useState<{ id: string; cnpj: string }[]>(
+export function ProjectSelector() {
+  const [projects, setProjects] = useState<{ id: string; name: string; instituition: string }[]>(
     [],
   )
-  const [loading, setLoading] = React.useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    const fetchClients = async () => {
+    const fetchProjects = async () => {
       try {
-        const response = await fetch('/api/customer')
+        const response = await fetch('/api/project')
         if (response.ok) {
           const data = await response.json()
-          setClients(data.customers)
+          setProjects(data.projects)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
@@ -33,22 +34,22 @@ export function ClientSelector() {
       }
     }
 
-    fetchClients()
+    fetchProjects()
   }, [])
 
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger >
         <SelectValue
-          placeholder={loading ? 'Carregando...' : 'Selecione um cliente'}
+          placeholder={loading ? 'Carregando...' : 'Selecione um Cliente'}
         />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Clientes</SelectLabel>
-          {clients.map((client) => (
-            <SelectItem key={client.id} value={client.id}>
-              {client.cnpj}
+          {projects.map((project) => (
+            <SelectItem key={project.id} value={project.id}>
+              <b>Nome: </b>{project.name} <b>- Instituição: </b>{project.instituition}
             </SelectItem>
           ))}
         </SelectGroup>

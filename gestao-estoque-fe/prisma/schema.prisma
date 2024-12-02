@@ -84,7 +84,7 @@ model Supplier {
 
 model StockChanges {
   id  String @id @default(uuid())
-  corporate_name String
+  description       String?
   quantity          Int
   item              Item @relation(fields: [item_id], references: [id])
   item_id           String

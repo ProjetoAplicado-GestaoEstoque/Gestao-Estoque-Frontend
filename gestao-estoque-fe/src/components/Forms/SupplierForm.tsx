@@ -14,22 +14,23 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
 
 const supplierSchema = z.object({
   corporate_name: z.string().min(2, {
-    message: 'Corporate name must be at least 2 characters.',
+    message: 'O nome corportaivo deve ter no mínimo 2 caracteres.',
   }),
   cnpj: z.string().length(14, {
-    message: 'CNPJ must be exactly 14 characters.',
+    message: 'CNPJ deve conter no mínimo 14 caracteres.',
   }),
   phone: z.string().min(10, {
-    message: 'Phone number must be at least 10 characters.',
+    message: 'O telefone deve ter no mínimo 10 caracteres.',
   }),
   email: z.string().email({
-    message: 'Please enter a valid email address.',
+    message: 'Por favor, insira um endereço de e-mail válido.',
   }),
   address: z.string().min(5, {
-    message: 'Address must be at least 5 characters.',
+    message: 'O Endereço deve ter no mínimo 5 caracteres.',
   }),
 })
 
@@ -58,9 +59,9 @@ export function SupplierForm() {
           name="corporate_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Corporate Name</FormLabel>
+              <FormLabel>Nome corportaivo</FormLabel>
               <FormControl>
-                <Input placeholder="Enter corporate name" {...field} />
+                <Input placeholder="Digite o nome corporativo" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,7 +74,7 @@ export function SupplierForm() {
             <FormItem>
               <FormLabel>CNPJ</FormLabel>
               <FormControl>
-                <Input placeholder="Enter CNPJ" {...field} />
+                <Input placeholder="Digite o CNPJ" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -86,7 +87,7 @@ export function SupplierForm() {
             <FormItem>
               <FormLabel>Phone</FormLabel>
               <FormControl>
-                <Input placeholder="Enter phone number" {...field} />
+                <Input placeholder="Digite o telefone" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,7 +100,7 @@ export function SupplierForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Enter email" {...field} />
+                <Input type="email" placeholder="Digite o email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,14 +113,15 @@ export function SupplierForm() {
             <FormItem>
               <FormLabel>Address</FormLabel>
               <FormControl>
-                <Input placeholder="Enter address" {...field} />
+                <Input placeholder="Digite o Endereco" {...field} />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit Supplier</Button>
+        <CancelFormButton />
+        <Button type="submit">Salvar</Button>
       </form>
     </Form>
   )
