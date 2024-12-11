@@ -12,7 +12,6 @@ import {
   SidebarMenuItem,
 } from '../ui/sidebar'
 import {
-  Home,
   Inbox,
   User,
   TicketPlus,
@@ -30,11 +29,11 @@ import {
 import { axiosInstance } from '@/axios/api'
 
 const items = [
-  {
-    title: 'Dashboard',
-    url: '/',
-    icon: Home,
-  },
+  // {
+  //   title: 'Dashboard',
+  //   url: '/',
+  //   icon: Home,
+  // },
   {
     title: 'Projetos',
     url: '/projetos',
