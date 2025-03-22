@@ -14,40 +14,35 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
-import { ItemSelector } from '../SelectComponents/ItemSelector'
-import { StockChangeSelector } from '../SelectComponents/StockChangeSelector'
-import { useRouter } from 'next/navigation'
 
-const stockSchema = z.object({
+const itemSchema = z.object({
+  name: z.string().min(2, {
+    message: 'O nome do produto deve ter no mínimo 2 caracteres.',
+  }),
+  storage: z.string().min(1, {
+    message: 'Local de armazenamento é obrigatório.',
+  }),
+  description: z.string().optional(),
   quantity: z.number().int().positive({
     message: 'Quantidade deve ser um número  positivo.',
   }),
-  item_id: z.object({
-    uuid: z.string().uuid({ message: 'Item inválido.' }),
-  }),
-  type: z.string(),
-  description: z.string(),
 })
 
-export function StockForm() {
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof stockSchema>>({
-    resolver: zodResolver(stockSchema),
+export function ItemForm() {
+  const form = useForm<z.infer<typeof itemSchema>>({
+    resolver: zodResolver(itemSchema),
     defaultValues: {
-      item_id: {
-        uuid: '',
-      },
-      quantity: 0,
-      type: '',
+      name: '',
+      storage: '',
       description: '',
+      quantity: 0,
     },
   })
 
-  function onSubmit(values: z.infer<typeof userSchema>) {
+  function onSubmit(values: z.infer<typeof itemSchema>) {
     console.log(values)
-    // Here you would typically send the form data to your server
   }
 
   return (
@@ -55,12 +50,44 @@ export function StockForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="item_id"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Produto</FormLabel>
+              <FormLabel>Nome do Produto</FormLabel>
               <FormControl>
-                <ItemSelector value={field.value} onChange={field.onChange} />
+                <Input placeholder="Digite o nome do Produto" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="storage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Local de Armazenamento</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Digite o local de armazenamento"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Descrição</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Digite uma descrição (opcional)"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,35 +106,6 @@ export function StockForm() {
                   {...field}
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tipo de Movimentação</FormLabel>
-              <FormControl>
-                <StockChangeSelector
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Descrição</FormLabel>
-              <FormControl>
-                <Input placeholder="Digite a descrição" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

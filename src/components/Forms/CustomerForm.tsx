@@ -36,28 +36,8 @@ export function CustomerForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof customerSchema>) {
-    try {
-      const response = await fetch("/api/customer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          "Erro ao criar cliente. Verifique os dados e tente novamente."
-        );
-      }
-      console.log("Dados enviados com sucesso!");
-      router.back();
-    } catch (error) {
-      console.error("Erro ao criar cliente:", error);
-    } finally {
-      console.log("Processo finalizado.");
-    }
+  function onSubmit(values: z.infer<typeof customerSchema>) {
+    console.log(values)
   }
 
   return (

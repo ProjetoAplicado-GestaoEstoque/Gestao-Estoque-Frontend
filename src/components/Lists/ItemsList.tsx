@@ -30,15 +30,17 @@ export function ItemsList() {
       project: { name: string }
     }[]
   >([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchItems = async () => {
+      setLoading(true)
       try {
         const response = await fetch('/api/items')
         if (response.ok) {
           const data = await response.json()
           setItems(data.items)
+          setLoading(false)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
@@ -60,6 +62,7 @@ export function ItemsList() {
         <NewEntityButton path={'/produtos/form'} type={RedirectType.push} />
       </CardHeader>
       <CardContent>
+<<<<<<< HEAD:src/components/Lists/ItemsList.tsx
         <Table>
           <TableHeader>
             <TableRow>
@@ -80,10 +83,32 @@ export function ItemsList() {
                 <TableCell>{item.description}</TableCell>
                 <TableCell>{item.project?.name}</TableCell>
                 <TableCell>{item.supplier.corporate_name}</TableCell>
+=======
+        {loading ? (
+          <div className="text-center">Loading...</div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Nome</TableHead>
+                <TableHead>Local Armazenado</TableHead>
+                <TableHead>Quantidade</TableHead>
+                <TableHead>Descrição</TableHead>
+>>>>>>> 15d71db4 (fix: lint and loading erros):gestao-estoque-fe/src/components/Lists/ItemsList.tsx
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {items.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.name}</TableCell>
+                  <TableCell>{item.storage}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{item.description}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   )

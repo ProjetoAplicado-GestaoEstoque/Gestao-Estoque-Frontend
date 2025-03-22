@@ -20,16 +20,17 @@ import { RedirectType } from 'next/navigation'
 
 export function StockList() {
   const [stockChanges, setStockChanges] = useState<
-  {
-    id: string
-    quantity: string
-    type: string
-    item: { name: string }
-    description: string
-  }[]
->([])
-const [loading, setLoading] = useState<boolean>(true)
+    {
+      id: string
+      quantity: string
+      type: string
+      item: { name: string }
+      description: string
+    }[]
+  >([])
+  const [loading, setLoading] = useState(true)
 
+<<<<<<< HEAD:src/components/Lists/StockList.tsx
 useEffect(() => {
   const fetchSupplier = async () => {
     try {
@@ -39,16 +40,29 @@ useEffect(() => {
         setStockChanges(data.estoque)
       } else {
         console.error('Erro ao buscar clientes:', response.statusText)
+=======
+  useEffect(() => {
+    const fetchSupplier = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch('/api/supplier')
+        if (response.ok) {
+          const data = await response.json()
+          setStockChanges(data.supplier)
+          setLoading(false)
+        } else {
+          console.error('Erro ao buscar clientes:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Erro ao buscar clientes:', error)
+      } finally {
+        setLoading(false)
+>>>>>>> 15d71db4 (fix: lint and loading erros):gestao-estoque-fe/src/components/Lists/StockList.tsx
       }
-    } catch (error) {
-      console.error('Erro ao buscar clientes:', error)
-    } finally {
-      setLoading(false)
     }
-  }
 
-  fetchSupplier()
-}, [])
+    fetchSupplier()
+  }, [])
   return (
     <Card>
       <CardHeader>
@@ -67,6 +81,7 @@ useEffect(() => {
             </TableRow>
           </TableHeader>
           <TableBody>
+<<<<<<< HEAD:src/components/Lists/StockList.tsx
             {stockChanges?.map((stockChange) => (
               <TableRow key={stockChange.id}>
                 <TableCell>{stockChange.item.name}</TableCell>
@@ -75,6 +90,20 @@ useEffect(() => {
                 <TableCell>{stockChange.description}</TableCell>
               </TableRow>
             ))}
+=======
+            {loading
+              ? 'Atribuindo dados'
+              : stockChanges.map((stockChange) => (
+                  <TableRow key={stockChange.id}>
+                    <TableCell>{stockChange.item.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {stockChange.quantity}
+                    </TableCell>
+                    <TableCell>{stockChange.type}</TableCell>
+                    <TableCell>{stockChange.description}</TableCell>
+                  </TableRow>
+                ))}
+>>>>>>> 15d71db4 (fix: lint and loading erros):gestao-estoque-fe/src/components/Lists/StockList.tsx
           </TableBody>
         </Table>
       </CardContent>

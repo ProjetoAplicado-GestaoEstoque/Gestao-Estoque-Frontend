@@ -2,9 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 
-export function CancelFormButton({
-}: {
-}) {
+export function CancelFormButton() {
   const router = useRouter()
 
   return (
@@ -13,7 +11,8 @@ export function CancelFormButton({
         router.back()
       }}
       className="bg-gray-500 text-white mr-4"
-    >Cancelar
+    >
+      Cancelar
     </Button>
   )
 }

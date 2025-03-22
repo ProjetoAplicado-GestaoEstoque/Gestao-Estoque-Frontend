@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 import {
   Select,
   SelectContent,
@@ -7,19 +7,19 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select'
 
 export function StockChangeSelector({
   value,
   onChange,
 }: {
-  value: string;
-  onChange: (value: string) => void;
+  value: string
+  onChange: (value: string) => void
 }) {
   const changeType = [
-    { id: 1, name: "Entrada" },
-    { id: 2, name: "Saída" },
-  ];
+    { id: 1, name: 'Entrada' },
+    { id: 2, name: 'Saída' },
+  ]
 
   return (
     <Select
@@ -27,7 +27,9 @@ export function StockChangeSelector({
       onValueChange={(value) => onChange(String(value))}
     >
       <SelectTrigger>
-        <SelectValue placeholder={`Selecione um Tipo de Movimentação / Alteração`} />
+        <SelectValue
+          placeholder={`Selecione um Tipo de Movimentação / Alteração`}
+        />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
@@ -40,5 +42,5 @@ export function StockChangeSelector({
         </SelectGroup>
       </SelectContent>
     </Select>
-  );
+  )
 }
