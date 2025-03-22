@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/table'
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
+import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
 
 export function StockList() {
   const [stockChanges, setStockChanges] = useState<
@@ -101,6 +102,9 @@ useEffect(() => {
                     </TableCell>
                     <TableCell>{stockChange.type}</TableCell>
                     <TableCell>{stockChange.description}</TableCell>
+                    <TableCell>
+                      <EditAndDeleButton id={stockChange.id} path="/estoque/form" />
+                    </TableCell>
                   </TableRow>
                 ))}
 >>>>>>> 15d71db4 (fix: lint and loading erros):gestao-estoque-fe/src/components/Lists/StockList.tsx

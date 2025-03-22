@@ -12,11 +12,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { CustomerSelector } from '@/components/SelectComponents/CustomerSelector'
-import { UserSelector } from '../SelectComponents/UserSelector'
-import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { CustomerSelector } from "@/components/SelectComponents/CustomerSelector";
+import { UserSelector } from "../SelectComponents/UserSelector";
+import { CancelFormButton } from "../CustomComponents/CancelFormButton";
+import { useRouter, useParams  } from 'next/navigation'
+import { useEffect, useState } from "react";
 
 const projectSchema = z.object({
   name: z.string().min(2, {
@@ -38,6 +40,8 @@ const projectSchema = z.object({
 
 export function ProjectsForm() {
   const router = useRouter();
+  const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
@@ -56,9 +60,53 @@ export function ProjectsForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof projectSchema>) {
-    console.log(values)
-    // Here you would typically send the form data to your server
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch(`/api/project/${id}`);
+          if (!response.ok) throw new Error("Erro ao buscar cliente.");
+          const projectData = await response.json();
+          form.setValue("name", projectData.name);
+          form.setValue("instituition", projectData.instituition);
+          form.setValue("customer_id", projectData.customer_id);
+          form.setValue("tech_responsible_id", projectData.tech_responsible.id);
+          form.setValue("project_manager_id", projectData.project_manager.id);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [id, form]);
+
+  async function onSubmit(values: z.infer<typeof projectSchema>) {
+    try {
+      const response = await fetch(
+        id ? `/api/projetos/${id}` : "/api/projetos",
+        {
+        method: id ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          "Erro ao criar produto. Verifique os dados e tente novamente."
+        );
+      }
+      console.log("Dados enviados com sucesso!");
+      router.back();
+    } catch (error) {
+      console.error("Erro ao criar produto:", error);
+    } finally {
+      console.log("Processo finalizado.");
+    }
   }
 
   return (
@@ -71,7 +119,7 @@ export function ProjectsForm() {
             <FormItem>
               <FormLabel>Nome do Projeto</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o Nome do Projeto" {...field} />
+                  <Input placeholder="Digite o Nome do Projeto" {...field} disabled={isLoading} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -12,10 +12,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+<<<<<<< HEAD
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+=======
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { CancelFormButton } from "../CustomComponents/CancelFormButton";
+import { useRouter, useParams } from "next/navigation";
+import { SupplierSelector } from "../SelectComponents/SupplierSelector";
+import { ProjectSelector } from "../SelectComponents/ProjectSelector";
+import { useEffect, useState } from "react";
+>>>>>>> 90f3dd9d (Adicionando Editar nos formulários e os botões de editar e deletar nas listas.)
 
 const itemSchema = z.object({
   name: z.string().min(2, {
@@ -31,6 +42,13 @@ const itemSchema = z.object({
 })
 
 export function ItemForm() {
+<<<<<<< HEAD
+=======
+  const router = useRouter();
+  const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+
+>>>>>>> 90f3dd9d (Adicionando Editar nos formulários e os botões de editar e deletar nas listas.)
   const form = useForm<z.infer<typeof itemSchema>>({
     resolver: zodResolver(itemSchema),
     defaultValues: {
@@ -41,8 +59,61 @@ export function ItemForm() {
     },
   })
 
+<<<<<<< HEAD
   function onSubmit(values: z.infer<typeof itemSchema>) {
     console.log(values)
+=======
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch(`/api/items/${id}`);
+          if (!response.ok) throw new Error("Erro ao buscar cliente.");
+          const itemData = await response.json();
+          form.setValue("name", itemData.name);
+          form.setValue("storage", itemData.storage);
+          form.setValue("description", itemData.description);
+          form.setValue("quantity", itemData.quantity);
+          form.setValue("supplier_id", itemData.supplier_id);
+          form.setValue("project_id", itemData.project_id);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [id, form]);
+
+  async function onSubmit(values: z.infer<typeof itemSchema>) {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        id ? `/api/items/${id}` : "/api/items",
+        {
+          method: id ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Erro ao criar produto. Verifique os dados e tente novamente."
+        );
+      }
+      console.log("Dados enviados com sucesso!");
+      router.back();
+    } catch (error) {
+      console.error("Erro ao criar produto:", error);
+    } finally {
+      console.log("Processo finalizado.");
+    }
+>>>>>>> 90f3dd9d (Adicionando Editar nos formulários e os botões de editar e deletar nas listas.)
   }
 
   return (
@@ -71,6 +142,7 @@ export function ItemForm() {
                 <Input
                   placeholder="Digite o local de armazenamento"
                   {...field}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
@@ -87,6 +159,7 @@ export function ItemForm() {
                 <Textarea
                   placeholder="Digite uma descrição (opcional)"
                   {...field}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
@@ -112,7 +185,9 @@ export function ItemForm() {
           )}
         />
         <CancelFormButton />
-        <Button type="submit">Salvar</Button>
+        <Button type="submit">
+          {isLoading ? "Processando..." : id ? "Atualizar" : "Criar"}
+        </Button>
       </form>
     </Form>
   )
