@@ -41,10 +41,14 @@
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
+<<<<<<< HEAD:package.json
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/jest": "^29.5.14",
+=======
+    "@types/bcryptjs": "^2.4.6",
+>>>>>>> 38475d78 (Merge main com LitsAndForms):gestao-estoque-fe/package.json
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20",
     "@types/react": "^18",

@@ -19,19 +19,11 @@ model Projects {
   createdAt           DateTime @default(now()) 
   deletedAt           DateTime? 
   updatedAt           DateTime? @updatedAt
-<<<<<<< HEAD:prisma/schema.prisma
 
   customer         Customer @relation(fields: [customer_id], references: [id])
-<<<<<<< HEAD:prisma/schema.prisma
 
   User User[]
-=======
-=======
-  customer         Customer @relation(fields: [customer_id], references: [id])
-  User User[]
->>>>>>> 38475d78 (Merge main com LitsAndForms):gestao-estoque-fe/prisma/schema.prisma
   items            Item[]
->>>>>>> 3ed7c86b (Ajustando formulários para criar as entidades corretamente, ajustando migrations.):gestao-estoque-fe/prisma/schema.prisma
 }
 
 
@@ -39,11 +31,7 @@ model User {
   id         String @id @default(uuid())
   full_name  String 
   email      String @unique
-<<<<<<< HEAD:prisma/schema.prisma
-  password   String 
-=======
   password   String
->>>>>>> 38475d78 (Merge main com LitsAndForms):gestao-estoque-fe/prisma/schema.prisma
   enrollment String @unique @default(uuid())
   createdAt  DateTime @default(now()) 
   deletedAt  DateTime? 
