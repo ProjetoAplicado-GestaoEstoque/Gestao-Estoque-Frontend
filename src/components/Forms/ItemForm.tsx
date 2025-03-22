@@ -14,12 +14,13 @@ import {
   FormMessage,
 
 } from '@/components/ui/form'
-import { useRouter } from 'next/navigation'
-import { useParams } from 'next/navigation'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
-
+import { useRouter, useParams } from 'next/navigation'
+import { SupplierSelector } from '../SelectComponents/SupplierSelector'
+import { ProjectSelector } from '../SelectComponents/ProjectSelector'
+import { useEffect, useState } from 'react'
 
 const itemSchema = z.object({
   name: z.string().min(2, {
@@ -37,9 +38,9 @@ const itemSchema = z.object({
 })
 
 export function ItemForm() {
-  const router = useRouter();
-  const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
+  const { id } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof itemSchema>>({
     resolver: zodResolver(itemSchema),
@@ -164,6 +165,38 @@ export function ItemForm() {
                   placeholder="Digite a quantidade"
                   {...field}
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="supplier_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Fornecedor</FormLabel>
+              <FormControl>
+                <SupplierSelector
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="project_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Projeto</FormLabel>
+              <FormControl>
+                <ProjectSelector
+                  value={field.value}
+                  onChange={field.onChange}
                 />
               </FormControl>
               <FormMessage />
