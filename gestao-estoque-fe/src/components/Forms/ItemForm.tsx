@@ -13,10 +13,14 @@ import {
   FormLabel,
   FormMessage,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 10e33686 (Fix esling)
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+<<<<<<< HEAD
 =======
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -27,6 +31,12 @@ import { SupplierSelector } from "../SelectComponents/SupplierSelector";
 import { ProjectSelector } from "../SelectComponents/ProjectSelector";
 import { useEffect, useState } from "react";
 >>>>>>> 90f3dd9d (Adicionando Editar nos formulários e os botões de editar e deletar nas listas.)
+=======
+import { useRouter, useParams } from 'next/navigation'
+import { SupplierSelector } from '../SelectComponents/SupplierSelector'
+import { ProjectSelector } from '../SelectComponents/ProjectSelector'
+import { useEffect, useState } from 'react'
+>>>>>>> 10e33686 (Fix esling)
 
 const itemSchema = z.object({
   name: z.string().min(2, {
@@ -36,6 +46,11 @@ const itemSchema = z.object({
     message: 'Local de armazenamento é obrigatório.',
   }),
   description: z.string().optional(),
+<<<<<<< HEAD
+=======
+  supplier_id: z.string().uuid({ message: 'Fornecedor Inválido.' }),
+  project_id: z.string().uuid({ message: 'Porjeto Inválido.' }),
+>>>>>>> 10e33686 (Fix esling)
   quantity: z.number().int().positive({
     message: 'Quantidade deve ser um número  positivo.',
   }),
@@ -43,10 +58,16 @@ const itemSchema = z.object({
 
 export function ItemForm() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   const router = useRouter();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+=======
+  const router = useRouter()
+  const { id } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
+>>>>>>> 10e33686 (Fix esling)
 
 >>>>>>> 90f3dd9d (Adicionando Editar nos formulários e os botões de editar e deletar nas listas.)
   const form = useForm<z.infer<typeof itemSchema>>({
@@ -56,6 +77,11 @@ export function ItemForm() {
       storage: '',
       description: '',
       quantity: 0,
+<<<<<<< HEAD
+=======
+      supplier_id: '',
+      project_id: '',
+>>>>>>> 10e33686 (Fix esling)
     },
   })
 
@@ -66,52 +92,49 @@ export function ItemForm() {
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
-        setIsLoading(true);
+        setIsLoading(true)
         try {
-          const response = await fetch(`/api/items/${id}`);
-          if (!response.ok) throw new Error("Erro ao buscar cliente.");
-          const itemData = await response.json();
-          form.setValue("name", itemData.name);
-          form.setValue("storage", itemData.storage);
-          form.setValue("description", itemData.description);
-          form.setValue("quantity", itemData.quantity);
-          form.setValue("supplier_id", itemData.supplier_id);
-          form.setValue("project_id", itemData.project_id);
+          const response = await fetch(`/api/items/${id}`)
+          if (!response.ok) throw new Error('Erro ao buscar cliente.')
+          const itemData = await response.json()
+          form.setValue('name', itemData.name)
+          form.setValue('storage', itemData.storage)
+          form.setValue('description', itemData.description)
+          form.setValue('quantity', itemData.quantity)
+          form.setValue('supplier_id', itemData.supplier_id)
+          form.setValue('project_id', itemData.project_id)
         } catch (error) {
-          console.error(error);
+          console.error(error)
         } finally {
-          setIsLoading(false);
+          setIsLoading(false)
         }
-      };
-      fetchData();
+      }
+      fetchData()
     }
-  }, [id, form]);
+  }, [id, form])
 
   async function onSubmit(values: z.infer<typeof itemSchema>) {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const response = await fetch(
-        id ? `/api/items/${id}` : "/api/items",
-        {
-          method: id ? "PUT" : "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        }
-      );
+      const response = await fetch(id ? `/api/items/${id}` : '/api/items', {
+        method: id ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
 
       if (!response.ok) {
         throw new Error(
-          "Erro ao criar produto. Verifique os dados e tente novamente."
-        );
+          'Erro ao criar produto. Verifique os dados e tente novamente.',
+        )
       }
-      console.log("Dados enviados com sucesso!");
-      router.back();
+      console.log('Dados enviados com sucesso!')
+      router.back()
     } catch (error) {
-      console.error("Erro ao criar produto:", error);
+      console.error('Erro ao criar produto:', error)
     } finally {
-      console.log("Processo finalizado.");
+      console.log('Processo finalizado.')
     }
 >>>>>>> 90f3dd9d (Adicionando Editar nos formulários e os botões de editar e deletar nas listas.)
   }
@@ -186,7 +209,7 @@ export function ItemForm() {
         />
         <CancelFormButton />
         <Button type="submit">
-          {isLoading ? "Processando..." : id ? "Atualizar" : "Criar"}
+          {isLoading ? 'Processando...' : id ? 'Atualizar' : 'Criar'}
         </Button>
       </form>
     </Form>

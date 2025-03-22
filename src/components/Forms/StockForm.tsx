@@ -12,36 +12,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { CancelFormButton } from "../CustomComponents/CancelFormButton";
-import { ItemSelector } from "../SelectComponents/ItemSelector";
-import { StockChangeSelector } from "../SelectComponents/StockChangeSelector";
-import { useRouter, useParams  } from "next/navigation";
-import { useEffect, useState } from "react";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { CancelFormButton } from '../CustomComponents/CancelFormButton'
+import { ItemSelector } from '../SelectComponents/ItemSelector'
+import { StockChangeSelector } from '../SelectComponents/StockChangeSelector'
+import { useRouter, useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const stockSchema = z.object({
   quantity: z.number().int().positive({
     message: 'Quantidade deve ser um número  positivo.',
   }),
-  item_id: z.object({
-    uuid: z.string().uuid({ message: 'Item inválido.' }),
-  }),
+  item_id: z.string().uuid({ message: 'Item inválido.' }),
   type: z.string(),
   description: z.string(),
 })
 
 export function StockForm() {
-  const router = useRouter();
-  const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
+  const { id } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof stockSchema>>({
     resolver: zodResolver(stockSchema),
     defaultValues: {
-      item_id: {
-        uuid: '',
-      },
+      item_id: '',
       quantity: 0,
       type: '',
       description: '',
@@ -51,50 +47,47 @@ export function StockForm() {
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
-        setIsLoading(true);
+        setIsLoading(true)
         try {
-          const response = await fetch(`/api/estoque/${id}`);
-          if (!response.ok) throw new Error("Erro ao buscar Estoque.");
-          const itemData = await response.json();
-          form.setValue("item_id", itemData.item_id);
-          form.setValue("quantity", itemData.quantity);
-          form.setValue("type", itemData.type);
-          form.setValue("description", itemData.description);
+          const response = await fetch(`/api/estoque/${id}`)
+          if (!response.ok) throw new Error('Erro ao buscar Estoque.')
+          const itemData = await response.json()
+          form.setValue('item_id', itemData.item_id)
+          form.setValue('quantity', itemData.quantity)
+          form.setValue('type', itemData.type)
+          form.setValue('description', itemData.description)
         } catch (error) {
-          console.error(error);
+          console.error(error)
         } finally {
-          setIsLoading(false);
+          setIsLoading(false)
         }
-      };
-      fetchData();
+      }
+      fetchData()
     }
-  }, [id, form]);
-
+  }, [id, form])
 
   async function onSubmit(values: z.infer<typeof stockSchema>) {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const response = await fetch(
-        id ? `/api/items/${id}` : "/api/estoque",
-        {
-        method: id ? "PUT" : "POST",
+      const response = await fetch(id ? `/api/items/${id}` : '/api/estoque', {
+        method: id ? 'PUT' : 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
-      });
+      })
 
       if (!response.ok) {
         throw new Error(
-          "Erro ao criar cliente. Verifique os dados e tente novamente."
-        );
+          'Erro ao criar cliente. Verifique os dados e tente novamente.',
+        )
       }
-      console.log("Dados enviados com sucesso!");
-      router.back();
+      console.log('Dados enviados com sucesso!')
+      router.back()
     } catch (error) {
-      console.error("Erro ao criar cliente:", error);
+      console.error('Erro ao criar cliente:', error)
     } finally {
-      console.log("Processo finalizado.");
+      console.log('Processo finalizado.')
     }
   }
 
@@ -156,7 +149,11 @@ export function StockForm() {
             <FormItem>
               <FormLabel>Descrição</FormLabel>
               <FormControl>
-                  <Input placeholder="Digite a descrição" {...field} disabled={isLoading} />
+                <Input
+                  placeholder="Digite a descrição"
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
