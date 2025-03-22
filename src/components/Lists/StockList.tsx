@@ -35,10 +35,10 @@ export function StockList() {
     const fetchSupplier = async () => {
       setLoading(true)
       try {
-        const response = await fetch('/api/supplier')
+        const response = await fetch('/api/estoque')
         if (response.ok) {
           const data = await response.json()
-          setStockChanges(data.supplier)
+          setStockChanges(data.estoque)
           setLoading(false)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
@@ -70,19 +70,11 @@ export function StockList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {stockChanges?.map((stockChange) => (
-              <TableRow key={stockChange.id}>
-                <TableCell>{stockChange.item.name}</TableCell>
-                <TableCell className="font-medium">{stockChange.quantity}</TableCell>
-                <TableCell>{stockChange.type}</TableCell>
-                <TableCell>{stockChange.description}</TableCell>
-              </TableRow>
-            ))}
             {loading
               ? 'Atribuindo dados'
-              : stockChanges.map((stockChange) => (
+              : stockChanges?.map((stockChange) => (
                 <TableRow key={stockChange.id}>
-                  <TableCell>{stockChange.item.name}</TableCell>
+                  <TableCell>{stockChange.item?.name}</TableCell>
                   <TableCell className="font-medium">
                     {stockChange.quantity}
                   </TableCell>
@@ -96,9 +88,9 @@ export function StockList() {
                   </TableCell>
                 </TableRow>
               ))}
-          </TableBody >
-        </Table >
-      </CardContent >
-    </Card >
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   )
 }

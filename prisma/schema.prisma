@@ -7,50 +7,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
-model Projects { 
-  id                  String @id @default(uuid())
-  project_manager_id  String 
+model Projects {
+  id                  String    @id @default(uuid())
+  project_manager_id  String
   tech_responsible_id String
   customer_id         String
   name                String
   instituition        String
-  createdAt           DateTime @default(now()) 
-  deletedAt           DateTime? 
+  createdAt           DateTime  @default(now())
+  deletedAt           DateTime?
   updatedAt           DateTime? @updatedAt
-<<<<<<< HEAD:prisma/schema.prisma
-
-  customer         Customer @relation(fields: [customer_id], references: [id])
-<<<<<<< HEAD:prisma/schema.prisma
-
-  User User[]
-=======
-=======
-  customer         Customer @relation(fields: [customer_id], references: [id])
-  User User[]
->>>>>>> 38475d78 (Merge main com LitsAndForms):gestao-estoque-fe/prisma/schema.prisma
-  items            Item[]
->>>>>>> 3ed7c86b (Ajustando formulários para criar as entidades corretamente, ajustando migrations.):gestao-estoque-fe/prisma/schema.prisma
+  customer            Customer  @relation(fields: [customer_id], references: [id])
+  User                User[]
+  items               Item[]
 }
 
-
-model User { 
-  id         String @id @default(uuid())
-  full_name  String 
-  email      String @unique
-<<<<<<< HEAD:prisma/schema.prisma
-  password   String 
-=======
+model User {
+  id         String    @id @default(uuid())
+  full_name  String
+  email      String    @unique
   password   String
->>>>>>> 38475d78 (Merge main com LitsAndForms):gestao-estoque-fe/prisma/schema.prisma
-  enrollment String @unique @default(uuid())
-  createdAt  DateTime @default(now()) 
-  deletedAt  DateTime? 
+  enrollment String    @unique @default(uuid())
+  createdAt  DateTime  @default(now())
+  deletedAt  DateTime?
   updatedAt  DateTime? @updatedAt
 
-  role       role @default(tech_responsible)
-  projects   Projects[]
+  role     role       @default(tech_responsible)
+  projects Projects[]
 }
 
 enum role {
@@ -58,56 +41,54 @@ enum role {
   project_manager
 }
 
-
 model Customer {
-  id         String @id @default(uuid())
-  cnpj       String @unique @db.VarChar(20)
-  email      String @unique
-  createdAt  DateTime @default(now()) 
-  deletedAt  DateTime? 
-  updatedAt  DateTime @updatedAt
-  projects   Projects[]
+  id        String     @id @default(uuid())
+  cnpj      String     @unique @db.VarChar(20)
+  email     String     @unique
+  createdAt DateTime   @default(now())
+  deletedAt DateTime?
+  updatedAt DateTime   @updatedAt
+  projects  Projects[]
 }
 
-
 model Item {
-  id                String @id @default(uuid())
-  name              String @db.VarChar(255)
-  storage           String
-  description       String?
-  project_id        String
-  supplier_id       String
-  quantity          Int
-  createdAt         DateTime @default(now()) 
-  deletedAt         DateTime? 
-  updatedAt         DateTime @updatedAt
-  project           Projects @relation(fields: [project_id], references: [id])
-  supplier          Supplier @relation(fields: [supplier_id], references: [id])
+  id          String    @id @default(uuid())
+  name        String    @db.VarChar(255)
+  storage     String
+  description String?
+  project_id  String
+  supplier_id String
+  quantity    Int
+  createdAt   DateTime  @default(now())
+  deletedAt   DateTime?
+  updatedAt   DateTime  @updatedAt
+  project     Projects  @relation(fields: [project_id], references: [id])
+  supplier    Supplier  @relation(fields: [supplier_id], references: [id])
 
   StockChanges StockChanges[]
 }
 
 model Supplier {
-  id  String @id @default(uuid())
+  id             String    @id @default(uuid())
   corporate_name String
-  cnpj  String @db.VarChar(20) @unique
-  phone String @db.VarChar(14)
-  email String @unique
-  address String
-  createdAt         DateTime @default(now())
-  deletedAt         DateTime?
-  updatedAt         DateTime @updatedAt
-  items             Item[]
+  cnpj           String    @unique @db.VarChar(20)
+  phone          String    @db.VarChar(14)
+  email          String    @unique
+  address        String
+  createdAt      DateTime  @default(now())
+  deletedAt      DateTime?
+  updatedAt      DateTime  @updatedAt
+  items          Item[]
 }
 
 model StockChanges {
-  id  String @id @default(uuid())
-  description       String?
-  quantity          Int
-  item              Item @relation(fields: [item_id], references: [id])
-  item_id           String
-  type              String
-  createdAt         DateTime @default(now())
-  deletedAt         DateTime?
-  updatedAt         DateTime @updatedAt
+  id          String    @id @default(uuid())
+  description String?
+  quantity    Int
+  item        Item      @relation(fields: [item_id], references: [id])
+  item_id     String
+  type        String
+  createdAt   DateTime  @default(now())
+  deletedAt   DateTime?
+  updatedAt   DateTime  @updatedAt
 }

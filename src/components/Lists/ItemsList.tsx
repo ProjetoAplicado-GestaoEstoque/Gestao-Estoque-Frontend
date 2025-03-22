@@ -73,45 +73,21 @@ export function ItemsList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-        {loading ? (
-          <div className="text-center">Loading...</div>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Local Armazenado</TableHead>
-                <TableHead>Quantidade</TableHead>
-                <TableHead>Descrição</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {items.map((item) => (
+            {loading
+              ? 'Atribuindo dados'
+              : items.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell>{item.storage}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
                   <TableCell>{item.description}</TableCell>
+                  <TableCell>{item.supplier.corporate_name}</TableCell>
+                  <TableCell>{item.project.name}</TableCell>
+                  <TableCell>
+                    <EditAndDeleButton id={item.id} path="/produtos/form" />
+                  </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
-        )}
-            {loading
-              ? 'Atribuindo dados'
-              : items.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-medium">{item.name}</TableCell>
-                    <TableCell>{item.storage}</TableCell>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{item.description}</TableCell>
-                    <TableCell>{item.supplier.corporate_name}</TableCell>
-                    <TableCell>{item.project.name}</TableCell>
-                    <TableCell>
-                      <EditAndDeleButton id={item.id} path="/produtos/form" />
-                    </TableCell>
-                  </TableRow>
-                ))}
           </TableBody>
         </Table>
       </CardContent>

@@ -77,22 +77,22 @@ export function ProjectsList() {
             {loading
               ? 'Carregando dados...'
               : projects.map((project) => (
-                  <TableRow key={project.id}>
-                    <TableCell className="font-medium">
-                      {project.name}
-                    </TableCell>
-                    <TableCell>{project.instituition}</TableCell>
-                    <TableCell>{project.project_manager.full_name}</TableCell>
-                    <TableCell>{project.tech_responsible.full_name}</TableCell>
-                    <TableCell>{project.customer.cnpj}</TableCell>
-                    <TableCell>
-                      <EditAndDeleButton
-                        id={project.id}
-                        path="/projetos/form"
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
+                <TableRow key={project.id}>
+                  <TableCell className="font-medium">
+                    {project.name}
+                  </TableCell>
+                  <TableCell>{project.instituition}</TableCell>
+                  <TableCell>{project.project_manager.full_name}</TableCell>
+                  <TableCell>{project.tech_responsible.full_name}</TableCell>
+                  <TableCell>{project.customer.cnpj}</TableCell>
+                  <TableCell>
+                    <EditAndDeleButton
+                      id={project.id}
+                      path="/projetos/form"
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </CardContent>
