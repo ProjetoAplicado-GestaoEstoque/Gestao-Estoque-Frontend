@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/table'
 import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
 import { RedirectType } from 'next/navigation'
+import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
 
 export function ItemsList() {
   const [items, setItems] = useState<
@@ -26,21 +27,19 @@ export function ItemsList() {
       storage: string
       quantity: string
       description: string
-      supplier: { corporate_name: string }
-      project: { name: string }
+      supplier: { corporate_name: '' }
+      project: { name: '' }
     }[]
   >([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchItems = async () => {
-      setLoading(true)
       try {
         const response = await fetch('/api/items')
         if (response.ok) {
           const data = await response.json()
           setItems(data.items)
-          setLoading(false)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
@@ -62,7 +61,6 @@ export function ItemsList() {
         <NewEntityButton path={'/produtos/form'} type={RedirectType.push} />
       </CardHeader>
       <CardContent>
-<<<<<<< HEAD:src/components/Lists/ItemsList.tsx
         <Table>
           <TableHeader>
             <TableRow>
@@ -75,15 +73,6 @@ export function ItemsList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell>{item.storage}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.project?.name}</TableCell>
-                <TableCell>{item.supplier.corporate_name}</TableCell>
-=======
         {loading ? (
           <div className="text-center">Loading...</div>
         ) : (
@@ -94,7 +83,6 @@ export function ItemsList() {
                 <TableHead>Local Armazenado</TableHead>
                 <TableHead>Quantidade</TableHead>
                 <TableHead>Descrição</TableHead>
->>>>>>> 15d71db4 (fix: lint and loading erros):gestao-estoque-fe/src/components/Lists/ItemsList.tsx
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -109,6 +97,23 @@ export function ItemsList() {
             </TableBody>
           </Table>
         )}
+            {loading
+              ? 'Atribuindo dados'
+              : items.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell className="font-medium">{item.name}</TableCell>
+                    <TableCell>{item.storage}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.supplier.corporate_name}</TableCell>
+                    <TableCell>{item.project.name}</TableCell>
+                    <TableCell>
+                      <EditAndDeleButton id={item.id} path="/produtos/form" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
   )
