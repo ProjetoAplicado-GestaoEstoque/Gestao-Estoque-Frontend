@@ -1,16 +1,14 @@
-import { useToken } from '@/hooks/use-token'
 import jwt from 'jsonwebtoken'
-import { ISignIn } from '../types/types'
+import { UserToken } from '../types/types'
 
-export function createToken(user: ISignIn) {
+export function createToken(user: UserToken) {
   const token = jwt.sign(
-    { email: user.email },
+    { userID: user.id, email: user.email },
     process.env.NEXT_PUBLIC_SECRET_KEY as string,
     {
       expiresIn: '2 days',
     },
   )
-  useToken.setState({ token })
 
   return token
 }

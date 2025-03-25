@@ -76,18 +76,18 @@ export function ItemsList() {
             {loading
               ? 'Atribuindo dados'
               : items.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.storage}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{item.description}</TableCell>
-                  <TableCell>{item.supplier.corporate_name}</TableCell>
-                  <TableCell>{item.project.name}</TableCell>
-                  <TableCell>
-                    <EditAndDeleButton id={item.id} path="/produtos/form" />
-                  </TableCell>
-                </TableRow>
-              ))}
+                  <TableRow key={item.id}>
+                    <TableCell className="font-medium">{item.name}</TableCell>
+                    <TableCell>{item.storage}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.supplier.corporate_name}</TableCell>
+                    <TableCell>{item.project.name}</TableCell>
+                    <TableCell>
+                      <EditAndDeleButton id={item.id} path="/produtos/form" />
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>

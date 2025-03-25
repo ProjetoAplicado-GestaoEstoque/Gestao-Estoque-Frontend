@@ -37,23 +37,20 @@ export async function POST(request: NextRequest) {
     if (!cnpj || !email) {
       return NextResponse.json(
         { message: 'CNPJ e email são obrigatórios' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
     const existingCustomer = await db.customer.findFirst({
       where: {
-        OR: [
-          { cnpj },
-          { email }
-        ]
-      }
+        OR: [{ cnpj }, { email }],
+      },
     })
 
     if (existingCustomer) {
       return NextResponse.json(
         { message: 'Cliente já existe com este CNPJ ou email' },
-        { status: 409 }
+        { status: 409 },
       )
     }
 
@@ -64,19 +61,22 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    return NextResponse.json({ message: 'Cliente criado com sucesso', customer: newCustomer }, { status: 201 })
+    return NextResponse.json(
+      { message: 'Cliente criado com sucesso', customer: newCustomer },
+      { status: 201 },
+    )
   } catch (error) {
     if (error instanceof Error) {
       console.error('Erro ao criar cliente:', error)
       return NextResponse.json(
         { message: 'Erro ao criar cliente', error: error.message },
-        { status: 500 }
+        { status: 500 },
       )
     } else {
       console.error('Erro ao criar cliente:', error)
       return NextResponse.json(
         { message: 'Erro ao criar cliente', error: 'Unknown error' },
-        { status: 500 }
+        { status: 500 },
       )
     }
   }

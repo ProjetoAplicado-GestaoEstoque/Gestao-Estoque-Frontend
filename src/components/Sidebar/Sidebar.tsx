@@ -62,20 +62,24 @@ const items = [
   },
 ]
 
-function SidebarComponent() {
+type SidebarProps = {
+  userID: string
+}
+
+function SidebarComponent({ userID }: SidebarProps) {
   const [username, setUsername] = useState<string>()
 
   useEffect(() => {
     function fetchData() {
       axiosInstance
-        .get('/api/user/901ca5f2-06c4-4c4f-a703-0843574444f6')
+        .get(`/api/user/${userID}`)
         .then((res) => {
           setUsername(res.data?.message)
         })
         .catch((err) => console.log(err))
     }
     fetchData()
-  }, [])
+  }, [userID])
 
   return (
     <Sidebar>

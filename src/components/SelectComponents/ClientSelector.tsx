@@ -55,7 +55,9 @@ export function ProjectSelector({
           <SelectLabel>Projetos</SelectLabel>
           {projects.map((project) => (
             <SelectItem key={project.id} value={project.id}>
-              <b>Nome: </b>{project.name} <b>- Instituição: </b>{project.instituition}
+              <b>Nome: </b>
+              {project.name} <b>- Instituição: </b>
+              {project.instituition}
             </SelectItem>
           ))}
         </SelectGroup>

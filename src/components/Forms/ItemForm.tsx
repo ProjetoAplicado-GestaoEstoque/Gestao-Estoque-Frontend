@@ -12,7 +12,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -190,14 +189,11 @@ export function ItemForm() {
         <FormField
           control={form.control}
           name="project_id"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Projeto</FormLabel>
               <FormControl>
-                <ProjectSelector
-                  value={field.value}
-                  onChange={field.onChange}
-                />
+                <ProjectSelector />
               </FormControl>
               <FormMessage />
             </FormItem>

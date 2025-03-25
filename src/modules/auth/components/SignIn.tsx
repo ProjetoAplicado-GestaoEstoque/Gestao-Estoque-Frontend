@@ -15,6 +15,8 @@ import { ISignIn } from '../types/types'
 import { axiosInstance } from '@/axios/api'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
+import { useToken } from '@/hooks/use-token'
+import { useUser } from '@/hooks/use-user'
 
 type SignInProps = {
   onClick: () => void
@@ -28,12 +30,16 @@ function SignIn({ onClick }: SignInProps) {
   } = useForm<ISignIn>()
   const router = useRouter()
   const { toast } = useToast()
+  const { setUser } = useUser()
+  const { setToken } = useToken()
 
   const handleLogin: SubmitHandler<ISignIn> = (data) => {
     axiosInstance
       .post('/api/user/auth/signin', data)
       .then((res) => {
         if (res.status === 200) {
+          setToken(res.data?.token)
+          setUser(res.data?.user)
           onClick()
           router.push('/')
         }

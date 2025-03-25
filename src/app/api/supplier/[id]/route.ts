@@ -1,11 +1,12 @@
-import { PrismaClient } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+/* eslint-disable camelcase */
+import { PrismaClient } from '@prisma/client'
+import { NextRequest, NextResponse } from 'next/server'
 
-const db = new PrismaClient();
+const db = new PrismaClient()
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const customer = await db.customer
     .delete({
@@ -13,22 +14,22 @@ export async function DELETE(
         id: params.id,
       },
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
 
   if (!params.id) {
-    return NextResponse.json({ message: "ID não encontrado" });
+    return NextResponse.json({ message: 'ID não encontrado' })
   }
 
   if (!customer) {
-    return NextResponse.json({ message: "Cliente não encontrado" });
+    return NextResponse.json({ message: 'Cliente não encontrado' })
   }
 
-  return NextResponse.json({ message: `${customer?.cnpj}` });
+  return NextResponse.json({ message: `${customer?.cnpj}` })
 }
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const supplier = await db.supplier
     .findUnique({
@@ -36,28 +37,28 @@ export async function GET(
         id: params.id,
       },
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
 
   if (!params.id) {
-    return NextResponse.json({ message: "ID não encontrado" });
+    return NextResponse.json({ message: 'ID não encontrado' })
   }
 
   if (!supplier) {
-    return NextResponse.json({ message: "Fornecedor não encontrado" });
+    return NextResponse.json({ message: 'Fornecedor não encontrado' })
   }
 
-  return NextResponse.json(supplier);
+  return NextResponse.json(supplier)
 }
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   if (!params.id) {
-    return NextResponse.json({ message: "ID não encontrado" }, { status: 400 });
+    return NextResponse.json({ message: 'ID não encontrado' }, { status: 400 })
   }
 
-  const { corporate_name, cnpj, phone, email, address } = await req.json();
+  const { corporate_name, cnpj, phone, email, address } = await req.json()
 
   try {
     const stock = await db.supplier.update({
@@ -69,19 +70,25 @@ export async function PUT(
         cnpj,
         email,
         phone,
-        address
+        address,
       },
-    });
+    })
 
     if (!stock) {
-      return NextResponse.json({ message: "Fornecedor não encontrado" }, { status: 404 });
+      return NextResponse.json(
+        { message: 'Fornecedor não encontrado' },
+        { status: 404 },
+      )
     }
 
     return NextResponse.json({
       message: `Fornecedor com ID: ${stock.id} atualizado com sucesso.`,
-    });
+    })
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ message: "Erro ao atualizar Fornecedor." }, { status: 500 });
+    console.error(err)
+    return NextResponse.json(
+      { message: 'Erro ao atualizar Fornecedor.' },
+      { status: 500 },
+    )
   }
 }

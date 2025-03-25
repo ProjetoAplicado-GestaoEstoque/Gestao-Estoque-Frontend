@@ -29,9 +29,21 @@ export async function POST(nextRequest: Request) {
       return NextResponse.json({ message: 'Senha inválida' }, { status: 401 })
     }
 
-    createToken(user)
+    const token = createToken({
+      id: user.id,
+      email: user.email,
+    })
 
-    return NextResponse.json({ message: 'Login realizado com sucesso!' })
+    return NextResponse.json({
+      message: 'Login realizado com sucesso!',
+      token,
+      user: {
+        userID: user.id,
+        email: user.email,
+        full_name: user.full_name,
+        role: user.role,
+      },
+    })
   } catch (error) {
     if (error instanceof Error) {
       console.error('Erro ao tentar criar usuário:', error)

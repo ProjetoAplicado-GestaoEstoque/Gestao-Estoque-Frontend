@@ -73,21 +73,21 @@ export function StockList() {
             {loading
               ? 'Atribuindo dados'
               : stockChanges?.map((stockChange) => (
-                <TableRow key={stockChange.id}>
-                  <TableCell>{stockChange.item?.name}</TableCell>
-                  <TableCell className="font-medium">
-                    {stockChange.quantity}
-                  </TableCell>
-                  <TableCell>{stockChange.type}</TableCell>
-                  <TableCell>{stockChange.description}</TableCell>
-                  <TableCell>
-                    <EditAndDeleButton
-                      id={stockChange.id}
-                      path="/estoque/form"
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
+                  <TableRow key={stockChange.id}>
+                    <TableCell>{stockChange.item?.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {stockChange.quantity}
+                    </TableCell>
+                    <TableCell>{stockChange.type}</TableCell>
+                    <TableCell>{stockChange.description}</TableCell>
+                    <TableCell>
+                      <EditAndDeleButton
+                        id={stockChange.id}
+                        path="/estoque/form"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </CardContent>
