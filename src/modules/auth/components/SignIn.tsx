@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
 import { useToken } from '@/hooks/use-token'
 import { useUser } from '@/hooks/use-user'
+import Cookies from 'js-cookie'
 
 type SignInProps = {
   onClick: () => void
@@ -40,6 +41,8 @@ function SignIn({ onClick }: SignInProps) {
         if (res.status === 200) {
           setToken(res.data?.token)
           setUser(res.data?.user)
+          Cookies.set('token', res.data?.token, { expires: 7, secure: true })
+
           onClick()
           router.push('/')
         }
