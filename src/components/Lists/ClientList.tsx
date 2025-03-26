@@ -64,9 +64,13 @@ export function CustomerList() {
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableCell>Carregando Dados...</TableCell>
-            ) : (
-              customers?.map((customer) => (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center">
+                  Carregando Dados...
+                </TableCell>
+              </TableRow>
+            ) : customers?.length > 0 ? (
+              customers.map((customer) => (
                 <TableRow key={customer.id}>
                   <TableCell className="font-medium">{customer.cnpj}</TableCell>
                   <TableCell>{customer?.email}</TableCell>
@@ -78,6 +82,12 @@ export function CustomerList() {
                   </TableCell>
                 </TableRow>
               ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center">
+                  Nenhum cliente encontrado.
+                </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>

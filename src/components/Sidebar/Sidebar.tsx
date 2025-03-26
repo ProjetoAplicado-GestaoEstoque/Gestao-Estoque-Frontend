@@ -64,9 +64,10 @@ const items = [
 
 type SidebarProps = {
   userID: string
+  logout: () => void
 }
 
-function SidebarComponent({ userID }: SidebarProps) {
+function SidebarComponent({ userID, logout }: SidebarProps) {
   const [username, setUsername] = useState<string>()
 
   useEffect(() => {
@@ -120,7 +121,7 @@ function SidebarComponent({ userID }: SidebarProps) {
                 <DropdownMenuItem>
                   <span>Perfil</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => logout()}>
                   <span>Logout</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
