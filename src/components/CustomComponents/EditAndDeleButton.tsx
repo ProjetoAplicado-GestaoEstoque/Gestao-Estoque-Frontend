@@ -6,7 +6,6 @@ export function EditAndDeleButton({ id, path }: { id: string; path: string }) {
   const router = useRouter()
 
   const handleDelete = () => {
-    console.log('deletar')
     try {
       fetch(`/api/customer/${id}`, {
         method: 'DELETE',

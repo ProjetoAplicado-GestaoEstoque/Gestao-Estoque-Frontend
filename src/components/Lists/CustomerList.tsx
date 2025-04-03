@@ -1,87 +1,43 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { NewEntityButton } from '@/components/CustomComponents/NewEntityButton'
-import { RedirectType } from 'next/navigation'
-import { EditAndDeleButton } from '../CustomComponents/EditAndDeleButton'
+import CustomerTable from '../Tables/Customer/customer-data-table'
+import { ICustomer } from '../Tables/types'
+import { columns } from '../Tables/Customer/columns'
 
 export function CustomerList() {
-  const [customers, setCustomers] = useState<
-    { id: string; cnpj: string; email: string }[]
-  >([])
-  const [loading, setLoading] = useState(false)
+  const [customers, setCustomers] = useState<ICustomer[]>([])
 
   useEffect(() => {
     const fetchcustomers = async () => {
-      setLoading(true)
       try {
         const response = await fetch('/api/customer')
         if (response.ok) {
           const data = await response.json()
           setCustomers(data.customers)
-          setLoading(false)
         } else {
           console.error('Erro ao buscar clientes:', response.statusText)
         }
       } catch (error) {
         console.error('Erro ao buscar clientes:', error)
-      } finally {
-        setLoading(false)
       }
     }
 
     fetchcustomers()
   }, [])
 
+  console.log(customers)
+
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Clientes</CardTitle>
-        <CardDescription>Lista dos clientes</CardDescription>
-        <NewEntityButton path={'/clientes/form'} type={RedirectType.push} />
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>CNPJ</TableHead>
-              <TableHead>Email</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {loading ? (
-              <TableCell>Carregando Dados...</TableCell>
-            ) : (
-              customers?.map((customer) => (
-                <TableRow key={customer.id}>
-                  <TableCell className="font-medium">{customer.cnpj}</TableCell>
-                  <TableCell>{customer?.email}</TableCell>
-                  <TableCell>
-                    <EditAndDeleButton
-                      id={customer.id}
-                      path={'/clientes/form'}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+      <div className="flex items-center justify-between space-y-2">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Clientes</h2>
+          <p className="text-muted-foreground">
+            Aqui esta a sua lista de clientes cadastrados!
+          </p>
+        </div>
+      </div>
+      <CustomerTable data={customers} columns={columns} />
+    </div>
   )
 }

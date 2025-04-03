@@ -13,6 +13,7 @@ export function NewEntityButton({
 
   return (
     <Button
+      variant={'outline'}
       onClick={() => {
         if (type === RedirectType.push) {
           router.push(path)
@@ -20,7 +21,7 @@ export function NewEntityButton({
           router.replace(path)
         }
       }}
-      className="bg-blue-500 text-white font-bold w-fit float-right"
+      className="border-dashed font-medium w-fit h-8 border-black"
     >
       + Novo
     </Button>
