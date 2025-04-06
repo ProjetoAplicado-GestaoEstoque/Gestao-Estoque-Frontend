@@ -1,6 +1,6 @@
 'use client'
 
-import { Row } from '@tanstack/react-table'
+import { Row, Table } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 
 import {
@@ -12,10 +12,12 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import DataTableDeleteAction from './data-table-delete-action'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
   path: string
+  table: Table<TData>
 }
 
 export function DataTableRowActions<TData>({
@@ -27,18 +29,6 @@ export function DataTableRowActions<TData>({
 
   const handleOnClickEdit = () => {
     if (id) return router.push(`${path}${id}`)
-  }
-
-  const handleOnClickDelete = () => {
-    try {
-      fetch(`/api/customer/${id}`, {
-        method: 'DELETE',
-      }).then((resp) => {
-        if (resp.status === 200) return router.refresh()
-      })
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   return (
@@ -55,9 +45,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem onClick={handleOnClickEdit}>Editar</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleOnClickDelete}>
-          Deletar
-        </DropdownMenuItem>
+        <DataTableDeleteAction url={'/api/customer/'} id={row.getValue('id')} />
       </DropdownMenuContent>
     </DropdownMenu>
   )

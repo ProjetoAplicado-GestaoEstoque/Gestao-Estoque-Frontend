@@ -1,31 +1,11 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import CustomerTable from '../Tables/Customer/customer-data-table'
-import { ICustomer } from '../Tables/types'
 import { columns } from '../Tables/Customer/columns'
+import { useCustomer } from '@/hooks/useCustomer'
 
 export function CustomerList() {
-  const [customers, setCustomers] = useState<ICustomer[]>([])
-
-  useEffect(() => {
-    const fetchcustomers = async () => {
-      try {
-        const response = await fetch('/api/customer')
-        if (response.ok) {
-          const data = await response.json()
-          setCustomers(data.customers)
-        } else {
-          console.error('Erro ao buscar clientes:', response.statusText)
-        }
-      } catch (error) {
-        console.error('Erro ao buscar clientes:', error)
-      }
-    }
-
-    fetchcustomers()
-  }, [])
-
-  console.log(customers)
+  const { data } = useCustomer()
 
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
@@ -37,7 +17,7 @@ export function CustomerList() {
           </p>
         </div>
       </div>
-      <CustomerTable data={customers} columns={columns} />
+      <CustomerTable data={data || []} columns={columns} />
     </div>
   )
 }

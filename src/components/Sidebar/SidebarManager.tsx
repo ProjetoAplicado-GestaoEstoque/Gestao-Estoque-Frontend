@@ -28,7 +28,7 @@ export default function SidebarManager({ children }: SideBarProp) {
 
   return (
     <SidebarProvider>
-      <SidebarComponent userID={user.userID} logout={logout} />
+      <SidebarComponent fullName={user.full_name} logout={logout} />
       <main className="w-full h-screen">
         <SidebarTrigger className="ml-4 mt-4" />
         {children}

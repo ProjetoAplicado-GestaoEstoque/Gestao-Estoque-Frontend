@@ -1,5 +1,4 @@
 'use client'
-import React, { useEffect, useState } from 'react'
 import {
   Sidebar,
   SidebarContent,
@@ -27,7 +26,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '../ui/dropdown-menu'
-import { axiosInstance } from '@/axios/api'
 
 const items = [
   {
@@ -63,25 +61,11 @@ const items = [
 ]
 
 type SidebarProps = {
-  userID: string
+  fullName: string
   logout: () => void
 }
 
-function SidebarComponent({ userID, logout }: SidebarProps) {
-  const [username, setUsername] = useState<string>()
-
-  useEffect(() => {
-    function fetchData() {
-      axiosInstance
-        .get(`/api/user/${userID}`)
-        .then((res) => {
-          setUsername(res.data?.message)
-        })
-        .catch((err) => console.log(err))
-    }
-    fetchData()
-  }, [userID])
-
+function SidebarComponent({ fullName, logout }: SidebarProps) {
   return (
     <Sidebar>
       <SidebarContent>
@@ -110,7 +94,7 @@ function SidebarComponent({ userID, logout }: SidebarProps) {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
                   <User2 />
-                  {username || 'Usuário não encontrado'}
+                  {fullName || 'Usuário não encontrado'}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
