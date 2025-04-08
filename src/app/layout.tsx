@@ -16,7 +16,6 @@ export default function RootLayout({
     <html lang="pt-br">
       <body>
         <SidebarManager>{children}</SidebarManager>
-        {children}
         <Toaster />
       </body>
     </html>

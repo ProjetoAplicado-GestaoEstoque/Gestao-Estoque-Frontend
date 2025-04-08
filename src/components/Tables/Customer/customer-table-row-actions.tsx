@@ -1,6 +1,6 @@
 'use client'
 
-import { Row, Table } from '@tanstack/react-table'
+import { Row } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 
 import {
@@ -12,23 +12,38 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import { axiosInstance } from '@/axios/api'
+import { useMutation } from '@tanstack/react-query'
+import { queryClient } from '@/lib/utils'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
-  path: string
-  table: Table<TData>
 }
 
-export function DataTableRowActions<TData>({
+export function CustomerTableRowActions<TData>({
   row,
-  path,
 }: DataTableRowActionsProps<TData>) {
   const router = useRouter()
   const id = row.getValue('id')
 
   const handleOnClickEdit = () => {
-    if (id) return router.push(`${path}${id}`)
+    if (id) return router.push(`/clientes/form/${id}`)
   }
+
+  const handleOnClickDelete = () => {
+    return axiosInstance.delete(`/api/customer/${id}`)
+  }
+
+  const customerDeleteMutation = useMutation({
+    mutationFn: handleOnClickDelete,
+    mutationKey: ['customer'],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['customer'] })
+    },
+    onError(error) {
+      console.log(error)
+    },
+  })
 
   return (
     <DropdownMenu>
@@ -44,7 +59,9 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem onClick={handleOnClickEdit}>Editar</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Deletar</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => customerDeleteMutation.mutate()}>
+          Deletar
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

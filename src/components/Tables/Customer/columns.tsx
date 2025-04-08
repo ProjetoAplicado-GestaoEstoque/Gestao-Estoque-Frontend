@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { ICustomer } from '../types'
 import { DataTableColumnHeader } from '../Components/data-table-column-header'
-import { DataTableRowActions } from '../Components/data-table-row-actions'
+import { CustomerTableRowActions } from './customer-table-row-actions'
 
 export const columns: ColumnDef<ICustomer>[] = [
   {
@@ -38,6 +38,6 @@ export const columns: ColumnDef<ICustomer>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <DataTableRowActions path="/clientes/form/" row={row} />,
+    cell: ({ row }) => <CustomerTableRowActions row={row} />,
   },
 ]
