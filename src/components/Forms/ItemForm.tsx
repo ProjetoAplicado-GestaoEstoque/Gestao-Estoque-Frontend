@@ -19,7 +19,8 @@ import { CancelFormButton } from '../CustomComponents/CancelFormButton'
 import { useRouter, useParams } from 'next/navigation'
 import { SupplierSelector } from '../SelectComponents/SupplierSelector'
 import { ProjectSelector } from '../SelectComponents/ProjectSelector'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useItemQueryById } from '@/hooks/Items'
 
 const itemSchema = z.object({
   name: z.string().min(2, {
@@ -30,7 +31,7 @@ const itemSchema = z.object({
   }),
   description: z.string().optional(),
   supplier_id: z.string().uuid({ message: 'Fornecedor Inválido.' }),
-  project_id: z.string().uuid({ message: 'Porjeto Inválido.' }),
+  project_id: z.string().uuid({ message: 'Projeto Inválido.' }),
   quantity: z.number().int().positive({
     message: 'Quantidade deve ser um número  positivo.',
   }),
@@ -39,7 +40,9 @@ const itemSchema = z.object({
 export function ItemForm() {
   const router = useRouter()
   const { id } = useParams()
-  const [isLoading, setIsLoading] = useState(false)
+  const { data, isLoading, error } = useItemQueryById(id as string, {
+    enabled: !!id,
+  })
 
   const form = useForm<z.infer<typeof itemSchema>>({
     resolver: zodResolver(itemSchema),
@@ -54,31 +57,19 @@ export function ItemForm() {
   })
 
   useEffect(() => {
-    if (id) {
-      const fetchData = async () => {
-        setIsLoading(true)
-        try {
-          const response = await fetch(`/api/items/${id}`)
-          if (!response.ok) throw new Error('Erro ao buscar cliente.')
-          const itemData = await response.json()
-          form.setValue('name', itemData.name)
-          form.setValue('storage', itemData.storage)
-          form.setValue('description', itemData.description)
-          form.setValue('quantity', itemData.quantity)
-          form.setValue('supplier_id', itemData.supplier_id)
-          form.setValue('project_id', itemData.project_id)
-        } catch (error) {
-          console.error(error)
-        } finally {
-          setIsLoading(false)
-        }
-      }
-      fetchData()
+    if (id && !isLoading) {
+      form.setValue('name', data?.name ?? '')
+      form.setValue('storage', data?.storage ?? '')
+      form.setValue('quantity', data?.quantity ?? 0)
+      form.setValue('supplier_id', data?.supplier.id ?? '')
+      form.setValue('project_id', data?.project.id ?? '')
+      form.setValue('description', data?.description)
+    } else {
+      console.log(error?.message)
     }
-  }, [id, form])
+  }, [id, form, isLoading])
 
   async function onSubmit(values: z.infer<typeof itemSchema>) {
-    setIsLoading(true)
     try {
       const response = await fetch(id ? `/api/items/${id}` : '/api/items', {
         method: id ? 'PUT' : 'POST',
@@ -189,11 +180,14 @@ export function ItemForm() {
         <FormField
           control={form.control}
           name="project_id"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>Projeto</FormLabel>
+              <FormLabel>Projetos</FormLabel>
               <FormControl>
-                <ProjectSelector />
+                <ProjectSelector
+                  value={field.value}
+                  onChange={field.onChange}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

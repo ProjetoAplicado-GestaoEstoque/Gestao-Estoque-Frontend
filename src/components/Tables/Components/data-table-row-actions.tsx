@@ -1,6 +1,5 @@
 'use client'
 
-import { Row, Table } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 
 import {
@@ -11,25 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
 
-interface DataTableRowActionsProps<TData> {
-  row: Row<TData>
-  path: string
-  table: Table<TData>
-}
-
-export function DataTableRowActions<TData>({
-  row,
-  path,
-}: DataTableRowActionsProps<TData>) {
-  const router = useRouter()
-  const id = row.getValue('id')
-
-  const handleOnClickEdit = () => {
-    if (id) return router.push(`${path}${id}`)
-  }
-
+export function DataTableRowActions() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,7 +24,7 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem onClick={handleOnClickEdit}>Editar</DropdownMenuItem>
+        <DropdownMenuItem>Editar</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Deletar</DropdownMenuItem>
       </DropdownMenuContent>

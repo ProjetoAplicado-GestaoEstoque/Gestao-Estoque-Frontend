@@ -91,14 +91,11 @@ CREATE TABLE `StockChanges` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateTable
-CREATE TABLE `_ProjectsToUser` (
-    `A` VARCHAR(191) NOT NULL,
-    `B` VARCHAR(191) NOT NULL,
+-- AddForeignKey
+ALTER TABLE `Projects` ADD CONSTRAINT `Projects_project_manager_id_fkey` FOREIGN KEY (`project_manager_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
-    UNIQUE INDEX `_ProjectsToUser_AB_unique`(`A`, `B`),
-    INDEX `_ProjectsToUser_B_index`(`B`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- AddForeignKey
+ALTER TABLE `Projects` ADD CONSTRAINT `Projects_tech_responsible_id_fkey` FOREIGN KEY (`tech_responsible_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Projects` ADD CONSTRAINT `Projects_customer_id_fkey` FOREIGN KEY (`customer_id`) REFERENCES `Customer`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -111,9 +108,3 @@ ALTER TABLE `Item` ADD CONSTRAINT `Item_supplier_id_fkey` FOREIGN KEY (`supplier
 
 -- AddForeignKey
 ALTER TABLE `StockChanges` ADD CONSTRAINT `StockChanges_item_id_fkey` FOREIGN KEY (`item_id`) REFERENCES `Item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `_ProjectsToUser` ADD CONSTRAINT `_ProjectsToUser_A_fkey` FOREIGN KEY (`A`) REFERENCES `Projects`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `_ProjectsToUser` ADD CONSTRAINT `_ProjectsToUser_B_fkey` FOREIGN KEY (`B`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

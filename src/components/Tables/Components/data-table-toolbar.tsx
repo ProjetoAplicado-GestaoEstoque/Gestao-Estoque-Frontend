@@ -9,10 +9,16 @@ import { RedirectType } from 'next/navigation'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
+  getColumn: string
+  filterPlaceholder: string
+  buttonPath: string
 }
 
 export function DataTableToolbar<TData>({
   table,
+  buttonPath,
+  filterPlaceholder,
+  getColumn,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
@@ -20,10 +26,12 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between gap-4">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filtre pelo cnpj..."
-          value={(table.getColumn('cnpj')?.getFilterValue() as string) ?? ''}
+          placeholder={`${filterPlaceholder}`}
+          value={
+            (table.getColumn(`${getColumn}`)?.getFilterValue() as string) ?? ''
+          }
           onChange={(event) =>
-            table.getColumn('cnpj')?.setFilterValue(event.target.value)
+            table.getColumn(`${getColumn}`)?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
@@ -38,7 +46,7 @@ export function DataTableToolbar<TData>({
         )}
       </div>
       <div className="w-full flex flex-row">
-        <NewEntityButton path={'/clientes/form'} type={RedirectType.push} />
+        <NewEntityButton path={`${buttonPath}`} type={RedirectType.push} />
       </div>
     </div>
   )

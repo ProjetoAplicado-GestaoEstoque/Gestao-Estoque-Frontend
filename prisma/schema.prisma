@@ -7,19 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Projects {
-  id                  String    @id @default(uuid())
-  project_manager_id  String
+model Projects { 
+  id                  String @id @default(uuid())
+  project_manager_id  String 
   tech_responsible_id String
   customer_id         String
   name                String
   instituition        String
-  createdAt           DateTime  @default(now())
-  deletedAt           DateTime?
+  createdAt           DateTime @default(now()) 
+  deletedAt           DateTime? 
   updatedAt           DateTime? @updatedAt
-  customer            Customer  @relation(fields: [customer_id], references: [id])
-  User                User[]
-  items               Item[]
+
+  project_manager  User     @relation("ProjectManager", fields: [project_manager_id], references: [id]) 
+  tech_responsible User     @relation("TechResponsible", fields: [tech_responsible_id], references: [id]) 
+  customer         Customer @relation(fields: [customer_id], references: [id])
+  items            Item[]
 }
 
 model User {
@@ -33,7 +35,9 @@ model User {
   updatedAt  DateTime? @updatedAt
 
   role     role       @default(tech_responsible)
-  projects Projects[]
+
+  projectManager Projects[] @relation("ProjectManager")
+  techResponsible Projects[] @relation("TechResponsible")
 }
 
 enum role {

@@ -9,6 +9,8 @@ export async function GET() {
     const projects = await db.projects.findMany({
       include: {
         customer: true,
+        project_manager: true,
+        tech_responsible: true,
       },
     })
 
@@ -58,8 +60,16 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         instituition,
-        project_manager_id,
-        tech_responsible_id,
+        tech_responsible: {
+          connect: {
+            id: tech_responsible_id,
+          },
+        },
+        project_manager: {
+          connect: {
+            id: project_manager_id,
+          },
+        },
         customer: {
           connect: {
             id: customer_id,

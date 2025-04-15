@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { ICustomer } from '../types'
 import { DataTableColumnHeader } from '../Components/data-table-column-header'
 import { CustomerTableRowActions } from './customer-table-row-actions'
+import { formatCNPJ } from '@/lib/format-cnpj'
 
 export const columns: ColumnDef<ICustomer>[] = [
   {
@@ -13,13 +14,15 @@ export const columns: ColumnDef<ICustomer>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="CNPJ" />
     ),
-    cell: ({ row }) => (
-      <div className="flex space-x-2 pl-4 ">
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue('cnpj')}
-        </span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const cnpjMask = formatCNPJ(row.getValue('cnpj') as string)
+
+      return (
+        <div className="flex space-x-2 pl-4 ">
+          <span className="max-w-[500px] truncate font-medium">{cnpjMask}</span>
+        </div>
+      )
+    },
     enableSorting: true,
     enableHiding: false,
   },

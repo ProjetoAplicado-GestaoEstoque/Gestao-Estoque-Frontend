@@ -17,7 +17,7 @@ export default function SidebarManager({ children }: SideBarProp) {
   const { clearToken } = useToken()
 
   const isAuthRoute = pathname.startsWith('/auth')
-  if (isAuthRoute) return null
+  if (isAuthRoute) return <>{children}</>
 
   const logout = () => {
     clearToken()

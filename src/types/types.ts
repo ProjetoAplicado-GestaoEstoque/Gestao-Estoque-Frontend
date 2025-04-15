@@ -1,4 +1,6 @@
+/* eslint-disable no-use-before-define */
 import { Roles } from '@/modules/auth/types/types'
+import { UseQueryOptions } from '@tanstack/react-query'
 
 export interface IUserCredentials {
   userID: string
@@ -11,20 +13,26 @@ export interface ICustomer {
   id: string
   cnpj: string
   email: string
-  createdAt: string
-  deletedAt: string
 }
 
-export interface Items {
+export interface IProjects {
   id: string
+  name: string
+  instituition: string
+  project_manager: Omit<IUserCredentials, 'roles'>
+  tech_responsible: Omit<IUserCredentials, 'roles'>
+  customer: ICustomer
+  description: string
+}
+
+export interface IItems {
+  id: string
+  name: string
   storage: string
   description: string
-  project_id: string
-  supplier_id: string
   quantity: number
-  createdAt: string
-  deletedAt: string
-  updatedAt: string
+  project: IProjects
+  supplier: Supplier
 }
 
 export interface Supplier {
@@ -34,10 +42,24 @@ export interface Supplier {
   phone: string
   email: string
   address: string
-  items: Items[]
+  items: IItems[]
+}
+
+export type Items = {
+  items: IItems[]
+}
+
+export type Projects = {
+  projects: IProjects[]
 }
 
 export interface ErrorQueryOptions extends Error {
   statusCode?: number
   message: string
 }
+
+export type CustomQueryOptions<
+  TData = unknown,
+  TError = ErrorQueryOptions,
+  TSelected = TData,
+> = Omit<UseQueryOptions<TData, TError, TSelected>, 'queryKey' | 'queryFn'>

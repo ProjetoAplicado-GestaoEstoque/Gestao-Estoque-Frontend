@@ -27,11 +27,13 @@ import { DataTableToolbar } from '../Components/data-table-toolbar'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  loading: boolean
 }
 
-export function CustomerTable<TData, TValue>({
+export function ItemsTable<TData, TValue>({
   columns,
   data,
+  loading,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -70,7 +72,7 @@ export function CustomerTable<TData, TValue>({
     <div className="space-y-4">
       <DataTableToolbar
         table={table}
-        buttonPath="/clientes/form"
+        buttonPath="/produtos/form"
         getColumn="cnpj"
         filterPlaceholder="Filte pelo CNPJ..."
       />
@@ -95,7 +97,16 @@ export function CustomerTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {loading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  Buscando Dados...
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -129,4 +140,4 @@ export function CustomerTable<TData, TValue>({
   )
 }
 
-export default CustomerTable
+export default ItemsTable
