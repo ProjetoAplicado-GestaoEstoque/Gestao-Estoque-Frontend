@@ -23,8 +23,8 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
-    <div className="flex items-center justify-between gap-4">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex w-full md:flex-1 items-center gap-2">
         <Input
           placeholder={`${filterPlaceholder}`}
           value={

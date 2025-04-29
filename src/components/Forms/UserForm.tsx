@@ -84,7 +84,7 @@ export function UserForm() {
             </FormItem>
           )}
         />
-        <CancelFormButton />
+        <CancelFormButton path={'/auth'} />
         <Button type="submit">Salvar</Button>
       </form>
     </Form>

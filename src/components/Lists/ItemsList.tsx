@@ -9,9 +9,9 @@ export function ItemsList() {
   const { data, isLoading } = useItems()
 
   return (
-    <div className="w-full p-6">
+    <div className="w-full p-6 max-sm:p-4">
       <Card>
-        <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+        <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
           <div className="flex items-center justify-between space-y-2">
             <div>
               <h2 className="text-2xl font-bold tracking-tight">Items</h2>

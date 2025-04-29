@@ -27,7 +27,7 @@ export function CustomerTableRowActions<TData>({
   const id = row.getValue('id')
 
   const handleOnClickEdit = () => {
-    if (id) return router.push(`/clientes/form/${id}`)
+    if (id) return router.push(`/clientes/${id}`)
   }
 
   const handleOnClickDelete = () => {

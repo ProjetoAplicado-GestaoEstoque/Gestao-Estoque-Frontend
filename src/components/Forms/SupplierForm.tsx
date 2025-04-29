@@ -173,7 +173,7 @@ export function SupplierForm() {
             </FormItem>
           )}
         />
-        <CancelFormButton />
+        <CancelFormButton path={'/fornecedor'} />
         <Button type="submit">Salvar</Button>
       </form>
     </Form>

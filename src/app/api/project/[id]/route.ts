@@ -4,29 +4,6 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const db = new PrismaClient()
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } },
-) {
-  const project = await db.projects
-    .delete({
-      where: {
-        id: params.id,
-      },
-    })
-    .catch((err) => console.log(err))
-
-  if (!params.id) {
-    return NextResponse.json({ message: 'ID não encontrado' })
-  }
-
-  if (!project) {
-    return NextResponse.json({ message: 'Projeto não encontrado' })
-  }
-
-  return NextResponse.json({ message: `${project?.name}` })
-}
-
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } },
@@ -61,13 +38,8 @@ export async function PUT(
     return NextResponse.json({ message: 'ID não encontrado' }, { status: 400 })
   }
 
-  const {
-    project_manager_id,
-    tech_responsible_id,
-    customer_id,
-    name,
-    instituition,
-  } = await req.json()
+  const { project_manager, tech_responsible, customer_id, name, instituition } =
+    await req.json()
 
   try {
     const stock = await db.projects.update({
@@ -75,8 +47,8 @@ export async function PUT(
         id: params.id,
       },
       data: {
-        project_manager_id,
-        tech_responsible_id,
+        project_manager,
+        tech_responsible,
         customer: {
           connect: {
             id: customer_id,
@@ -104,4 +76,27 @@ export async function PUT(
       { status: 500 },
     )
   }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const project = await db.projects
+    .delete({
+      where: {
+        id: params.id,
+      },
+    })
+    .catch((err) => console.log(err))
+
+  if (!params.id) {
+    return NextResponse.json({ message: 'ID não encontrado' })
+  }
+
+  if (!project) {
+    return NextResponse.json({ message: 'Projeto não encontrado' })
+  }
+
+  return NextResponse.json({ message: `${project?.name}` })
 }

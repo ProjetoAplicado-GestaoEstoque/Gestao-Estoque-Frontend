@@ -70,7 +70,7 @@ export function CustomerTable<TData, TValue>({
     <div className="space-y-4">
       <DataTableToolbar
         table={table}
-        buttonPath="/clientes/form"
+        buttonPath="/clientes/new"
         getColumn="cnpj"
         filterPlaceholder="Filte pelo CNPJ..."
       />

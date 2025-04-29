@@ -124,7 +124,7 @@ export function CustomerForm() {
             </FormItem>
           )}
         />
-        <CancelFormButton /> {/* Arrumar botão de cancelar */}
+        <CancelFormButton path={'/clientes'} />
         <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Processando...' : id ? 'Atualizar' : 'Criar'}
         </Button>

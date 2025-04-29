@@ -193,7 +193,7 @@ export function ItemForm() {
             </FormItem>
           )}
         />
-        <CancelFormButton />
+        <CancelFormButton path={'/produtos'} />
         <Button type="submit">
           {isLoading ? 'Processando...' : id ? 'Atualizar' : 'Criar'}
         </Button>

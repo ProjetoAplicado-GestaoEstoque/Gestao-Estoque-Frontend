@@ -159,7 +159,7 @@ export function StockForm() {
             </FormItem>
           )}
         />
-        <CancelFormButton />
+        <CancelFormButton path={'/estoque'} />
         <Button type="submit">Salvar</Button>
       </form>
     </Form>

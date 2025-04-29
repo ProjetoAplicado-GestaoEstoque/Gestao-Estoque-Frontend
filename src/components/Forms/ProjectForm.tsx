@@ -182,7 +182,7 @@ export function ProjectsForm() {
             </FormItem>
           )}
         />
-        <CancelFormButton />
+        <CancelFormButton path={'/projetos'} />
         <Button type="submit">Salvar</Button>
       </form>
     </Form>
