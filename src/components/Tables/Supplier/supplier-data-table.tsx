@@ -21,8 +21,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import Pagination from '../Components/pagination'
 import { DataTableToolbar } from '../Components/data-table-toolbar'
+import Pagination from '../Components/pagination'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -30,7 +30,7 @@ interface DataTableProps<TData, TValue> {
   loading: boolean
 }
 
-export function ItemsTable<TData, TValue>({
+export function SupplierTable<TData, TValue>({
   columns,
   data,
   loading,
@@ -72,9 +72,9 @@ export function ItemsTable<TData, TValue>({
     <div className="space-y-4">
       <DataTableToolbar
         table={table}
-        buttonPath="/produtos/form"
-        getColumn="name"
-        filterPlaceholder="Filte pelo Nome do Produto..."
+        buttonPath="fornecedor/form"
+        getColumn="corporate_name"
+        filterPlaceholder="Buscar pelo Nome.."
       />
       <div className="rounded-md border">
         <Table>
@@ -140,4 +140,4 @@ export function ItemsTable<TData, TValue>({
   )
 }
 
-export default ItemsTable
+export default SupplierTable

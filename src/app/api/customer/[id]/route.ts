@@ -7,6 +7,13 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
+  if (!params.id) {
+    return NextResponse.json(
+      { error: 'ID do cliente não informado.' },
+      { status: 404 },
+    )
+  }
+
   const customer = await db.customer
     .delete({
       where: {
@@ -14,14 +21,6 @@ export async function DELETE(
       },
     })
     .catch((err) => console.log(err))
-
-  if (!params.id) {
-    return NextResponse.json({ message: 'ID não encontrado' })
-  }
-
-  if (!customer) {
-    return NextResponse.json({ message: 'Cliente não encontrado' })
-  }
 
   return NextResponse.json(customer)
 }

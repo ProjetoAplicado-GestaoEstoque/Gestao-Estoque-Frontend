@@ -8,7 +8,14 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const customer = await db.customer
+  if (!params.id) {
+    return NextResponse.json(
+      { error: 'ID do fornecedor não encontrado!' },
+      { status: 404 },
+    )
+  }
+
+  await db.supplier
     .delete({
       where: {
         id: params.id,
@@ -16,15 +23,7 @@ export async function DELETE(
     })
     .catch((err) => console.log(err))
 
-  if (!params.id) {
-    return NextResponse.json({ message: 'ID não encontrado' })
-  }
-
-  if (!customer) {
-    return NextResponse.json({ message: 'Cliente não encontrado' })
-  }
-
-  return NextResponse.json({ message: `${customer?.cnpj}` })
+  return NextResponse.json({ error: 'Deletedo com sucesso!' }, { status: 201 })
 }
 
 export async function GET(

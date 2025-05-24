@@ -35,7 +35,7 @@ export interface IItems {
   supplier: Supplier
 }
 
-export interface Supplier {
+export interface ISupplier {
   id: string
   corporate_name: string
   cnpj: string
@@ -45,12 +45,28 @@ export interface Supplier {
   items: IItems[]
 }
 
+export interface IStock {
+  id: string
+  description: string
+  item: IItems
+  type: string
+  quantity: number
+}
+
+export type Supplier = {
+  supplier: ISupplier[]
+}
+
 export type Items = {
   items: IItems[]
 }
 
 export type Projects = {
   projects: IProjects[]
+}
+
+export type Stock = {
+  estoque: IStock[]
 }
 
 export interface ErrorQueryOptions extends Error {

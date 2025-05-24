@@ -1,12 +1,12 @@
+'use client'
 import { SupplierList } from '@/components/Lists/SupplierList'
-import { Card } from '@/components/ui/card'
+import { queryClient } from '@/lib/utils'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 export default function Page() {
   return (
-    <div className="w-full p-6 max-sm:p-0">
-      <Card>
-        <SupplierList />
-      </Card>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <SupplierList />
+    </QueryClientProvider>
   )
 }
