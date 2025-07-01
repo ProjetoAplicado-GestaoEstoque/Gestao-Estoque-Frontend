@@ -11,10 +11,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
 import { axiosInstance } from '@/axios/api'
 import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '@/lib/utils'
+import UpdateItemModal from '@/components/Forms/Item/update-item-modal'
+import { useState } from 'react'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -23,11 +24,11 @@ interface DataTableRowActionsProps<TData> {
 export function ItemsTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const router = useRouter()
-  const id = row.getValue('id')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const id = String(row.getValue('id'))
 
   const handleOnClickEdit = () => {
-    if (id) return router.push(`/produtos/form/${id}`)
+    setIsModalOpen(true)
   }
 
   const handleOnClickDelete = () => {
@@ -63,6 +64,13 @@ export function ItemsTableRowActions<TData>({
           Deletar
         </DropdownMenuItem>
       </DropdownMenuContent>
+      {isModalOpen && (
+        <UpdateItemModal
+          itemId={id}
+          open={isModalOpen}
+          setIsOpen={() => setIsModalOpen(false)}
+        />
+      )}
     </DropdownMenu>
   )
 }

@@ -11,7 +11,6 @@ import {
   SidebarMenuItem,
 } from '../ui/sidebar'
 import {
-  Home,
   Inbox,
   User,
   TicketPlus,
@@ -28,11 +27,6 @@ import {
 } from '../ui/dropdown-menu'
 
 const items = [
-  {
-    title: 'Dashboard',
-    url: '/',
-    icon: Home,
-  },
   {
     title: 'Projetos',
     url: '/projetos',

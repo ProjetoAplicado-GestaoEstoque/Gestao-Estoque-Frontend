@@ -7,19 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Projects { 
-  id                  String @id @default(uuid())
-  project_manager_id  String 
+model Projects {
+  id                  String    @id @default(uuid())
+  project_manager_id  String
   tech_responsible_id String
   customer_id         String
   name                String
   instituition        String
-  createdAt           DateTime @default(now()) 
-  deletedAt           DateTime? 
+  createdAt           DateTime  @default(now())
+  deletedAt           DateTime?
   updatedAt           DateTime? @updatedAt
 
-  project_manager  User     @relation("ProjectManager", fields: [project_manager_id], references: [id]) 
-  tech_responsible User     @relation("TechResponsible", fields: [tech_responsible_id], references: [id]) 
+  project_manager  User     @relation("ProjectManager", fields: [project_manager_id], references: [id])
+  tech_responsible User     @relation("TechResponsible", fields: [tech_responsible_id], references: [id])
   customer         Customer @relation(fields: [customer_id], references: [id])
   items            Item[]
 }
@@ -34,9 +34,9 @@ model User {
   deletedAt  DateTime?
   updatedAt  DateTime? @updatedAt
 
-  role     role       @default(tech_responsible)
+  role role @default(tech_responsible)
 
-  projectManager Projects[] @relation("ProjectManager")
+  projectManager  Projects[] @relation("ProjectManager")
   techResponsible Projects[] @relation("TechResponsible")
 }
 
@@ -56,18 +56,19 @@ model Customer {
 }
 
 model Item {
-  id          String    @id @default(uuid())
-  name        String    @db.VarChar(255)
-  storage     String
-  description String?
-  project_id  String
-  supplier_id String
-  quantity    Int
-  createdAt   DateTime  @default(now())
-  deletedAt   DateTime?
-  updatedAt   DateTime  @updatedAt
-  project     Projects  @relation(fields: [project_id], references: [id])
-  supplier    Supplier  @relation(fields: [supplier_id], references: [id])
+  id            String    @id @default(uuid())
+  name          String    @db.VarChar(255)
+  storage       String
+  description   String?
+  project_id    String
+  supplier_id   String
+  quantity      Int
+  precoUnitario Decimal   @default("0.00") @db.Decimal(10, 2)
+  createdAt     DateTime  @default(now())
+  deletedAt     DateTime?
+  updatedAt     DateTime  @updatedAt
+  project       Projects  @relation(fields: [project_id], references: [id])
+  supplier      Supplier  @relation(fields: [supplier_id], references: [id])
 
   StockChanges StockChanges[]
 }

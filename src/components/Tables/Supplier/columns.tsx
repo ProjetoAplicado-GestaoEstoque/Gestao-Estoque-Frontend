@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from '../Components/data-table-column-header'
 import { SupplierTableRowActions } from './supplier-table-row-actions'
-import { Supplier } from '@/types/types'
+import { Supplier } from '../../../types/types'
 
 export const columns: ColumnDef<Supplier>[] = [
   {

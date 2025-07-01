@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       )
     }
 
-    const base64Data = file.replace(/^data:image\/\w+;base64,/, '')
+    const base64Data = file.replace(/^data:.*;base64,/, '')
 
     const buffer = Buffer.from(base64Data, 'base64')
 

@@ -21,7 +21,7 @@ export function ProjectSelector({ value, onChange }: ProjectSelectorProps) {
 
   return (
     <Select onValueChange={onChange} value={value}>
-      <SelectTrigger>
+      <SelectTrigger className="z-50 w-full">
         <SelectValue
           placeholder={isLoading ? 'Carregando...' : 'Selecione um Projeto'}
         />

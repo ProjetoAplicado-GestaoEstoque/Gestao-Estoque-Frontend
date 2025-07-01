@@ -4,7 +4,7 @@ import {
   ErrorQueryOptions,
   IItems,
   Items,
-} from '@/types/types'
+} from '../../types/types'
 import { useQuery } from '@tanstack/react-query'
 
 export const useItems = (

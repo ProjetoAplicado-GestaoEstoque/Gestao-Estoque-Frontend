@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { axiosInstance } from '@/axios/api'
-import { ErrorQueryOptions, ICustomer } from '@/types/types'
+import { ErrorQueryOptions, ICustomer } from '../../types/types'
 import { QueryOptions, useQuery } from '@tanstack/react-query'
 
 export const useCustomer = (

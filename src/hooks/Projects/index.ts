@@ -1,5 +1,10 @@
 import { axiosInstance } from '@/axios/api'
-import { ErrorQueryOptions, IProjects, Projects } from '@/types/types'
+import {
+  CustomQueryOptions,
+  ErrorQueryOptions,
+  IProjects,
+  Projects,
+} from '../../types/types'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 
 export const useProjects = (
@@ -16,9 +21,16 @@ export const useProjects = (
   })
 }
 
-/* export const useProjectById = (projectID: string) => {
-  return useQuery({
-    enabled: !!projectID,
-    queryKey: ['projectId', projectID],
+export const useProjectsQueryById = (
+  projectID: string,
+  options?: CustomQueryOptions<IProjects, ErrorQueryOptions>,
+) => {
+  return useQuery<IProjects, ErrorQueryOptions>({
+    queryKey: ['projectID', projectID],
+    queryFn: () =>
+      axiosInstance
+        .get<IProjects>(`/api/items/${projectID}`)
+        .then((resp) => resp.data),
+    ...options,
   })
-} */
+}

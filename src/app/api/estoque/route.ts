@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       data: {
         item: {
           connect: {
-            id: item_id, // Usando o ID diretamente no 'connect'
+            id: item_id,
           },
         },
         quantity,
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         },
         data: {
           quantity:
-            type === 'Saída'
+            type === 'saída' && 'Saída'
               ? item.quantity - quantity
               : item.quantity + quantity,
         },

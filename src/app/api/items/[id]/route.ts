@@ -59,7 +59,8 @@ export async function PUT(
     return NextResponse.json({ message: 'ID não encontrado' }, { status: 400 })
   }
 
-  const { name, storage, description, quantity } = await req.json()
+  const { name, storage, description, quantity, precoUnitario } =
+    await req.json()
 
   try {
     const item = await db.item.update({
@@ -71,6 +72,7 @@ export async function PUT(
         storage,
         description,
         quantity,
+        precoUnitario: parseFloat(precoUnitario),
       },
     })
 

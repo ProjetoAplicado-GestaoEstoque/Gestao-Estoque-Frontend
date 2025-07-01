@@ -34,23 +34,49 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, storage, description, quantity, supplier_id, project_id } =
-      body
+    const {
+      name,
+      storage,
+      description,
+      precoUnitario,
+      quantity,
+      supplier_id,
+      project_id,
+    } = body
 
-    if (!name || !storage || !quantity || !supplier_id || !project_id) {
-      return NextResponse.json(
-        {
-          message:
-            'Os campos Nome, Local de armazenamento e Quantidade devem ser preenchidos',
-        },
-        { status: 400 },
-      )
-    }
+    console.log('Dados recebidos para criar Produto:', supplier_id);
+
+
+    if (!name) return NextResponse.json(
+      { message: 'Nome do produto é obrigatório' },
+      { status: 400 },
+    )
+    if (!storage) return NextResponse.json(
+      { message: 'Local de armazenamento é obrigatório' },
+      { status: 400 },
+    )
+    if (!precoUnitario && precoUnitario !== 0) return NextResponse.json(
+      { message: 'Preço unitário é obrigatório' },
+      { status: 400 },
+    )
+    if (!quantity && quantity !== 0) return NextResponse.json(
+      { message: 'Quantidade é obrigatória' },
+      { status: 400 },
+    )
+    if (!supplier_id) return NextResponse.json(
+      { message: 'ID do fornecedor é obrigatório' },
+      { status: 400 },
+    )
+    if (!project_id) return NextResponse.json(
+      { message: 'ID do projeto é obrigatório' },
+      { status: 400 },
+    )
 
     const newItem = await db.item.create({
       data: {
         name,
         quantity,
+        precoUnitario: Number(precoUnitario),
         storage,
         description,
         supplier: {

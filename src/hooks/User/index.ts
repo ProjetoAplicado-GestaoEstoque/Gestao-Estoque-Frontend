@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/axios/api'
-import { ErrorQueryOptions, IUserCredentials } from '@/types/types'
+import { ErrorQueryOptions, IUserCredentials } from '../../types/types'
 import { QueryOptions, useQuery } from '@tanstack/react-query'
 
 export const useCurrentUser = (

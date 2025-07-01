@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export const config = {
-  matcher: ['/', '/projetos', '/clientes', '/produtos', '/fornecedor'],
+  matcher: ['/projetos', '/clientes', '/produtos', '/fornecedor'],
 }
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value
 
   if (req.nextUrl.pathname.startsWith('/auth')) {
-    if (token) return NextResponse.redirect(new URL('/dashboard', req.url))
+    if (token) return NextResponse.redirect(new URL('/projetos', req.url))
     return NextResponse.next()
   }
 

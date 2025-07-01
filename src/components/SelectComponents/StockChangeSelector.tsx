@@ -35,7 +35,7 @@ export function StockChangeSelector({
         <SelectGroup>
           <SelectLabel>Tipo de Movimentação / Alteração</SelectLabel>
           {changeType.map((type) => (
-            <SelectItem key={type.id} value={type.name}>
+            <SelectItem key={type.id} value={type.name.toLowerCase()}>
               {type.name}
             </SelectItem>
           ))}

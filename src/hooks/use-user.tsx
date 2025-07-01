@@ -1,5 +1,5 @@
 import { Roles } from '@/modules/auth/types/types'
-import { IUserCredentials } from '@/types/types'
+import { IUserCredentials } from '../types/types'
 import { create } from 'zustand'
 import { persist, PersistOptions } from 'zustand/middleware'
 

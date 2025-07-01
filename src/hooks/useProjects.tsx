@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/axios/api'
-import { ErrorQueryOptions, IProjects } from '@/types/types'
+import { ErrorQueryOptions, IProjects } from '../types/types'
 import { QueryOptions, useQuery } from '@tanstack/react-query'
 
 export const useProjects = (

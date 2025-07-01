@@ -31,8 +31,19 @@ export interface IItems {
   storage: string
   description: string
   quantity: number
+  precoUnitario: number
   project: IProjects
-  supplier: Supplier
+  supplier: ISupplier
+}
+
+export interface IItemsForm {
+  name: string
+  storage: string
+  description: string
+  quantity: number
+  precoUnitario: number
+  project_id?: string
+  supplier_id?: string
 }
 
 export interface ISupplier {

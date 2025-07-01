@@ -4,7 +4,7 @@ import {
   ErrorQueryOptions,
   Supplier,
   ISupplier,
-} from '@/types/types'
+} from '../../types/types'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 
 export const useSupplier = (

@@ -1,8 +1,15 @@
-import { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from '../Components/data-table-column-header'
 import { ItemsTableRowActions } from './items-table-row-actions'
 import { formatCNPJ } from '@/lib/format-cnpj'
-import { IItems } from '@/types/types'
+import type { IItems } from '../../../types/types'
+
+const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value)
+}
 
 export const columns: ColumnDef<IItems>[] = [
   {
@@ -31,7 +38,6 @@ export const columns: ColumnDef<IItems>[] = [
     ),
     cell: ({ row }) => {
       const cnpjMask = formatCNPJ(row.getValue('storage') as string)
-
       return (
         <div className="flex w-[100px] flex-row justify-center space-x-2">
           <span className="max-w-[500px] truncate font-medium">{cnpjMask}</span>
@@ -81,6 +87,23 @@ export const columns: ColumnDef<IItems>[] = [
         </span>
       </div>
     ),
+  },
+  {
+    accessorKey: 'precoUnitario',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Preço Unitário" />
+    ),
+    cell: ({ row }) => {
+      const price = row.getValue('precoUnitario') as number
+      return (
+        <div className="flex flex-row justify-center w-[120px] space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {formatCurrency(price)}
+          </span>
+        </div>
+      )
+    },
+    enableSorting: true,
   },
   {
     accessorKey: 'description',

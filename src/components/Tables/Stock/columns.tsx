@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from '../Components/data-table-column-header'
-import { IStock } from '@/types/types'
+import { IStock } from '../../../types/types'
 import { StockTableRowActions } from './stock-table-row-actions'
 
 export const columns: ColumnDef<IStock>[] = [

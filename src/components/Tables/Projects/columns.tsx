@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from '../Components/data-table-column-header'
-import { IProjects } from '@/types/types'
+import { IProjects } from '../../../types/types'
 import { ProjectTableRowActions } from './projects-table-row-actions'
 import { formatCNPJ } from '@/lib/format-cnpj'
 
