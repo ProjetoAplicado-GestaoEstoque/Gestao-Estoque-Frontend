@@ -38,21 +38,63 @@ export default function InvoiceProductsPage() {
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file)
-    // Aqui você pode processar o XML e extrair os produtos
-    // Por enquanto, vamos adicionar alguns itens de exemplo
-    const exampleItems: IItemsForm[] = [
-      {
-        name: 'Produto extraído do XML',
-        storage: 'Estoque A',
-        description: 'Descrição extraída do XML da nota fiscal',
-        quantity: 10,
-        precoUnitario: 25.5,
-        project_id: "",
-        supplier_id: "",
-      },
-    ]
-    setItems(exampleItems)
+
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      try {
+        const xmlText = reader.result as string
+        const parser = new DOMParser()
+        const xml = parser.parseFromString(xmlText, 'application/xml')
+
+        const produtos = Array.from(xml.getElementsByTagName('det'))
+
+        const parsedItems: IItemsForm[] = produtos.map((det, index) => {
+          const prod = det.getElementsByTagName('prod')[0]
+
+          const name = prod?.getElementsByTagName('xProd')[0]?.textContent || ''
+          const quantity =
+            parseFloat(prod?.getElementsByTagName('qCom')[0]?.textContent || '0')
+          const precoUnitario =
+            parseFloat(prod?.getElementsByTagName('vUnCom')[0]?.textContent || '0')
+          const total =
+            parseFloat(prod?.getElementsByTagName('vProd')[0]?.textContent || '0')
+
+          const defaultStorage = 'almoxarifado'
+          const defaultDescription = `Produto ${index + 1}`
+
+          const item: IItemsForm = {
+            name,
+            quantity,
+            precoUnitario,
+            storage: defaultStorage,
+            description: defaultDescription,
+            project_id: '', // pode ser preenchido pelo usuário depois
+            supplier_id: '', // idem
+          }
+
+          return item
+        })
+
+        setItems(parsedItems)
+
+        toast({
+          title: 'Sucesso!',
+          description: `${parsedItems.length} produtos extraídos da NFe.`,
+        })
+      } catch (error) {
+        console.error(error)
+        toast({
+          title: 'Erro',
+          description: 'Falha ao processar o XML da nota fiscal.',
+          variant: 'destructive',
+        })
+      }
+    }
+
+    reader.readAsText(file)
   }
+
 
   const handleRemoveFile = () => {
     setSelectedFile(null)
@@ -86,6 +128,51 @@ export default function InvoiceProductsPage() {
         item.supplier_id,
     )
   }
+
+
+  const uploadXmlToS3 = async (file: File) => {
+    return new Promise<void>((resolve, reject) => {
+      const reader = new FileReader()
+
+      reader.onload = async () => {
+        try {
+          const base64Data = reader.result
+
+          const res = await fetch('/api/s3', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              file: base64Data,
+              fileName: file.name,
+              contentType: file.type,
+            }),
+          })
+
+          if (!res.ok) {
+            const json = await res.json()
+            throw new Error(json.error || 'Erro ao salvar na S3')
+          }
+
+          toast({
+            title: 'Nota fiscal salva na nuvem',
+            description: `${file.name} enviada com sucesso.`,
+          })
+
+          resolve()
+        } catch (err) {
+          toast({
+            title: 'Erro ao salvar XML na S3',
+            description: (err as Error).message,
+            variant: 'destructive',
+          })
+          reject(err)
+        }
+      }
+
+      reader.readAsDataURL(file)
+    })
+  }
+
 
   const handleSave = async () => {
     if (items.length === 0) {
@@ -122,11 +209,9 @@ export default function InvoiceProductsPage() {
     let errorCount = 0
 
     try {
-      // Processar itens sequencialmente
       for (let i = 0; i < items.length; i++) {
         const item = items[i]
 
-        // Atualizar status para "saving"
         setSaveProgress((prev) =>
           prev.map((p) =>
             p.index === i ? { ...p, status: 'saving' as SaveStatus } : p,
@@ -182,6 +267,10 @@ export default function InvoiceProductsPage() {
       }
 
       if (errorCount === 0) {
+        if (selectedFile) {
+          await uploadXmlToS3(selectedFile)
+        }
+
         toast({
           title: 'Sucesso!',
           description: `Todos os ${successCount} produtos foram salvos com sucesso.`,
