@@ -271,7 +271,7 @@ docker-compose logs -f backend
 docker-compose exec backend go run migrate.go
 ```
 
-## 📞 Suporte
+## 📞 Suporte.
 
 Para dúvidas ou problemas, abra uma issue no repositório ou entre em contato com a equipe de desenvolvimento.
 
