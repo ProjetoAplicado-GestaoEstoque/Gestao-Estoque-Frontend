@@ -64,13 +64,11 @@ export function ItemsTableRowActions<TData>({
           Deletar
         </DropdownMenuItem>
       </DropdownMenuContent>
-      {isModalOpen && (
-        <UpdateItemModal
-          itemId={id}
-          open={isModalOpen}
-          setIsOpen={() => setIsModalOpen(false)}
-        />
-      )}
+      <UpdateItemModal
+        itemId={id}
+        open={isModalOpen}
+        setIsOpen={setIsModalOpen}
+      />
     </DropdownMenu>
   )
 }

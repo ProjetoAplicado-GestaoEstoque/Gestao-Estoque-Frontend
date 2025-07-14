@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe>
+    <infNFe versao="4.00" Id="NFe66666678901234567890123456789012345678906">
+      <ide>
+        <cUF>35</cUF>
+        <natOp>Compra de Produtos de Limpeza</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>66666</nNF>
+        <dhEmi>2025-07-14T08:30:00-03:00</dhEmi>
+        <tpNF>0</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>9</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>1.0</verProc>
+      </ide>
+
+      <emit>
+        <CNPJ>77889900000166</CNPJ>
+        <xNome>Higiene & Limpeza Distribuidora</xNome>
+        <enderEmit>
+          <xLgr>Av. da Limpeza</xLgr>
+          <nro>888</nro>
+          <xBairro>Parque Industrial</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>08300000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderEmit>
+        <IE>999000111</IE>
+        <CRT>3</CRT>
+      </emit>
+
+      <dest>
+        <CNPJ>98765432000199</CNPJ>
+        <xNome>Nossa Empresa LTDA</xNome>
+        <enderDest>
+          <xLgr>Rua Principal</xLgr>
+          <nro>100</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>01000000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>111222333</IE>
+      </dest>
+
+      <det nItem="1">
+        <prod>
+          <cProd>LMP001</cProd>
+          <cEAN>789000006001</cEAN>
+          <xProd>Detergente Neutro 5L</xProd>
+          <NCM>34022000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>GL</uCom>
+          <qCom>20.00</qCom>
+          <vUnCom>35.00</vUnCom>
+          <vProd>700.00</vProd>
+          <uTrib>GL</uTrib>
+          <qTrib>20.00</qTrib>
+          <vUnTrib>35.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="2">
+        <prod>
+          <cProd>LMP002</cProd>
+          <cEAN>789000006002</cEAN>
+          <xProd>Álcool 70% 1L</xProd>
+          <NCM>22071000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>30.00</qCom>
+          <vUnCom>12.50</vUnCom>
+          <vProd>375.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>30.00</qTrib>
+          <vUnTrib>12.50</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="3">
+        <prod>
+          <cProd>LMP003</cProd>
+          <cEAN>789000006003</cEAN>
+          <xProd>Papel Higiênico Folha Dupla - Fardo</xProd>
+          <NCM>48181000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>FD</uCom>
+          <qCom>8.00</qCom>
+          <vUnCom>85.00</vUnCom>
+          <vProd>680.00</vProd>
+          <uTrib>FD</uTrib>
+          <qTrib>8.00</qTrib>
+          <vUnTrib>85.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="4">
+        <prod>
+          <cProd>LMP004</cProd>
+          <cEAN>789000006004</cEAN>
+          <xProd>Sabonete Líquido Antibacteriano 500ml</xProd>
+          <NCM>34013000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>24.00</qCom>
+          <vUnCom>18.00</vUnCom>
+          <vProd>432.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>24.00</qTrib>
+          <vUnTrib>18.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="5">
+        <prod>
+          <cProd>LMP005</cProd>
+          <cEAN>789000006005</cEAN>
+          <xProd>Desinfetante Pinho 2L</xProd>
+          <NCM>34029090</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>15.00</qCom>
+          <vUnCom>28.00</vUnCom>
+          <vProd>420.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>15.00</qTrib>
+          <vUnTrib>28.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="6">
+        <prod>
+          <cProd>LMP006</cProd>
+          <cEAN>789000006006</cEAN>
+          <xProd>Luvas Descartáveis Nitrilo - Caixa 100un</xProd>
+          <NCM>40151900</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>CX</uCom>
+          <qCom>10.00</qCom>
+          <vUnCom>65.00</vUnCom>
+          <vProd>650.00</vProd>
+          <uTrib>CX</uTrib>
+          <qTrib>10.00</qTrib>
+          <vUnTrib>65.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="7">
+        <prod>
+          <cProd>LMP007</cProd>
+          <cEAN>789000006007</cEAN>
+          <xProd>Pano de Limpeza Microfibra - Pacote 5un</xProd>
+          <NCM>63071000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>PCT</uCom>
+          <qCom>12.00</qCom>
+          <vUnCom>42.00</vUnCom>
+          <vProd>504.00</vProd>
+          <uTrib>PCT</uTrib>
+          <qTrib>12.00</qTrib>
+          <vUnTrib>42.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <total>
+        <ICMSTot>
+          <vProd>3761.00</vProd>
+          <vNF>3761.00</vNF>
+        </ICMSTot>
+      </total>
+
+      <transp>
+        <modFrete>0</modFrete>
+      </transp>
+    </infNFe>
+  </NFe>
+</nfeProc>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe>
+    <infNFe versao="4.00" Id="NFe44444678901234567890123456789012345678904">
+      <ide>
+        <cUF>35</cUF>
+        <natOp>Compra de Móveis</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>44444</nNF>
+        <dhEmi>2025-07-13T11:45:00-03:00</dhEmi>
+        <tpNF>0</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>7</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>1.0</verProc>
+      </ide>
+
+      <emit>
+        <CNPJ>44556677000133</CNPJ>
+        <xNome>Móveis Corporativos Ltda</xNome>
+        <enderEmit>
+          <xLgr>Av. dos Móveis</xLgr>
+          <nro>1200</nro>
+          <xBairro>Distrito Industrial</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>08100000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderEmit>
+        <IE>123789456</IE>
+        <CRT>3</CRT>
+      </emit>
+
+      <dest>
+        <CNPJ>98765432000199</CNPJ>
+        <xNome>Nossa Empresa LTDA</xNome>
+        <enderDest>
+          <xLgr>Rua Principal</xLgr>
+          <nro>100</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>01000000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>111222333</IE>
+      </dest>
+
+      <det nItem="1">
+        <prod>
+          <cProd>MOV001</cProd>
+          <cEAN>789000004001</cEAN>
+          <xProd>Mesa de Escritório L-Shape</xProd>
+          <NCM>94036000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>6.00</qCom>
+          <vUnCom>850.00</vUnCom>
+          <vProd>5100.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>6.00</qTrib>
+          <vUnTrib>850.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="2">
+        <prod>
+          <cProd>MOV002</cProd>
+          <cEAN>789000004002</cEAN>
+          <xProd>Cadeira Ergonômica Presidente</xProd>
+          <NCM>94013000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>8.00</qCom>
+          <vUnCom>680.00</vUnCom>
+          <vProd>5440.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>8.00</qTrib>
+          <vUnTrib>680.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="3">
+        <prod>
+          <cProd>MOV003</cProd>
+          <cEAN>789000004003</cEAN>
+          <xProd>Armário Alto 2 Portas</xProd>
+          <NCM>94036000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>4.00</qCom>
+          <vUnCom>920.00</vUnCom>
+          <vProd>3680.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>4.00</qTrib>
+          <vUnTrib>920.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="4">
+        <prod>
+          <cProd>MOV004</cProd>
+          <cEAN>789000004004</cEAN>
+          <xProd>Gaveteiro Volante 3 Gavetas</xProd>
+          <NCM>94036000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>10.00</qCom>
+          <vUnCom>380.00</vUnCom>
+          <vProd>3800.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>10.00</qTrib>
+          <vUnTrib>380.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <total>
+        <ICMSTot>
+          <vProd>18020.00</vProd>
+          <vNF>18020.00</vNF>
+        </ICMSTot>
+      </total>
+
+      <transp>
+        <modFrete>0</modFrete>
+      </transp>
+    </infNFe>
+  </NFe>
+</nfeProc>

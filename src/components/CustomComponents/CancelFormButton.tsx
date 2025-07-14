@@ -7,7 +7,8 @@ export function CancelFormButton({ path }: { path: string }) {
 
   return (
     <Button
-      onClick={() => router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/${path}`)}
+      onClick={() => router.back()}
+      type='button'
       className="bg-gray-500 text-white mr-4"
     >
       Cancelar

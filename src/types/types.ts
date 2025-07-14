@@ -44,6 +44,7 @@ export interface IItemsForm {
   precoUnitario: number
   project_id?: string
   supplier_id?: string
+  operationType: 'entrada' | 'saída'
 }
 
 export interface ISupplier {
@@ -62,6 +63,8 @@ export interface IStock {
   item: IItems
   type: string
   quantity: number
+  documentUrl?: string
+  documentName?: string
 }
 
 export type Supplier = {

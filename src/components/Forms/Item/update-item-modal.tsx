@@ -128,7 +128,6 @@ export default function UpdateItemModal({
   const handleDocumentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      // Validate file type (optional)
       const allowedTypes = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png']
       const fileExtension = file.name
         .toLowerCase()
@@ -259,7 +258,7 @@ export default function UpdateItemModal({
     itemLoading || currentSupplierLoading || currentProjectLoading
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
+    <Dialog open={open} onOpenChange={handleClose} modal={true}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Editar Produto</DialogTitle>

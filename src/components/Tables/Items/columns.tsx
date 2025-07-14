@@ -106,19 +106,6 @@ export const columns: ColumnDef<IItems>[] = [
     enableSorting: true,
   },
   {
-    accessorKey: 'description',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Descrição" />
-    ),
-    cell: ({ row }) => (
-      <div className="flex flex-row justify-center w-[100px] space-x-2">
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue('description')}
-        </span>
-      </div>
-    ),
-  },
-  {
     id: 'actions',
     cell: ({ row }) => <ItemsTableRowActions row={row} />,
   },

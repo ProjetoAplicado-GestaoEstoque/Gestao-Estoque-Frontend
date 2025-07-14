@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe>
+    <infNFe versao="4.00" Id="NFe22222678901234567890123456789012345678902">
+      <ide>
+        <cUF>35</cUF>
+        <natOp>Venda de Equipamentos</natOp>
+        <mod>55</mod>
+        <serie>2</serie>
+        <nNF>22222</nNF>
+        <dhEmi>2025-07-11T14:30:00-03:00</dhEmi>
+        <tpNF>1</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>8</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>1.0</verProc>
+      </ide>
+
+      <emit>
+        <CNPJ>98765432000199</CNPJ>
+        <xNome>Nossa Empresa LTDA</xNome>
+        <enderEmit>
+          <xLgr>Rua Principal</xLgr>
+          <nro>100</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>01000000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderEmit>
+        <IE>111222333</IE>
+        <CRT>3</CRT>
+      </emit>
+
+      <dest>
+        <CNPJ>55667788000144</CNPJ>
+        <xNome>Construtora Alpha SA</xNome>
+        <enderDest>
+          <xLgr>Av. das Obras</xLgr>
+          <nro>850</nro>
+          <xBairro>Vila Industrial</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>08000000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>444555666</IE>
+      </dest>
+
+      <det nItem="1">
+        <prod>
+          <cProd>EQP001</cProd>
+          <cEAN>789000002001</cEAN>
+          <xProd>Furadeira de Impacto 850W</xProd>
+          <NCM>84678900</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>3.00</qCom>
+          <vUnCom>320.00</vUnCom>
+          <vProd>960.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>3.00</qTrib>
+          <vUnTrib>320.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="2">
+        <prod>
+          <cProd>EQP002</cProd>
+          <cEAN>789000002002</cEAN>
+          <xProd>Parafusadeira 18V</xProd>
+          <NCM>84678900</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>2.00</qCom>
+          <vUnCom>480.00</vUnCom>
+          <vProd>960.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>2.00</qTrib>
+          <vUnTrib>480.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="3">
+        <prod>
+          <cProd>EQP003</cProd>
+          <cEAN>789000002003</cEAN>
+          <xProd>Serra Circular 7.1/4</xProd>
+          <NCM>84671100</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>1.00</qCom>
+          <vUnCom>650.00</vUnCom>
+          <vProd>650.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>1.00</qTrib>
+          <vUnTrib>650.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <total>
+        <ICMSTot>
+          <vProd>2570.00</vProd>
+          <vNF>2570.00</vNF>
+        </ICMSTot>
+      </total>
+
+      <transp>
+        <modFrete>9</modFrete>
+      </transp>
+    </infNFe>
+  </NFe>
+</nfeProc>

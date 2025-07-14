@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe>
+    <infNFe versao="4.00" Id="NFe33333678901234567890123456789012345678903">
+      <ide>
+        <cUF>35</cUF>
+        <natOp>Compra para Estoque</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>33333</nNF>
+        <dhEmi>2025-07-12T09:15:00-03:00</dhEmi>
+        <tpNF>0</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>3</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>1.0</verProc>
+      </ide>
+
+      <emit>
+        <CNPJ>33445566000122</CNPJ>
+        <xNome>Eletrônicos Tech LTDA</xNome>
+        <enderEmit>
+          <xLgr>Rua da Tecnologia</xLgr>
+          <nro>500</nro>
+          <xBairro>Tech Park</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>04500000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderEmit>
+        <IE>777888999</IE>
+        <CRT>3</CRT>
+      </emit>
+
+      <dest>
+        <CNPJ>98765432000199</CNPJ>
+        <xNome>Nossa Empresa LTDA</xNome>
+        <enderDest>
+          <xLgr>Rua Principal</xLgr>
+          <nro>100</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>01000000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>111222333</IE>
+      </dest>
+
+      <det nItem="1">
+        <prod>
+          <cProd>TEC001</cProd>
+          <cEAN>789000003001</cEAN>
+          <xProd>Notebook Dell Inspiron 15</xProd>
+          <NCM>84713012</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>5.00</qCom>
+          <vUnCom>2800.00</vUnCom>
+          <vProd>14000.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>5.00</qTrib>
+          <vUnTrib>2800.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="2">
+        <prod>
+          <cProd>TEC002</cProd>
+          <cEAN>789000003002</cEAN>
+          <xProd>Monitor LED 24 Full HD</xProd>
+          <NCM>85285210</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>8.00</qCom>
+          <vUnCom>650.00</vUnCom>
+          <vProd>5200.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>8.00</qTrib>
+          <vUnTrib>650.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="3">
+        <prod>
+          <cProd>TEC003</cProd>
+          <cEAN>789000003003</cEAN>
+          <xProd>Impressora Multifuncional HP</xProd>
+          <NCM>84433211</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>3.00</qCom>
+          <vUnCom>1200.00</vUnCom>
+          <vProd>3600.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>3.00</qTrib>
+          <vUnTrib>1200.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="4">
+        <prod>
+          <cProd>TEC004</cProd>
+          <cEAN>789000003004</cEAN>
+          <xProd>Webcam Full HD 1080p</xProd>
+          <NCM>85258020</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>10.00</qCom>
+          <vUnCom>180.00</vUnCom>
+          <vProd>1800.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>10.00</qTrib>
+          <vUnTrib>180.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="5">
+        <prod>
+          <cProd>TEC005</cProd>
+          <cEAN>789000003005</cEAN>
+          <xProd>Headset Gamer RGB</xProd>
+          <NCM>85183000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>12.00</qCom>
+          <vUnCom>250.00</vUnCom>
+          <vProd>3000.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>12.00</qTrib>
+          <vUnTrib>250.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <total>
+        <ICMSTot>
+          <vProd>27600.00</vProd>
+          <vNF>27600.00</vNF>
+        </ICMSTot>
+      </total>
+
+      <transp>
+        <modFrete>0</modFrete>
+      </transp>
+    </infNFe>
+  </NFe>
+</nfeProc>

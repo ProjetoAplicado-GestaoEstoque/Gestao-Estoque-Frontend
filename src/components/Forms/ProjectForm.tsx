@@ -143,6 +143,7 @@ export function ProjectsForm() {
                   titulo="Gerente de Projeto"
                   value={field.value}
                   onChange={field.onChange}
+                  filterByRole="project_manager"
                 />
               </FormControl>
               <FormMessage />
@@ -160,6 +161,7 @@ export function ProjectsForm() {
                   titulo="Responsável Tecnico"
                   value={field.value}
                   onChange={field.onChange}
+                  filterByRole="tech_responsible"
                 />
               </FormControl>
               <FormMessage />

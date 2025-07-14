@@ -65,7 +65,7 @@ export function StockForm() {
           const itemData = await response.json()
           form.reset(itemData)
         } catch (error) {
-          console.error(error)
+          console.log(error)
         } finally {
           setIsLoading(false)
         }

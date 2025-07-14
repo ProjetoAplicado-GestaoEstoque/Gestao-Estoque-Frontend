@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { useState } from 'react'
@@ -14,12 +15,14 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { toast } from '@/hooks/use-toast'
 import { XmlUpload } from '@/components/Forms/Item/file-upload-section'
 import { ProductsList } from '@/components/Forms/Item/products-list-section'
-import type { IItemsForm, Items } from '@/types/types'
+import type { IItemsForm } from '@/types/types'
 import { MobileHeader } from '@/components/Forms/Item/mobile-header'
 import { axiosInstance } from '@/axios/api'
 import { SaveProgressItem, SaveStatus } from './Item/save-progress'
+import { useRouter } from 'next/navigation'
 
 export default function InvoiceProductsPage() {
+  const router = useRouter()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [items, setItems] = useState<IItemsForm[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -32,8 +35,9 @@ export default function InvoiceProductsPage() {
     description: '',
     quantity: 0,
     precoUnitario: 0,
-    project_id: "",
-    supplier_id: "",
+    project_id: '',
+    supplier_id: '',
+    operationType: 'entrada', // Padrão para entrada
   })
 
   const handleFileSelect = (file: File) => {
@@ -47,21 +51,29 @@ export default function InvoiceProductsPage() {
         const parser = new DOMParser()
         const xml = parser.parseFromString(xmlText, 'application/xml')
 
+        // Determinar se é entrada ou saída baseado no tpNF (tipo da NF)
+        // 0 = Entrada, 1 = Saída
+        const tpNF = xml.querySelector('ide > tpNF')?.textContent
+        const operationType = tpNF === '0' ? 'entrada' : 'saída'
+
         const produtos = Array.from(xml.getElementsByTagName('det'))
 
         const parsedItems: IItemsForm[] = produtos.map((det, index) => {
           const prod = det.getElementsByTagName('prod')[0]
 
           const name = prod?.getElementsByTagName('xProd')[0]?.textContent || ''
-          const quantity =
-            parseFloat(prod?.getElementsByTagName('qCom')[0]?.textContent || '0')
-          const precoUnitario =
-            parseFloat(prod?.getElementsByTagName('vUnCom')[0]?.textContent || '0')
-          const total =
-            parseFloat(prod?.getElementsByTagName('vProd')[0]?.textContent || '0')
+          const quantity = parseFloat(
+            prod?.getElementsByTagName('qCom')[0]?.textContent || '0',
+          )
+          const precoUnitario = parseFloat(
+            prod?.getElementsByTagName('vUnCom')[0]?.textContent || '0',
+          )
+          const total = parseFloat(
+            prod?.getElementsByTagName('vProd')[0]?.textContent || '0',
+          )
 
           const defaultStorage = 'almoxarifado'
-          const defaultDescription = `Produto ${index + 1}`
+          const defaultDescription = `${operationType === 'entrada' ? 'Entrada' : 'Saída'} via NF - ${name}`
 
           const item: IItemsForm = {
             name,
@@ -71,6 +83,7 @@ export default function InvoiceProductsPage() {
             description: defaultDescription,
             project_id: '', // pode ser preenchido pelo usuário depois
             supplier_id: '', // idem
+            operationType, // Adicionando o tipo de operação
           }
 
           return item
@@ -80,7 +93,7 @@ export default function InvoiceProductsPage() {
 
         toast({
           title: 'Sucesso!',
-          description: `${parsedItems.length} produtos extraídos da NFe.`,
+          description: `${parsedItems.length} produtos extraídos da NFe (${operationType}).`,
         })
       } catch (error) {
         console.error(error)
@@ -94,7 +107,6 @@ export default function InvoiceProductsPage() {
 
     reader.readAsText(file)
   }
-
 
   const handleRemoveFile = () => {
     setSelectedFile(null)
@@ -129,7 +141,6 @@ export default function InvoiceProductsPage() {
     )
   }
 
-
   const uploadXmlToS3 = async (file: File) => {
     return new Promise<void>((resolve, reject) => {
       const reader = new FileReader()
@@ -138,7 +149,7 @@ export default function InvoiceProductsPage() {
         try {
           const base64Data = reader.result
 
-          const res = await fetch('/api/s3', {
+          const res = await fetch('/api/aws/s3', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -173,6 +184,35 @@ export default function InvoiceProductsPage() {
     })
   }
 
+  const createStockMovement = async (
+    itemId: string,
+    quantity: number,
+    itemName: string,
+    operationType: 'entrada' | 'saída',
+    documentName?: string,
+  ) => {
+    try {
+      const stockData = {
+        item_id: itemId,
+        quantity,
+        type: operationType,
+        description: `${operationType === 'entrada' ? 'Entrada' : 'Saída'} automática de ${itemName} via importação de NF`,
+        documentUrl: documentName
+          ? `/api/aws/s3/${encodeURIComponent(documentName)}`
+          : undefined,
+        documentName,
+      }
+
+      await axiosInstance.post('/api/estoque', stockData)
+      return true
+    } catch (error) {
+      console.error(
+        `Erro ao criar movimentação de estoque para item ${itemName}:`,
+        error,
+      )
+      return false
+    }
+  }
 
   const handleSave = async () => {
     if (items.length === 0) {
@@ -207,6 +247,12 @@ export default function InvoiceProductsPage() {
 
     let successCount = 0
     let errorCount = 0
+    const savedItemIds: {
+      id: string
+      name: string
+      quantity: number
+      operationType: 'entrada' | 'saída'
+    }[] = []
 
     try {
       for (let i = 0; i < items.length; i++) {
@@ -229,7 +275,16 @@ export default function InvoiceProductsPage() {
             supplier_id: item.supplier_id!,
           }
 
-          await axiosInstance.post('/api/items', itemToSave)
+          const response = await axiosInstance.post('/api/items', itemToSave)
+
+          if (response.data && response.data?.item.id) {
+            savedItemIds.push({
+              id: response.data?.item.id,
+              name: item.name,
+              quantity: item.quantity,
+              operationType: item.operationType,
+            })
+          }
 
           setSaveProgress((prev) =>
             prev.map((p) =>
@@ -266,14 +321,84 @@ export default function InvoiceProductsPage() {
         }
       }
 
-      if (errorCount === 0) {
-        if (selectedFile) {
+      if (errorCount === 0 && selectedFile) {
+        try {
           await uploadXmlToS3(selectedFile)
+        } catch (error) {
+          console.error('Erro ao salvar XML na S3:', error)
+          // Não interrompe o processo se o S3 falhar
+        }
+      }
+
+      // Fase 3: Criar movimentações de estoque para os itens salvos com sucesso
+      if (savedItemIds.length > 0) {
+        // Determinar os tipos de operação
+        const entradas = savedItemIds.filter(
+          (item) => item.operationType === 'entrada',
+        ).length
+        const saidas = savedItemIds.filter(
+          (item) => item.operationType === 'saída',
+        ).length
+
+        let operationText = ''
+        if (entradas > 0 && saidas > 0) {
+          operationText = `${entradas} entradas e ${saidas} saídas`
+        } else if (entradas > 0) {
+          operationText = `${entradas} entradas`
+        } else {
+          operationText = `${saidas} saídas`
+        }
+
+        toast({
+          title: 'Criando movimentações de estoque...',
+          description: `Registrando ${operationText} de estoque para os produtos salvos.`,
+        })
+
+        let stockSuccessCount = 0
+        for (const savedItem of savedItemIds) {
+          const stockSuccess = await createStockMovement(
+            savedItem.id,
+            savedItem.quantity,
+            savedItem.name,
+            savedItem.operationType,
+            selectedFile?.name, // Passando o nome do arquivo XML
+          )
+          if (stockSuccess) {
+            stockSuccessCount++
+          }
+          // Pequeno delay entre as operações
+          await new Promise((resolve) => setTimeout(resolve, 200))
+        }
+
+        if (stockSuccessCount < savedItemIds.length) {
+          toast({
+            title: 'Atenção',
+            description: `${stockSuccessCount}/${savedItemIds.length} movimentações de estoque criadas com sucesso.`,
+            variant: 'destructive',
+          })
+        }
+      }
+
+      if (errorCount === 0) {
+        const entradas = savedItemIds.filter(
+          (item) => item.operationType === 'entrada',
+        ).length
+        const saidas = savedItemIds.filter(
+          (item) => item.operationType === 'saída',
+        ).length
+
+        let movementText = ''
+        if (entradas > 0 && saidas > 0) {
+          movementText = `(${entradas} entradas e ${saidas} saídas)`
+        } else if (entradas > 0) {
+          movementText = `(${entradas} entradas)`
+        } else if (saidas > 0) {
+          movementText = `(${saidas} saídas)`
         }
 
         toast({
           title: 'Sucesso!',
-          description: `Todos os ${successCount} produtos foram salvos com sucesso.`,
+          description: `Todos os ${successCount} produtos foram salvos com sucesso e as movimentações de estoque ${movementText} foram registradas.`,
         })
 
         setItems([])
@@ -282,7 +407,9 @@ export default function InvoiceProductsPage() {
         setTimeout(() => {
           setShowProgress(false)
           setSaveProgress([])
-        }, 3000)
+          // Redirecionar para a página de produtos
+          router.push('/produtos')
+        }, 2000)
       } else if (successCount > 0) {
         toast({
           title: 'Parcialmente concluído',
@@ -338,7 +465,7 @@ export default function InvoiceProductsPage() {
         }
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-4 sm:space-y-6 lg:space-y-8">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-0 hidden lg:flex">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-0 lg:flex">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold">
               Produtos da Nota Fiscal

@@ -87,13 +87,15 @@ model Supplier {
 }
 
 model StockChanges {
-  id          String    @id @default(uuid())
-  description String?
-  quantity    Int
-  item        Item      @relation(fields: [item_id], references: [id])
-  item_id     String
-  type        String
-  createdAt   DateTime  @default(now())
-  deletedAt   DateTime?
-  updatedAt   DateTime  @updatedAt
+  id           String    @id @default(uuid())
+  description  String?
+  quantity     Int
+  item         Item      @relation(fields: [item_id], references: [id])
+  item_id      String
+  type         String
+  documentUrl  String?   // URL do documento no S3
+  documentName String?   // Nome original do documento
+  createdAt    DateTime  @default(now())
+  deletedAt    DateTime?
+  updatedAt    DateTime  @updatedAt
 }

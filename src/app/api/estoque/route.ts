@@ -34,7 +34,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { item_id, quantity, description, type } = body
+    const { item_id, quantity, description, type, documentUrl, documentName } =
+      body
 
     if (!item_id || !quantity || !type) {
       return NextResponse.json(
@@ -53,6 +54,8 @@ export async function POST(request: NextRequest) {
         quantity,
         description,
         type,
+        documentUrl,
+        documentName,
       },
     })
 
@@ -62,18 +65,38 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    item &&
-      (await db.item.update({
-        where: {
-          id: item_id,
-        },
-        data: {
-          quantity:
-            type === 'saída' && 'Saída'
-              ? item.quantity - quantity
-              : item.quantity + quantity,
-        },
-      }))
+    if (item) {
+      // Calcular nova quantidade
+      let newQuantity
+      if (type === 'saída' || type === 'Saída') {
+        newQuantity = item.quantity - quantity
+      } else {
+        newQuantity = item.quantity + quantity
+      }
+
+      // Se a quantidade ficar zero ou negativa, marcar como deletado (soft delete)
+      if (newQuantity <= 0) {
+        await db.item.update({
+          where: {
+            id: item_id,
+          },
+          data: {
+            quantity: 0, // Zerar a quantidade
+            deletedAt: new Date(), // Marcar como deletado
+          },
+        })
+      } else {
+        // Atualizar apenas a quantidade
+        await db.item.update({
+          where: {
+            id: item_id,
+          },
+          data: {
+            quantity: newQuantity,
+          },
+        })
+      }
+    }
 
     return NextResponse.json(
       { message: 'Produto criado com sucesso', stockChange: newStockChange },

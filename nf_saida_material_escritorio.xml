@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe>
+    <infNFe versao="4.00" Id="NFe55555678901234567890123456789012345678905">
+      <ide>
+        <cUF>35</cUF>
+        <natOp>Venda de Material de Escritório</natOp>
+        <mod>55</mod>
+        <serie>3</serie>
+        <nNF>55555</nNF>
+        <dhEmi>2025-07-13T16:20:00-03:00</dhEmi>
+        <tpNF>1</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>4</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>1.0</verProc>
+      </ide>
+
+      <emit>
+        <CNPJ>98765432000199</CNPJ>
+        <xNome>Nossa Empresa LTDA</xNome>
+        <enderEmit>
+          <xLgr>Rua Principal</xLgr>
+          <nro>100</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>01000000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderEmit>
+        <IE>111222333</IE>
+        <CRT>3</CRT>
+      </emit>
+
+      <dest>
+        <CNPJ>66778899000155</CNPJ>
+        <xNome>Escritório Advocacia & Consultoria</xNome>
+        <enderDest>
+          <xLgr>Rua dos Advogados</xLgr>
+          <nro>420</nro>
+          <xBairro>Liberdade</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>01503000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>555666777</IE>
+      </dest>
+
+      <det nItem="1">
+        <prod>
+          <cProd>ESC001</cProd>
+          <cEAN>789000005001</cEAN>
+          <xProd>Papel A4 Sulfite 75g - Resma</xProd>
+          <NCM>48025599</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>PCT</uCom>
+          <qCom>25.00</qCom>
+          <vUnCom>18.50</vUnCom>
+          <vProd>462.50</vProd>
+          <uTrib>PCT</uTrib>
+          <qTrib>25.00</qTrib>
+          <vUnTrib>18.50</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="2">
+        <prod>
+          <cProd>ESC002</cProd>
+          <cEAN>789000005002</cEAN>
+          <xProd>Caneta Esferográfica Azul - Caixa</xProd>
+          <NCM>96081000</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>CX</uCom>
+          <qCom>15.00</qCom>
+          <vUnCom>32.00</vUnCom>
+          <vProd>480.00</vProd>
+          <uTrib>CX</uTrib>
+          <qTrib>15.00</qTrib>
+          <vUnTrib>32.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="3">
+        <prod>
+          <cProd>ESC003</cProd>
+          <cEAN>789000005003</cEAN>
+          <xProd>Grampeador Médio + Grampos</xProd>
+          <NCM>82149000</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>8.00</qCom>
+          <vUnCom>45.00</vUnCom>
+          <vProd>360.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>8.00</qTrib>
+          <vUnTrib>45.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="4">
+        <prod>
+          <cProd>ESC004</cProd>
+          <cEAN>789000005004</cEAN>
+          <xProd>Pasta Arquivo A-Z</xProd>
+          <NCM>48201000</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>20.00</qCom>
+          <vUnCom>28.00</vUnCom>
+          <vProd>560.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>20.00</qTrib>
+          <vUnTrib>28.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="5">
+        <prod>
+          <cProd>ESC005</cProd>
+          <cEAN>789000005005</cEAN>
+          <xProd>Marcador Fluorescente Kit 4 Cores</xProd>
+          <NCM>96081000</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>KT</uCom>
+          <qCom>12.00</qCom>
+          <vUnCom>25.00</vUnCom>
+          <vProd>300.00</vProd>
+          <uTrib>KT</uTrib>
+          <qTrib>12.00</qTrib>
+          <vUnTrib>25.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="6">
+        <prod>
+          <cProd>ESC006</cProd>
+          <cEAN>789000005006</cEAN>
+          <xProd>Calculadora Científica</xProd>
+          <NCM>85169000</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>5.00</qCom>
+          <vUnCom>120.00</vUnCom>
+          <vProd>600.00</vProd>
+          <uTrib>UN</uTrib>
+          <qTrib>5.00</qTrib>
+          <vUnTrib>120.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <total>
+        <ICMSTot>
+          <vProd>2762.50</vProd>
+          <vNF>2762.50</vNF>
+        </ICMSTot>
+      </total>
+
+      <transp>
+        <modFrete>9</modFrete>
+      </transp>
+    </infNFe>
+  </NFe>
+</nfeProc>

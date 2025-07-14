@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe>
+    <infNFe versao="4.00" Id="NFe11111678901234567890123456789012345678901">
+      <ide>
+        <cUF>35</cUF>
+        <natOp>Compra para Revenda</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>11111</nNF>
+        <dhEmi>2025-07-10T10:00:00-03:00</dhEmi>
+        <tpNF>0</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>5</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>1.0</verProc>
+      </ide>
+
+      <emit>
+        <CNPJ>11223344000155</CNPJ>
+        <xNome>Materiais São Paulo LTDA</xNome>
+        <enderEmit>
+          <xLgr>Av. Industrial</xLgr>
+          <nro>250</nro>
+          <xBairro>Industrial</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>08500000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderEmit>
+        <IE>987654321</IE>
+        <CRT>3</CRT>
+      </emit>
+
+      <dest>
+        <CNPJ>98765432000199</CNPJ>
+        <xNome>Nossa Empresa LTDA</xNome>
+        <enderDest>
+          <xLgr>Rua Principal</xLgr>
+          <nro>100</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>01000000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>111222333</IE>
+      </dest>
+
+      <det nItem="1">
+        <prod>
+          <cProd>MAT001</cProd>
+          <cEAN>789000001001</cEAN>
+          <xProd>Cimento Portland 50kg</xProd>
+          <NCM>25232910</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>SC</uCom>
+          <qCom>50.00</qCom>
+          <vUnCom>28.50</vUnCom>
+          <vProd>1425.00</vProd>
+          <uTrib>SC</uTrib>
+          <qTrib>50.00</qTrib>
+          <vUnTrib>28.50</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="2">
+        <prod>
+          <cProd>MAT002</cProd>
+          <cEAN>789000001002</cEAN>
+          <xProd>Brita 1 - m³</xProd>
+          <NCM>25171000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>M3</uCom>
+          <qCom>15.00</qCom>
+          <vUnCom>85.00</vUnCom>
+          <vProd>1275.00</vProd>
+          <uTrib>M3</uTrib>
+          <qTrib>15.00</qTrib>
+          <vUnTrib>85.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="3">
+        <prod>
+          <cProd>MAT003</cProd>
+          <cEAN>789000001003</cEAN>
+          <xProd>Ferro CA-50 12mm - 12m</xProd>
+          <NCM>72142000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>BR</uCom>
+          <qCom>100.00</qCom>
+          <vUnCom>45.80</vUnCom>
+          <vProd>4580.00</vProd>
+          <uTrib>BR</uTrib>
+          <qTrib>100.00</qTrib>
+          <vUnTrib>45.80</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <det nItem="4">
+        <prod>
+          <cProd>MAT004</cProd>
+          <cEAN>789000001004</cEAN>
+          <xProd>Tijolo Cerâmico 9x14x19</xProd>
+          <NCM>69041000</NCM>
+          <CFOP>1102</CFOP>
+          <uCom>MIL</uCom>
+          <qCom>5.00</qCom>
+          <vUnCom>380.00</vUnCom>
+          <vProd>1900.00</vProd>
+          <uTrib>MIL</uTrib>
+          <qTrib>5.00</qTrib>
+          <vUnTrib>380.00</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+      </det>
+
+      <total>
+        <ICMSTot>
+          <vProd>9180.00</vProd>
+          <vNF>9180.00</vNF>
+        </ICMSTot>
+      </total>
+
+      <transp>
+        <modFrete>0</modFrete>
+      </transp>
+    </infNFe>
+  </NFe>
+</nfeProc>
